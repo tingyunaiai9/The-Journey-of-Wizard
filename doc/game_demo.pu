@@ -1,0 +1,46 @@
+@startuml
+
+skinparam shadowing true
+
+class BattleScene {
+    - Map *map
+    - Character *character
+    - Armor *spareArmor
+}
+
+class Character {
+    # HeadEquipment *headEquipment{}
+    # LegEquipment *legEquipment{}
+    # Armor *armor{}
+}
+Scene <|-- BattleScene
+
+BattleScene o-- Map
+BattleScene o-- Character
+BattleScene o-- Armor
+
+Item <|-- Map
+Map <|-- Battlefield
+
+Item <|-- LegEquipment
+Mountable <|-- LegEquipment
+LegEquipment <|-- WellWornTrousers
+
+Item <|-- HeadEquipment
+Mountable <|-- HeadEquipment
+HeadEquipment <|-- CapOfTheHero
+
+Item <|-- Character
+Character <|-- Link
+
+Item <|-- Armor
+Mountable <|-- Armor
+
+Armor <|-- FlamebreakerArmor
+Armor <|-- OldShirt
+
+' Character o-- HeadEquipment
+' Character o-- LegEquipment
+' Character o-- Armor
+
+@enduml
