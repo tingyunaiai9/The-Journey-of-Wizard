@@ -10,27 +10,42 @@
 #include "../Armors/Armor.h"
 #include "../LegEquipments/LegEquipment.h"
 
-class Character : public Item {
+class Character : public Item
+{
+private:
+    bool m_leftDown{}, m_rightDown{};
+    bool m_jumpDown{};
+    qreal m_floorHeight{};
+
+    bool m_pickDown{};
+    bool m_lastPickDown{};
+    bool m_picking{};
+
 public:
     explicit Character(QGraphicsItem *parent, const QString &pixmapPath);
 
     [[nodiscard]] bool isLeftDown() const;
-
     void setLeftDown(bool leftDown);
 
     [[nodiscard]] bool isRightDown() const;
-
     void setRightDown(bool rightDown);
 
-    [[nodiscard]] bool isPickDown() const;
-
-    void setPickDown(bool pickDown);
+    [[nodiscard]] bool isJumpDown() const;
+    void setJumpDown(bool jumpDown);
 
     [[nodiscard]] const QPointF &getVelocity() const;
+    void setVelocity(const QPointF &velocity);
+
+    [[nodiscard]] const QPointF &getAcceleration() const;
+    void setAcceleration(const QPointF &acceleration);
+
+    void setFloorHeight(qreal floorHeight);
+    bool isOnGround() const;
+
+    [[nodiscard]] bool isPickDown() const;
+    void setPickDown(bool pickDown);
 
     [[nodiscard]] bool isPicking() const;
-
-    void setVelocity(const QPointF &velocity);
 
     void processInput();
 
@@ -41,11 +56,8 @@ protected:
     LegEquipment *legEquipment{};
     Armor *armor{};
     QPointF velocity{};
+    QPointF m_acceleration{};
 //    QGraphicsEllipseItem *ellipseItem; // for debugging
-private:
-    bool leftDown{}, rightDown{}, pickDown{};
-    bool lastPickDown{};
-    bool picking{};
 };
 
 

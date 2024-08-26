@@ -1,9 +1,7 @@
-//
-// Created by gerw on 8/20/24.
-//
+#include "Character.h"
+#include "../Maps/Battlefield.h"
 
 #include <QTransform>
-#include "Character.h"
 
 Character::Character(QGraphicsItem *parent, const QString &pixmapPath) :
     Item(parent, pixmapPath)
@@ -21,27 +19,44 @@ Character::Character(QGraphicsItem *parent, const QString &pixmapPath) :
 }
 
 bool Character::isLeftDown() const {
-    return leftDown;
+    return m_leftDown;
 }
 
 void Character::setLeftDown(bool leftDown) {
-    Character::leftDown = leftDown;
+    m_leftDown = leftDown;
 }
 
 bool Character::isRightDown() const {
-    return rightDown;
+    return m_rightDown;
 }
 
 void Character::setRightDown(bool rightDown) {
-    Character::rightDown = rightDown;
+    m_rightDown = rightDown;
+}
+
+bool Character::isJumpDown() const {
+    return m_jumpDown;
+}
+
+void Character::setJumpDown(bool jumpDown) {
+    m_jumpDown = jumpDown;
+}
+
+void Character::setFloorHeight(qreal floorHeight) {
+    m_floorHeight = floorHeight;
+}
+
+// whether the character is on the ground
+bool Character::isOnGround() const {
+    return pos().y() >= m_floorHeight;
 }
 
 bool Character::isPickDown() const {
-    return pickDown;
+    return m_pickDown;
 }
 
 void Character::setPickDown(bool pickDown) {
-    Character::pickDown = pickDown;
+    m_pickDown = pickDown;
 }
 
 const QPointF &Character::getVelocity() const {
@@ -52,9 +67,21 @@ void Character::setVelocity(const QPointF &velocity) {
     Character::velocity = velocity;
 }
 
+const QPointF &Character::getAcceleration() const {
+    return m_acceleration;
+}
+
+void Character::setAcceleration(const QPointF &acceleration) {
+    m_acceleration = acceleration;
+}
+
 void Character::processInput() {
-    auto velocity = QPointF(0, 0);
+    // y: maintain jump speed
+    auto velocity = QPointF(0, getVelocity().y());
+    auto acceleration = QPointF(0, 0);
     const auto moveSpeed = 0.3;
+    const auto jumpSpeed = -1.1;
+
     if (isLeftDown()) {
         velocity.setX(velocity.x() - moveSpeed);
         setTransform(QTransform().scale(-1, 1));
@@ -63,18 +90,27 @@ void Character::processInput() {
         velocity.setX(velocity.x() + moveSpeed);
         setTransform(QTransform().scale(1, 1));
     }
-    setVelocity(velocity);
-
-    if (!lastPickDown && pickDown) { // first time pickDown
-        picking = true;
-    } else {
-        picking = false;
+    if (isJumpDown() && isOnGround())
+    {
+        velocity.setY(velocity.y() + jumpSpeed);
     }
-    lastPickDown = pickDown;
+    else if (!isOnGround())
+    {
+        acceleration.setY(Item::GRAVITY.y());
+    }
+    setVelocity(velocity);
+    setAcceleration(acceleration);
+
+    if (!m_lastPickDown && m_pickDown) { // first time pickDown
+        m_picking = true;
+    } else {
+        m_picking = false;
+    }
+    m_lastPickDown = m_pickDown;
 }
 
 bool Character::isPicking() const {
-    return picking;
+    return m_picking;
 }
 
 Armor *Character::pickupArmor(Armor *newArmor) {

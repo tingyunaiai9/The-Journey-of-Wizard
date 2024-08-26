@@ -2,7 +2,9 @@
 
 Battlefield::Battlefield(QGraphicsItem *parent) : Map(parent, ":/Items/Maps/Battlefield/forest.png") {}
 
-qreal Battlefield::getFloorHeight() {
+qreal Battlefield::getFloorHeight()
+{
     auto sceneRect = sceneBoundingRect();
-    return (sceneRect.top() + sceneRect.bottom()) * 0.666;
+    qreal floorHeight = (sceneRect.top() + sceneRect.bottom()) * 0.666;
+    return floorHeight;
 }

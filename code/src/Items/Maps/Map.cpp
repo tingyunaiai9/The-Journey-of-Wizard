@@ -34,7 +34,8 @@ QPointF Map::getSpawnPos() {
     return {midX, getFloorHeight()};
 }
 
-qreal Map::getFloorHeight() {
+qreal Map::getFloorHeight()
+{
     auto sceneRect = sceneBoundingRect();
     return sceneRect.top() + (sceneRect.top() - sceneRect.bottom()) * 0.5;
 }

@@ -1,14 +1,14 @@
-//
-// Created by gerw on 8/20/24.
-//
-
 #ifndef QT_PROGRAMMING_2024_ITEM_H
 #define QT_PROGRAMMING_2024_ITEM_H
 
 #include <QGraphicsItem>
 #include <QPainter>
 
-class Item : public QGraphicsItem {
+class Item : public QGraphicsItem
+{
+public:
+    static const QPointF GRAVITY;
+
 public:
     explicit Item(QGraphicsItem *parent, const QString &pixmapPath);
 

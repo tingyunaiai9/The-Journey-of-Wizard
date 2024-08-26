@@ -21,6 +21,8 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     character->setPos(map->getSpawnPos());
     spareArmor->unmount();
     spareArmor->setPos(sceneRect().left() + (sceneRect().right() - sceneRect().left()) * 0.75, map->getFloorHeight());
+
+    character->setFloorHeight(map->getFloorHeight());
 }
 
 void BattleScene::processInput() {
@@ -40,6 +42,11 @@ void BattleScene::keyPressEvent(QKeyEvent *event) {
         case Qt::Key_D:
             if (character != nullptr) {
                 character->setRightDown(true);
+            }
+            break;
+        case Qt::Key_W:
+            if (character != nullptr) {
+                character->setJumpDown(true);
             }
             break;
         case Qt::Key_J:
@@ -64,6 +71,11 @@ void BattleScene::keyReleaseEvent(QKeyEvent *event) {
                 character->setRightDown(false);
             }
             break;
+        case Qt::Key_W:
+            if (character != nullptr) {
+                character->setJumpDown(false);
+            }
+            break;
         case Qt::Key_J:
             if (character != nullptr) {
                 character->setPickDown(false);
@@ -81,7 +93,16 @@ void BattleScene::update() {
 void BattleScene::processMovement() {
     Scene::processMovement();
     if (character != nullptr) {
-        character->setPos(character->pos() + character->getVelocity() * (double) deltaTime);
+        character->setPos(character->pos() +
+                          character->getVelocity() * (double) deltaTime);
+        character->setVelocity(character->getVelocity() +
+                               character->getAcceleration() * (double) deltaTime);
+        if (character->isOnGround())
+        {
+            character->setAcceleration(QPointF(character->getAcceleration().x(), 0));
+            character->setVelocity(QPointF(character->getVelocity().x(), 0));
+            character->setPos(character->pos().x(), map->getFloorHeight());
+        }
     }
 }
 
