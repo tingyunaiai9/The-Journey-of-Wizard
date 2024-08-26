@@ -4,17 +4,17 @@
 
 #include <memory>
 #include "Link.h"
-#include "../HeadEquipments/CapOfTheHero.h"
-#include "../Armors/OldShirt.h"
-#include "../LegEquipments/WellWornTrousers.h"
+#include "../HeadEquipments/BlackHat.h"
+#include "../Armors/BlackWizardRobe.h"
+#include "../LegEquipments/BlackShoes.h"
 
 Link::Link(QGraphicsItem *parent) :
     Character(parent, ":/Items/Characters/character_body.png")
 {
-    // headEquipment = new CapOfTheHero(this);
-    // legEquipment = new WellWornTrousers(this);
-    // armor = new OldShirt(this);
-    // headEquipment->mountToParent();
-    // legEquipment->mountToParent();
-    // armor->mountToParent();
+    headEquipment = new BlackHat(this);
+    legEquipment = new BlackShoes(this);
+    armor = new BlackWizardRobe(this);
+    headEquipment->mountToParent();
+    legEquipment->mountToParent();
+    armor->mountToParent();
 }

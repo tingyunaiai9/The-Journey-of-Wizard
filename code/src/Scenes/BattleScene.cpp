@@ -1,22 +1,21 @@
-//
-// Created by gerw on 8/20/24.
-//
-
-#include <QDebug>
 #include "BattleScene.h"
 #include "../Items/Characters/Link.h"
 #include "../Items/Maps/Battlefield.h"
-#include "../Items/Armors/FlamebreakerArmor.h"
+#include "../Items/Armors/BlackWizardRobe.h"
+
+#include <QDebug>
 
 BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     // This is useful if you want the scene to have the exact same dimensions as the view
     setSceneRect(0, 0, 1280, 720);
     map = new Battlefield();
     character = new Link();
-    spareArmor = new FlamebreakerArmor();
+    spareArmor = new BlackWizardRobe();
+
     addItem(map);
     addItem(character);
     addItem(spareArmor);
+
     map->scaleToFitScene(this);
     character->setPos(map->getSpawnPos());
     spareArmor->unmount();

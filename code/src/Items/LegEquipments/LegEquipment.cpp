@@ -9,6 +9,6 @@ LegEquipment::LegEquipment(QGraphicsItem *parent, const QString &pixmapPath) : I
 
 void LegEquipment::mountToParent() {
     Mountable::mountToParent();
-    setScale(0.8);
-    setPos(-60, -110);
+    setScale(1);
+    setPos(-16, 0);
 }

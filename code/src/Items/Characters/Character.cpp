@@ -13,6 +13,7 @@ Character::Character(QGraphicsItem *parent, const QString &pixmapPath) :
 //    ellipseItem->setBrush(Qt::green);          // Fill color
 //    ellipseItem->setZValue(1);
 
+    // modify the scale of the character
     setScale(6);
     if (pixmapItem != nullptr) {
         pixmapItem->setPos(-16, 0);
