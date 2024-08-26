@@ -19,7 +19,7 @@ void Armor::mountToParent() {
 
 void Armor::unmount() {
     Mountable::unmount();
-    setScale(6);
+    setScale(4);
     if (pixmapItem != nullptr) {
         pixmapItem->setPos(0, 5);
     }

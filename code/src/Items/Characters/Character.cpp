@@ -14,7 +14,7 @@ Character::Character(QGraphicsItem *parent, const QString &pixmapPath) :
 //    ellipseItem->setZValue(1);
 
     // modify the scale of the character
-    setScale(6);
+    setScale(4);
     if (pixmapItem != nullptr) {
         pixmapItem->setPos(-16, 0);
     }
