@@ -10,5 +10,6 @@
         <file>Items/Maps/Battlefield/forest.png</file>
         <file>Items/Armors/BlackWizardRobe/wizard_robe_black.png</file>
         <file>Items/LegEquipments/BlackShoes/shoes_black.png</file>
+        <file>Items/HeadEquipments/FlamebreakerHat/hat_flamebreaker.png</file>
     </qresource>
 </RCC>

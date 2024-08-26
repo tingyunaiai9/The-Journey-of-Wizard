@@ -52,7 +52,9 @@ add_executable(qt_programming_2024 src/main.cpp
         src/Items/Armors/BlackWizardRobe.cpp
         src/Items/Armors/BlackWizardRobe.h
         src/Items/LegEquipments/BlackShoes.cpp
-        src/Items/LegEquipments/BlackShoes.h)
+        src/Items/LegEquipments/BlackShoes.h
+        src/Items/HeadEquipments/FlamebreakerHat.cpp
+        src/Items/HeadEquipments/FlamebreakerHat.h)
 target_link_libraries(qt_programming_2024
         Qt::Core
         Qt::Gui
