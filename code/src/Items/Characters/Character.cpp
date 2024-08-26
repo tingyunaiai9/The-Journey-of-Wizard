@@ -5,11 +5,18 @@
 #include <QTransform>
 #include "Character.h"
 
-Character::Character(QGraphicsItem *parent) : Item(parent, "") {
+Character::Character(QGraphicsItem *parent, const QString &pixmapPath) :
+    Item(parent, pixmapPath)
+{
 //    ellipseItem = new QGraphicsEllipseItem(-5, -5, 10, 10, this);
 //    // Optionally, set some properties of the ellipse
 //    ellipseItem->setBrush(Qt::green);          // Fill color
 //    ellipseItem->setZValue(1);
+
+    setScale(6);
+    if (pixmapItem != nullptr) {
+        pixmapItem->setPos(-16, 0);
+    }
 }
 
 bool Character::isLeftDown() const {
@@ -49,11 +56,11 @@ void Character::processInput() {
     const auto moveSpeed = 0.3;
     if (isLeftDown()) {
         velocity.setX(velocity.x() - moveSpeed);
-        setTransform(QTransform().scale(1, 1));
+        setTransform(QTransform().scale(-1, 1));
     }
     if (isRightDown()) {
         velocity.setX(velocity.x() + moveSpeed);
-        setTransform(QTransform().scale(-1, 1));
+        setTransform(QTransform().scale(1, 1));
     }
     setVelocity(velocity);
 

@@ -12,7 +12,7 @@
 
 class Character : public Item {
 public:
-    explicit Character(QGraphicsItem *parent);
+    explicit Character(QGraphicsItem *parent, const QString &pixmapPath);
 
     [[nodiscard]] bool isLeftDown() const;
 
