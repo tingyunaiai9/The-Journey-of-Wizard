@@ -28,12 +28,6 @@ add_executable(qt_programming_2024 src/main.cpp
         src/Items/HeadEquipments/HeadEquipment.h
         src/Items/LegEquipments/LegEquipment.cpp
         src/Items/LegEquipments/LegEquipment.h
-        src/Items/HeadEquipments/CapOfTheHero.cpp
-        src/Items/HeadEquipments/CapOfTheHero.h
-        src/Items/Armors/OldShirt.cpp
-        src/Items/Armors/OldShirt.h
-        src/Items/LegEquipments/WellWornTrousers.cpp
-        src/Items/LegEquipments/WellWornTrousers.h
         src/Scenes/Scene.cpp
         src/Scenes/Scene.h
         src/Scenes/BattleScene.cpp
