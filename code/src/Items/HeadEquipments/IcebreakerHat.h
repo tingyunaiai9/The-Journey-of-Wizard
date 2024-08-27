@@ -5,7 +5,7 @@
 
 class IcebreakerHat: public HeadEquipment {
 public:
-    explicit IcebreakerHat(QGraphicsItem *parent);
+    explicit IcebreakerHat(QGraphicsItem *parent = nullptr);
 };
 
 #endif // ICEBREAKERHAT_H

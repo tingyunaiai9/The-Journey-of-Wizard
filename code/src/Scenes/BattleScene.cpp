@@ -7,6 +7,14 @@
 #include "../Items/Armors/IcebreakerArmor.h"
 #include "../Items/Armors/ElectrobreakerArmor.h"
 
+#include "../Items/HeadEquipments/FlamebreakerHat.h"
+#include "../Items/HeadEquipments/IcebreakerHat.h"
+#include "../Items/HeadEquipments/ElectrobreakerHat.h"
+
+#include "../Items/LegEquipments/FlamebreakerShoes.h"
+#include "../Items/LegEquipments/IcebreakerShoes.h"
+#include "../Items/LegEquipments/ElectrobreakerShoes.h"
+
 #include <QDebug>
 
 BattleScene::BattleScene(QObject *parent) : Scene(parent) {
@@ -15,18 +23,34 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     map = new Battlefield();
     m_player1 = new CPlayer1();
     m_player2 = new CPlayer2();
-    spareArmor = new FlamebreakerArmor();
+
+    // spareArmor = new FlamebreakerArmor();
+    // spareArmor = new IcebreakerArmor();
+    // spareArmor = new ElectrobreakerArmor();
+    // spareHeadEquipment = new FlamebreakerHat();
+    // spareHeadEquipment = new IcebreakerHat();
+    // spareHeadEquipment = new ElectrobreakerHat();
+    // spareLegEquipment = new FlamebreakerShoes();
+    // spareLegEquipment = new IcebreakerShoes();
+    spareLegEquipment = new ElectrobreakerShoes();
 
     addItem(map);
     addItem(m_player1);
     addItem(m_player2);
-    addItem(spareArmor);
+    // addItem(spareArmor);
+    // addItem(spareHeadEquipment);
+    addItem(spareLegEquipment);
 
     map->scaleToFitScene(this);
     m_player1->setPos(map->getSpawnPos(0.25));
     m_player2->setPos(map->getSpawnPos(0.75));
-    spareArmor->unmount();
-    spareArmor->setPos(sceneRect().left() + (sceneRect().right() - sceneRect().left()) * 0.75, map->getFloorHeight());
+
+    // spareArmor->unmount();
+    // spareArmor->setPos(map->getSpawnPos(0.5));
+    // spareHeadEquipment->unmount();
+    // spareHeadEquipment->setPos(map->getSpawnPos(0.5));
+    spareLegEquipment->unmount();
+    spareLegEquipment->setPos(map->getSpawnPos(0.5));
 
     m_player1->setFloorHeight(map->getFloorHeight());
     m_player2->setFloorHeight(map->getFloorHeight());
@@ -99,7 +123,8 @@ void BattleScene::update() {
 
 void BattleScene::processMovement() {
     Scene::processMovement();
-    if (m_player1 != nullptr) {
+    if (m_player1 != nullptr)
+    {
         m_player1->setPos(m_player1->pos() +
                           m_player1->getVelocity() * (double) deltaTime);
         m_player1->setVelocity(m_player1->getVelocity() +
@@ -113,12 +138,30 @@ void BattleScene::processMovement() {
     }
 }
 
-void BattleScene::processPicking() {
+void BattleScene::processPicking()
+{
     Scene::processPicking();
-    if (m_player1->isPicking()) {
+    if (m_player1->isPicking())
+    {
         auto mountable = findNearestUnmountedMountable(m_player1->pos(), 100.);
-        if (mountable != nullptr) {
-            spareArmor = dynamic_cast<Armor *>(pickupMountable(m_player1, mountable));
+        if (mountable != nullptr)
+        {
+            auto picked = pickupMountable(m_player1, mountable);
+            if (picked != nullptr)
+            {
+                if (auto armor = dynamic_cast<Armor *>(picked))
+                {
+                    spareArmor = armor;
+                }
+                else if (auto headEquipment = dynamic_cast<HeadEquipment *>(picked))
+                {
+                    spareHeadEquipment = headEquipment;
+                }
+                else if (auto legEquipment = dynamic_cast<LegEquipment *>(picked))
+                {
+                    spareLegEquipment = legEquipment;
+                }
+            }
         }
     }
 }
@@ -144,8 +187,17 @@ Mountable *BattleScene::findNearestUnmountedMountable(const QPointF &pos, qreal 
 
 Mountable *BattleScene::pickupMountable(Character *player, Mountable *mountable) {
     // Limitation: currently only supports armor
-    if (auto armor = dynamic_cast<Armor *>(mountable)) {
+    if (auto armor = dynamic_cast<Armor *>(mountable))
+    {
         return player->pickupArmor(armor);
+    }
+    else if (auto headEquipment = dynamic_cast<HeadEquipment *>(mountable))
+    {
+        return player->pickupHeadEquipment(headEquipment);
+    }
+    else if (auto legEquipment = dynamic_cast<LegEquipment *>(mountable))
+    {
+        return player->pickupLegEquipment(legEquipment);
     }
     return nullptr;
 }

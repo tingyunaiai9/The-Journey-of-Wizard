@@ -5,7 +5,7 @@
 
 class BlackHat: public HeadEquipment {
 public:
-    explicit BlackHat(QGraphicsItem *parent);
+    explicit BlackHat(QGraphicsItem *parent = nullptr);
 };
 
 #endif // BLACKHAT_H

@@ -5,7 +5,7 @@
 
 class ElectrobreakerHat: public HeadEquipment {
 public:
-    explicit ElectrobreakerHat(QGraphicsItem *parent);
+    explicit ElectrobreakerHat(QGraphicsItem *parent = nullptr);
 };
 
 #endif // ELECTROBREAKERHAT_H

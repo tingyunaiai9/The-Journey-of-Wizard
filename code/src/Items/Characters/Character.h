@@ -50,6 +50,8 @@ public:
     void processInput();
 
     Armor* pickupArmor(Armor* newArmor);
+    HeadEquipment* pickupHeadEquipment(HeadEquipment* newHeadEquipment);
+    LegEquipment* pickupLegEquipment(LegEquipment* newLegEquipment);
 
 protected:
     HeadEquipment *headEquipment{};

@@ -14,6 +14,8 @@ public:
     explicit HeadEquipment(QGraphicsItem *parent, const QString &pixmapPath);
 
     void mountToParent() override;
+
+    void unmount() override;
 };
 
 

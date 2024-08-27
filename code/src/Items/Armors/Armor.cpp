@@ -1,11 +1,8 @@
-//
-// Created by gerw on 8/20/24.
-//
-
 #include "Armor.h"
 
-Armor::Armor(QGraphicsItem *parent, const QString &pixmapPath) : Item(parent, pixmapPath) {
-
+Armor::Armor(QGraphicsItem *parent, const QString &pixmapPath) :
+    Item(parent, pixmapPath)
+{
 }
 
 void Armor::mountToParent() {

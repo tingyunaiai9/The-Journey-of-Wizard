@@ -5,7 +5,7 @@
 
 class BlackShoes : public LegEquipment {
 public:
-    explicit BlackShoes(QGraphicsItem *parent);
+    explicit BlackShoes(QGraphicsItem *parent = nullptr);
 };
 
 #endif // BLACKSHOES_H

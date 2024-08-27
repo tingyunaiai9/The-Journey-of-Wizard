@@ -5,7 +5,7 @@
 
 class IcebreakerShoes : public LegEquipment {
 public:
-    explicit IcebreakerShoes(QGraphicsItem *parent);
+    explicit IcebreakerShoes(QGraphicsItem *parent = nullptr);
 };
 
 #endif // ICEBREAKERSHOES_H

@@ -1,14 +1,14 @@
-//
-// Created by gerw on 8/20/24.
-//
-
 #ifndef QT_PROGRAMMING_2024_BATTLESCENE_H
 #define QT_PROGRAMMING_2024_BATTLESCENE_H
 
-#include <QKeyEvent>
 #include "Scene.h"
 #include "../Items/Maps/Map.h"
 #include "../Items/Characters/Character.h"
+#include "../Items/Armors/Armor.h"
+#include "../Items/HeadEquipments/HeadEquipment.h"
+#include "../Items/LegEquipments/LegEquipment.h"
+
+#include <QKeyEvent>
 
 class BattleScene : public Scene {
 Q_OBJECT
@@ -40,7 +40,10 @@ private:
     Map *map;
     Character *m_player1;
     Character *m_player2;
+
     Armor *spareArmor;
+    HeadEquipment *spareHeadEquipment;
+    LegEquipment *spareLegEquipment;
 };
 
 

@@ -5,7 +5,7 @@
 
 class FlamebreakerHat: public HeadEquipment {
 public:
-    explicit FlamebreakerHat(QGraphicsItem *parent);
+    explicit FlamebreakerHat(QGraphicsItem *parent = nullptr);
 };
 
 #endif // FLAMEBREAKERHAT_H

@@ -126,3 +126,28 @@ Armor *Character::pickupArmor(Armor *newArmor) {
     return oldArmor;
 }
 
+HeadEquipment *Character::pickupHeadEquipment(HeadEquipment *newHeadEquipment) {
+    auto oldHeadEquipment = headEquipment;
+    if (oldHeadEquipment != nullptr) {
+        oldHeadEquipment->unmount();
+        oldHeadEquipment->setPos(newHeadEquipment->pos());
+        oldHeadEquipment->setParentItem(parentItem());
+    }
+    newHeadEquipment->setParentItem(this);
+    newHeadEquipment->mountToParent();
+    headEquipment = newHeadEquipment;
+    return oldHeadEquipment;
+}
+
+LegEquipment *Character::pickupLegEquipment(LegEquipment *newLegEquipment) {
+    auto oldLegEquipment = legEquipment;
+    if (oldLegEquipment != nullptr) {
+        oldLegEquipment->unmount();
+        oldLegEquipment->setPos(newLegEquipment->pos());
+        oldLegEquipment->setParentItem(parentItem());
+    }
+    newLegEquipment->setParentItem(this);
+    newLegEquipment->mountToParent();
+    legEquipment = newLegEquipment;
+    return oldLegEquipment;
+}
