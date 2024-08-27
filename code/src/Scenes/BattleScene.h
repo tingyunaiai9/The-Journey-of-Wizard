@@ -35,10 +35,11 @@ private:
 
     Mountable *findNearestUnmountedMountable(const QPointF &pos, qreal distance_threshold = std::numeric_limits<qreal>::max());
 
-    static Mountable * pickupMountable(Character *character, Mountable *mountable);
+    static Mountable * pickupMountable(Character *player, Mountable *mountable);
 
     Map *map;
-    Character *character;
+    Character *m_player1;
+    Character *m_player2;
     Armor *spareArmor;
 };
 

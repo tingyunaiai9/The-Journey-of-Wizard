@@ -15,8 +15,8 @@
 #include "../LegEquipments/IcebreakerShoes.h"
 #include "../LegEquipments/ElectrobreakerShoes.h"
 
-Link::Link(QGraphicsItem *parent) :
-    Character(parent, ":/Items/Characters/character_body.png")
+Link::Link(QGraphicsItem *parent, const QString &pixmapPath) :
+    Character(parent, pixmapPath)
 {
     headEquipment = new BlackHat(this);
     // headEquipment = new FlamebreakerHat(this);
@@ -36,4 +36,15 @@ Link::Link(QGraphicsItem *parent) :
     headEquipment->mountToParent();
     legEquipment->mountToParent();
     armor->mountToParent();
+}
+
+CPlayer1::CPlayer1(QGraphicsItem *parent) :
+    Link(parent, ":/Items/Characters/character_body.png")
+{
+}
+
+CPlayer2::CPlayer2(QGraphicsItem *parent) :
+    Link(parent, ":/Items/Characters/character_body.png")
+{
+    setTransform(QTransform().scale(-1, 1));
 }

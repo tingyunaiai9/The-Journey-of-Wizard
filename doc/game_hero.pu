@@ -1,0 +1,27 @@
+@startuml
+
+skinparam shadowing true
+
+class Item {
+}
+
+class Character {
+    # HeadEquipment *headEquipment{}
+    # LegEquipment *legEquipment{}
+    # Armor *armor{}
+}
+
+Item <|-- Character
+
+Mountable <|-- HeadEquipment
+Mountable <|-- Armor
+Mountable <|-- LegEquipment
+
+Character o-right- HeadEquipment
+Character o-right- Armor
+Character o-right- LegEquipment
+
+Character <|-- CPlayer1
+Character <|-- CPlayer2
+
+@enduml

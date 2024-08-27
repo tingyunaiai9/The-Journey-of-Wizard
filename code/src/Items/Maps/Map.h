@@ -14,7 +14,7 @@ public:
 
     virtual qreal getFloorHeight(); // Need to rewrite to support multiple platforms
 
-    virtual QPointF getSpawnPos();
+    virtual QPointF getSpawnPos(double widthRatio = 0.5);
 };
 
 

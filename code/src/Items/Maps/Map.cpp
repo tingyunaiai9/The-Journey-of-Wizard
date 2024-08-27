@@ -28,10 +28,11 @@ void Map::scaleToFitScene(QGraphicsScene *scene) {
 
 }
 
-QPointF Map::getSpawnPos() {
+QPointF Map::getSpawnPos(double widthRatio)
+{
     auto boundingRect = sceneBoundingRect();
-    auto midX = (boundingRect.left() + boundingRect.right()) * 0.5;
-    return {midX, getFloorHeight()};
+    auto spawnX = (boundingRect.left() + boundingRect.right()) * widthRatio;
+    return {spawnX, getFloorHeight()};
 }
 
 qreal Map::getFloorHeight()
