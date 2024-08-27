@@ -12,5 +12,12 @@
         <file>Items/LegEquipments/BlackShoes/shoes_black.png</file>
         <file>Items/HeadEquipments/FlamebreakerHat/hat_flamebreaker.png</file>
         <file>Items/Armors/FlamebreakerArmor/wizard_robe_flamebreaker.png</file>
+        <file>Items/HeadEquipments/IcebreakerHat/hat_icebreaker.png</file>
+        <file>Items/HeadEquipments/ElectrobreakerHat/hat_electrobreaker.png</file>
+        <file>Items/Armors/IcebreakerArmor/wizard_robe_icebreaker.png</file>
+        <file>Items/Armors/ElectrobreakerArmor/wizard_robe_electrobreaker.png</file>
+        <file>Items/LegEquipments/FlamebreakerShoes/shoes_flamebreaker.png</file>
+        <file>Items/LegEquipments/IcebreakerShoes/shoes_icebreaker.png</file>
+        <file>Items/LegEquipments/ElectrobreakerShoes/shoes_electrobreaker.png</file>
     </qresource>
 </RCC>

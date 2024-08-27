@@ -54,7 +54,21 @@ add_executable(qt_programming_2024 src/main.cpp
         src/Items/LegEquipments/BlackShoes.cpp
         src/Items/LegEquipments/BlackShoes.h
         src/Items/HeadEquipments/FlamebreakerHat.cpp
-        src/Items/HeadEquipments/FlamebreakerHat.h)
+        src/Items/HeadEquipments/FlamebreakerHat.h
+        src/Items/HeadEquipments/IcebreakerHat.cpp
+        src/Items/HeadEquipments/IcebreakerHat.h
+        src/Items/HeadEquipments/ElectrobreakerHat.cpp
+        src/Items/HeadEquipments/ElectrobreakerHat.h
+        src/Items/Armors/IcebreakerArmor.cpp
+        src/Items/Armors/IcebreakerArmor.h
+        src/Items/Armors/ElectrobreakerArmor.cpp
+        src/Items/Armors/ElectrobreakerArmor.h
+        src/Items/LegEquipments/FlamebreakerShoes.cpp
+        src/Items/LegEquipments/FlamebreakerShoes.h
+        src/Items/LegEquipments/IcebreakerShoes.cpp
+        src/Items/LegEquipments/IcebreakerShoes.h
+        src/Items/LegEquipments/ElectrobreakerShoes.cpp
+        src/Items/LegEquipments/ElectrobreakerShoes.h)
 target_link_libraries(qt_programming_2024
         Qt::Core
         Qt::Gui
