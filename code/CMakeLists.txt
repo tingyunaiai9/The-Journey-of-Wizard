@@ -18,45 +18,54 @@ add_executable(qt_programming_2024 src/main.cpp
         src/MyGame.h
         src/Items/Item.cpp
         src/Items/Item.h
+
         src/Items/Characters/Character.cpp
         src/Items/Characters/Character.h
         src/Items/Characters/Link.cpp
         src/Items/Characters/Link.h
+
         src/Items/Armors/Armor.cpp
         src/Items/Armors/Armor.h
         src/Items/HeadEquipments/HeadEquipment.cpp
         src/Items/HeadEquipments/HeadEquipment.h
         src/Items/LegEquipments/LegEquipment.cpp
         src/Items/LegEquipments/LegEquipment.h
+
         src/Scenes/Scene.cpp
         src/Scenes/Scene.h
         src/Scenes/BattleScene.cpp
         src/Scenes/BattleScene.h
+
         assets/assets.qrc
+
         src/Items/Maps/Map.cpp
         src/Items/Maps/Map.h
         src/Items/Maps/Battlefield.cpp
         src/Items/Maps/Battlefield.h
+
         src/Items/Mountable.cpp
         src/Items/Mountable.h
-        src/Items/Armors/FlamebreakerArmor.cpp
-        src/Items/Armors/FlamebreakerArmor.h
-        src/Items/HeadEquipments/BlackHat.cpp
-        src/Items/HeadEquipments/BlackHat.h
+
         src/Items/Armors/BlackWizardRobe.cpp
         src/Items/Armors/BlackWizardRobe.h
-        src/Items/LegEquipments/BlackShoes.cpp
-        src/Items/LegEquipments/BlackShoes.h
+        src/Items/Armors/FlamebreakerArmor.cpp
+        src/Items/Armors/FlamebreakerArmor.h
+        src/Items/Armors/IcebreakerArmor.cpp
+        src/Items/Armors/IcebreakerArmor.h
+        src/Items/Armors/ElectrobreakerArmor.cpp
+        src/Items/Armors/ElectrobreakerArmor.h
+
+        src/Items/HeadEquipments/BlackHat.cpp
+        src/Items/HeadEquipments/BlackHat.h
         src/Items/HeadEquipments/FlamebreakerHat.cpp
         src/Items/HeadEquipments/FlamebreakerHat.h
         src/Items/HeadEquipments/IcebreakerHat.cpp
         src/Items/HeadEquipments/IcebreakerHat.h
         src/Items/HeadEquipments/ElectrobreakerHat.cpp
         src/Items/HeadEquipments/ElectrobreakerHat.h
-        src/Items/Armors/IcebreakerArmor.cpp
-        src/Items/Armors/IcebreakerArmor.h
-        src/Items/Armors/ElectrobreakerArmor.cpp
-        src/Items/Armors/ElectrobreakerArmor.h
+
+        src/Items/LegEquipments/BlackShoes.cpp
+        src/Items/LegEquipments/BlackShoes.h
         src/Items/LegEquipments/FlamebreakerShoes.cpp
         src/Items/LegEquipments/FlamebreakerShoes.h
         src/Items/LegEquipments/IcebreakerShoes.cpp

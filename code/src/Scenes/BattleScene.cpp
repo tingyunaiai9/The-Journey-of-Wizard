@@ -1,8 +1,11 @@
 #include "BattleScene.h"
 #include "../Items/Characters/Link.h"
 #include "../Items/Maps/Battlefield.h"
+
 #include "../Items/Armors/BlackWizardRobe.h"
 #include "../Items/Armors/FlamebreakerArmor.h"
+#include "../Items/Armors/IcebreakerArmor.h"
+#include "../Items/Armors/ElectrobreakerArmor.h"
 
 #include <QDebug>
 
@@ -11,7 +14,10 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     setSceneRect(0, 0, 1280, 720);
     map = new Battlefield();
     character = new Link();
-    spareArmor = new FlamebreakerArmor();
+
+    // spareArmor = new FlamebreakerArmor();
+    // spareArmor = new IcebreakerArmor();
+    spareArmor = new ElectrobreakerArmor();
 
     addItem(map);
     addItem(character);
