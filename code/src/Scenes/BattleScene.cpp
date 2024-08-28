@@ -24,7 +24,9 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     // This is useful if you want the scene to have the exact same dimensions as the view
     setSceneRect(0, 0, 1280, 720);
     map = new Battlefield();
-    m_woodPlatform = new WoodPlatform();
+    m_woodPlatformLeft = new WoodPlatform();
+    m_woodPlatformRight = new WoodPlatform();
+    m_woodPlatformRight->setPos(m_woodPlatformLeft->pos().x() + 128, 440);
     m_rockPlatform = new RockPlatform();
     m_metalPlatform = new MetalPlatform();
 
@@ -42,7 +44,8 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     // spareLegEquipment = new ElectrobreakerShoes();
 
     addItem(map);
-    addItem(m_woodPlatform);
+    addItem(m_woodPlatformLeft);
+    addItem(m_woodPlatformRight);
     addItem(m_rockPlatform);
     addItem(m_metalPlatform);
 
@@ -53,8 +56,8 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     // addItem(spareLegEquipment);
 
     map->scaleToFitScene(this);
-    m_player1->setPos(map->getSpawnPos(0.25));
-    m_player2->setPos(map->getSpawnPos(0.75));
+    m_player1->setPos(map->getSpawnPos(0.2));
+    m_player2->setPos(map->getSpawnPos(0.8));
 
     // spareArmor->unmount();
     // spareArmor->setPos(map->getSpawnPos(0.5));

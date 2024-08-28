@@ -3,5 +3,5 @@
 WoodPlatform::WoodPlatform(QGraphicsItem *parent) :
     Platform(parent, ":/Items/Maps/WoodPlatform/platform_wood.png")
 {
-    setPos(210, 440);
+    setPos(360, 440);
 }

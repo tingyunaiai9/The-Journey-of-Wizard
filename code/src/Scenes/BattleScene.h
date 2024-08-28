@@ -16,7 +16,8 @@ Q_OBJECT
 
 private:
     Map *map;
-    Map *m_woodPlatform;
+    Map *m_woodPlatformLeft;
+    Map *m_woodPlatformRight;
     Map *m_rockPlatform;
     Map *m_metalPlatform;
 

@@ -79,7 +79,7 @@ void Character::setAcceleration(const QPointF &acceleration) {
 void Character::processInput() {
     // y: maintain jump speed
     auto velocity = QPointF(0, getVelocity().y());
-    auto acceleration = QPointF(0, 0);
+    // auto acceleration = QPointF(0, 0);
     const auto moveSpeed = 0.3;
     const auto jumpSpeed = -1.25;
 
@@ -93,14 +93,15 @@ void Character::processInput() {
     }
     if (isJumpDown() && isOnGround())
     {
-        velocity.setY(velocity.y() + jumpSpeed);
+        // velocity.setY(velocity.y() + jumpSpeed);
+        velocity.setY(jumpSpeed);
     }
-    else if (!isOnGround())
-    {
-        acceleration.setY(Item::GRAVITY.y());
-    }
+    // else if (!isOnGround())
+    // {
+    //     acceleration.setY(Item::GRAVITY.y());
+    // }
     setVelocity(velocity);
-    setAcceleration(acceleration);
+    // setAcceleration(acceleration);
 
     if (!m_lastPickDown && m_pickDown) { // first time pickDown
         m_picking = true;
