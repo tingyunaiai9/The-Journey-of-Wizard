@@ -16,5 +16,7 @@
         <file>Items/LegEquipments/IcebreakerShoes/shoes_icebreaker.png</file>
         <file>Items/LegEquipments/ElectrobreakerShoes/shoes_electrobreaker.png</file>
         <file>Items/Maps/WoodPlatform/platform_wood.png</file>
+        <file>Items/Maps/RockPlatform/platform_rock.png</file>
+        <file>Items/Maps/MetalPlatform/platform_metal.png</file>
     </qresource>
 </RCC>

@@ -73,7 +73,12 @@ add_executable(qt_programming_2024 src/main.cpp
         src/Items/LegEquipments/ElectrobreakerShoes.cpp
         src/Items/LegEquipments/ElectrobreakerShoes.h
         src/Items/Maps/Platform.h src/Items/Maps/Platform.cpp
-        src/Items/Maps/WoodPlatform.cpp)
+        src/Items/Maps/WoodPlatform.cpp
+        src/Items/Maps/WoodPlatform.h
+        src/Items/Maps/RockPlatform.cpp
+        src/Items/Maps/RockPlatform.h
+        src/Items/Maps/MetalPlatform.cpp
+        src/Items/Maps/MetalPlatform.h)
 target_link_libraries(qt_programming_2024
         Qt::Core
         Qt::Gui
