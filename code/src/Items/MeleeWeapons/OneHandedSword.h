@@ -9,6 +9,9 @@ public:
     explicit OneHandedSword(QGraphicsItem *parent, const QString &pixmapPath);
 
     void equipToParent() override;
+
+    void startAttack() override;
+    void stopAttack() override;
 };
 
 class WoodenOneHandedSword : public OneHandedSword

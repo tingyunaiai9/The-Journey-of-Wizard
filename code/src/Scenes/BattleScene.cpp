@@ -96,6 +96,11 @@ void BattleScene::keyPressEvent(QKeyEvent *event) {
                 m_player1->setPickDown(true);
             }
             break;
+        case Qt::Key_K: // attack
+            if (m_player1 != nullptr) {
+                m_player1->setAttackDown(true);
+            }
+            break;
         default:
             Scene::keyPressEvent(event);
     }
@@ -121,6 +126,11 @@ void BattleScene::keyReleaseEvent(QKeyEvent *event) {
         case Qt::Key_J:
             if (m_player1 != nullptr) {
                 m_player1->setPickDown(false);
+            }
+            break;
+        case Qt::Key_K: // attack
+            if (m_player1 != nullptr) {
+                m_player1->setAttackDown(false);
             }
             break;
         default:
@@ -260,4 +270,14 @@ Mountable *BattleScene::pickupMountable(Character *player, Mountable *mountable)
         return player->pickupLegEquipment(legEquipment);
     }
     return nullptr;
+}
+
+// attack
+void BattleScene::processAttacking()
+{
+    Scene::processAttacking();
+    if (m_player1->isAttacking())
+    {
+        // Attack
+    }
 }

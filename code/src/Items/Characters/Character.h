@@ -20,6 +20,10 @@ private:
     bool m_lastPickDown{};
     bool m_picking{};
 
+    bool m_attackDown{};
+    bool m_lastAttackDown{};
+    bool m_attacking{};
+
 protected:
     HeadEquipment *headEquipment{};
     LegEquipment *legEquipment{};
@@ -56,11 +60,17 @@ public:
 
     [[nodiscard]] bool isPicking() const;
 
-    void processInput();
-
     Armor* pickupArmor(Armor* newArmor);
     HeadEquipment* pickupHeadEquipment(HeadEquipment* newHeadEquipment);
     LegEquipment* pickupLegEquipment(LegEquipment* newLegEquipment);
+
+    [[nodiscard]] bool isAttackDown() const;
+    void setAttackDown(bool attackDown);
+
+    [[nodiscard]] bool isAttacking() const;
+
+    void processInput();
+
 };
 
 

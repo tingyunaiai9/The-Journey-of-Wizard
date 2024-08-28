@@ -39,3 +39,7 @@ void Scene::processPicking() {
 
 }
 
+void Scene::processAttacking() {
+
+}
+

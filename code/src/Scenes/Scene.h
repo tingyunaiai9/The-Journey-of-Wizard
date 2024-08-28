@@ -22,6 +22,8 @@ public:
 
     virtual void processPicking();
 
+    virtual void processAttacking();
+
 protected slots:
 
     virtual void update();

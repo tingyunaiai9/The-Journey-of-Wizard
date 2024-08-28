@@ -52,14 +52,6 @@ void Character::setOnGround(bool isOnGround)
     m_onGround = isOnGround;
 }
 
-bool Character::isPickDown() const {
-    return m_pickDown;
-}
-
-void Character::setPickDown(bool pickDown) {
-    m_pickDown = pickDown;
-}
-
 const QPointF &Character::getVelocity() const {
     return m_velocity;
 }
@@ -71,6 +63,31 @@ void Character::setVelocity(const QPointF &velocity) {
 const QPointF &Character::getAcceleration() const {
     return m_acceleration;
 }
+
+bool Character::isPickDown() const {
+    return m_pickDown;
+}
+
+void Character::setPickDown(bool pickDown) {
+    m_pickDown = pickDown;
+}
+
+bool Character::isPicking() const {
+    return m_picking;
+}
+
+bool Character::isAttackDown() const {
+    return m_attackDown;
+}
+
+void Character::setAttackDown(bool attackDown) {
+    m_attackDown = attackDown;
+}
+
+bool Character::isAttacking() const {
+    return m_attacking;
+}
+
 
 void Character::setAcceleration(const QPointF &acceleration) {
     m_acceleration = acceleration;
@@ -103,16 +120,31 @@ void Character::processInput() {
     setVelocity(velocity);
     // setAcceleration(acceleration);
 
-    if (!m_lastPickDown && m_pickDown) { // first time pickDown
+    if (!m_lastPickDown && m_pickDown)
+    { // first time pickDown
         m_picking = true;
-    } else {
+    }
+    else
+    {
         m_picking = false;
     }
     m_lastPickDown = m_pickDown;
-}
 
-bool Character::isPicking() const {
-    return m_picking;
+    if (!m_lastAttackDown && m_attackDown) // first time attackDown
+    {
+        m_attacking = true;
+        m_meleeWeapon->startAttack();
+    }
+    else if (m_lastAttackDown && !m_attackDown) // last time attackDown, this time not attackDown
+    {
+        m_attacking = false;
+        m_meleeWeapon->stopAttack();
+    }
+    else
+    {
+        m_attacking = false;
+    }
+    m_lastAttackDown = m_attackDown;
 }
 
 Armor *Character::pickupArmor(Armor *newArmor) {

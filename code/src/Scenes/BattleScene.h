@@ -35,6 +35,8 @@ public:
 
     void processPicking() override;
 
+    void processAttacking() override;
+
 protected slots:
 
     void update() override;

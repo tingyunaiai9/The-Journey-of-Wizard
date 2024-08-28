@@ -11,3 +11,15 @@ bool Weapon::isEquipped() const {
 void Weapon::equipToParent() {
     equipped = true;
 }
+
+void Weapon::startAttack() {
+    m_isAttacking = true;
+}
+
+void Weapon::stopAttack() {
+    m_isAttacking = false;
+}
+
+bool Weapon::isAttacking() const {
+    return m_isAttacking;
+}

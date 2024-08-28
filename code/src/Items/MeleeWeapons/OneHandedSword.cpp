@@ -14,6 +14,26 @@ void OneHandedSword::equipToParent() {
     }
 }
 
+void OneHandedSword::startAttack() {
+    MeleeWeapon::startAttack();
+
+    //rotate
+    if (pixmapItem != nullptr) {
+        pixmapItem->setRotation(45);
+        pixmapItem->setPos(25, -5);
+    }
+}
+
+void OneHandedSword::stopAttack() {
+    MeleeWeapon::stopAttack();
+
+    //rotate back
+    if (pixmapItem != nullptr) {
+        pixmapItem->setRotation(0);
+        pixmapItem->setPos(0, 0);
+    }
+}
+
 WoodenOneHandedSword::WoodenOneHandedSword(QGraphicsItem *parent) :
     OneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_wooden.png")
 {

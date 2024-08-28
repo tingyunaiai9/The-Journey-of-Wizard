@@ -6,13 +6,17 @@ class Weapon
 {
 public:
     virtual void equipToParent();
-
     virtual void unequip();
-
     [[nodiscard]] bool isEquipped() const;
+
+    virtual void startAttack();
+    virtual void stopAttack();
+    [[nodiscard]] bool isAttacking() const;
 
 private:
     bool equipped{};
+
+    bool m_isAttacking{};
 };
 
 
