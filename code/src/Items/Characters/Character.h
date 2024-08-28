@@ -43,7 +43,6 @@ public:
     [[nodiscard]] const QPointF &getAcceleration() const;
     void setAcceleration(const QPointF &acceleration);
 
-    // void setFloorHeight(qreal floorHeight);
     bool isOnGround() const;
     void setOnGround(bool isOnGround);
 

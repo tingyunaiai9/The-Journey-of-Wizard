@@ -41,14 +41,7 @@ void Character::setJumpDown(bool jumpDown) {
     m_jumpDown = jumpDown;
 }
 
-// void Character::setFloorHeight(qreal floorHeight) {
-//     m_floorHeight = floorHeight;
-// }
-
 // whether the character is on the ground
-// bool Character::isOnGround() const {
-//     return pos().y() >= m_floorHeight;
-// }
 bool Character::isOnGround() const
 {
     return m_onGround;

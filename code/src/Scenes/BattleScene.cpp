@@ -62,9 +62,6 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     spareHeadEquipment->setPos(map->getSpawnPos(0.5));
     // spareLegEquipment->unmount();
     // spareLegEquipment->setPos(map->getSpawnPos(0.5));
-
-    // m_player1->setFloorHeight(map->getFloorHeight());
-    // m_player2->setFloorHeight(map->getFloorHeight());
 }
 
 void BattleScene::processInput() {
@@ -143,23 +140,6 @@ void BattleScene::processMovement() {
         m_player1->setVelocity(m_player1->getVelocity() +
                                m_player1->getAcceleration() * (double) deltaTime);
 
-        // if (m_player1->isOnGround())
-        // {
-        //     m_player1->setAcceleration(QPointF(m_player1->getAcceleration().x(), 0));
-        //     m_player1->setVelocity(QPointF(m_player1->getVelocity().x(), 0));
-        //     m_player1->setPos(m_player1->pos().x(), map->getFloorHeight());
-        // }
-        // if (m_player1->isOnGround() == false)
-        // {
-        //     m_player1->setAcceleration(QPointF(m_player1->getAcceleration().x(), Item::GRAVITY.y()));
-        //     if (isOnGround(m_player1))
-        //     {
-        //         m_player1->setAcceleration(QPointF(m_player1->getAcceleration().x(), 0));
-        //         m_player1->setVelocity(QPointF(m_player1->getVelocity().x(), 0));
-        //         m_player1->setPos(m_player1->pos().x(), findNearestMap(m_player1->pos())->getFloorHeight());
-        //         m_player1->setOnGround(true);
-        //     }
-        // }
         if (isOnGround(m_player1))
         {
             m_player1->setAcceleration(QPointF(m_player1->getAcceleration().x(), 0));
