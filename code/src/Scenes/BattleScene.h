@@ -9,17 +9,15 @@
 #include "../Items/LegEquipments/LegEquipment.h"
 
 #include <QKeyEvent>
+#include <QVector>
 
 class BattleScene : public Scene
 {
 Q_OBJECT
 
 private:
-    Map *map;
-    Map *m_woodPlatformLeft;
-    Map *m_woodPlatformRight;
-    Map *m_rockPlatform;
-    Map *m_metalPlatform;
+    QVector<Map*> m_maps;
+    Map* m_battlefield;
 
     Character *m_player1;
     Character *m_player2;

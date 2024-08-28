@@ -23,12 +23,14 @@
 BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     // This is useful if you want the scene to have the exact same dimensions as the view
     setSceneRect(0, 0, 1280, 720);
-    map = new Battlefield();
-    m_woodPlatformLeft = new WoodPlatform();
-    m_woodPlatformRight = new WoodPlatform();
-    m_woodPlatformRight->setPos(m_woodPlatformLeft->pos().x() + 128, 440);
-    m_rockPlatform = new RockPlatform();
-    m_metalPlatform = new MetalPlatform();
+
+    m_battlefield = new Battlefield();
+    m_maps.append(m_battlefield);
+    m_maps.append(new WoodPlatform());
+    m_maps.append(new WoodPlatform());
+    m_maps.last()->setPos(m_maps.at(1)->pos().x() + 128, 440);  // 设置右侧木平台的位置
+    m_maps.append(new RockPlatform());
+    m_maps.append(new MetalPlatform());
 
     m_player1 = new CPlayer1();
     m_player2 = new CPlayer2();
@@ -43,11 +45,9 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     // spareLegEquipment = new IcebreakerShoes();
     // spareLegEquipment = new ElectrobreakerShoes();
 
-    addItem(map);
-    addItem(m_woodPlatformLeft);
-    addItem(m_woodPlatformRight);
-    addItem(m_rockPlatform);
-    addItem(m_metalPlatform);
+    for (Map* map : m_maps) {
+        addItem(map);
+    }
 
     addItem(m_player1);
     addItem(m_player2);
@@ -55,16 +55,16 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     addItem(spareHeadEquipment);
     // addItem(spareLegEquipment);
 
-    map->scaleToFitScene(this);
-    m_player1->setPos(map->getSpawnPos(0.2));
-    m_player2->setPos(map->getSpawnPos(0.8));
+    m_battlefield->scaleToFitScene(this);
+    m_player1->setPos(m_battlefield->getSpawnPos(0.2));
+    m_player2->setPos(m_battlefield->getSpawnPos(0.8));
 
     // spareArmor->unmount();
-    // spareArmor->setPos(map->getSpawnPos(0.5));
+    // spareArmor->setPos(m_battlefield->getSpawnPos(0.5));
     spareHeadEquipment->unmount();
-    spareHeadEquipment->setPos(map->getSpawnPos(0.5));
+    spareHeadEquipment->setPos(m_battlefield->getSpawnPos(0.5));
     // spareLegEquipment->unmount();
-    // spareLegEquipment->setPos(map->getSpawnPos(0.5));
+    // spareLegEquipment->setPos(m_battlefield->getSpawnPos(0.5));
 }
 
 void BattleScene::processInput() {
@@ -163,22 +163,19 @@ Map *BattleScene::findNearestMap(const QPointF &pos)
     Map *nearest = nullptr;
     qreal minDistance = std::numeric_limits<qreal>::max();
 
-    for (QGraphicsItem *item: items())
+    for (Map *map : m_maps)
     {
-        if (auto map = dynamic_cast<Map *>(item))
+        // Check if the player is within the horizontal bounds of the map
+        if (pos.x() >= map->sceneBoundingRect().left() - 10 &&
+            pos.x() <= map->sceneBoundingRect().right() + 10)
         {
-            // Check if the player is within the horizontal bounds of the map
-            if (pos.x() >= map->sceneBoundingRect().left() - 10 &&
-                pos.x() <= map->sceneBoundingRect().right() + 10)
+            // positive distance means the player is above the floor of map
+            qreal distance = map->getFloorHeight() - pos.y();
+            // >= a negative value allows the player to be slightly below the floor
+            if (distance >= -20 && distance < minDistance)
             {
-                // positive distance means the player is above the floor of map
-                qreal distance = map->getFloorHeight() - pos.y();
-                // >= a negative value allows the player to be slightly below the floor
-                if (distance >= -20 && distance < minDistance)
-                {
-                    minDistance = distance;
-                    nearest = map;
-                }
+                minDistance = distance;
+                nearest = map;
             }
         }
     }
