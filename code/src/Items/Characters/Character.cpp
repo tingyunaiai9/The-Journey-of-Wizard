@@ -1,5 +1,4 @@
 #include "Character.h"
-#include "../Maps/Battlefield.h"
 
 #include <QTransform>
 
@@ -42,13 +41,22 @@ void Character::setJumpDown(bool jumpDown) {
     m_jumpDown = jumpDown;
 }
 
-void Character::setFloorHeight(qreal floorHeight) {
-    m_floorHeight = floorHeight;
-}
+// void Character::setFloorHeight(qreal floorHeight) {
+//     m_floorHeight = floorHeight;
+// }
 
 // whether the character is on the ground
-bool Character::isOnGround() const {
-    return pos().y() >= m_floorHeight;
+// bool Character::isOnGround() const {
+//     return pos().y() >= m_floorHeight;
+// }
+bool Character::isOnGround() const
+{
+    return m_onGround;
+}
+
+void Character::setOnGround(bool isOnGround)
+{
+    m_onGround = isOnGround;
 }
 
 bool Character::isPickDown() const {

@@ -10,8 +10,18 @@
 
 #include <QKeyEvent>
 
-class BattleScene : public Scene {
+class BattleScene : public Scene
+{
 Q_OBJECT
+
+private:
+    Map *map;
+    Character *m_player1;
+    Character *m_player2;
+
+    Armor *spareArmor;
+    HeadEquipment *spareHeadEquipment;
+    LegEquipment *spareLegEquipment;
 
 public:
     explicit BattleScene(QObject *parent);
@@ -34,16 +44,10 @@ protected:
 private:
 
     Mountable *findNearestUnmountedMountable(const QPointF &pos, qreal distance_threshold = std::numeric_limits<qreal>::max());
-
     static Mountable * pickupMountable(Character *player, Mountable *mountable);
 
-    Map *map;
-    Character *m_player1;
-    Character *m_player2;
-
-    Armor *spareArmor;
-    HeadEquipment *spareHeadEquipment;
-    LegEquipment *spareLegEquipment;
+    Map *findNearestMap(const QPointF &pos);
+    bool isOnGround(Item *item);
 };
 
 

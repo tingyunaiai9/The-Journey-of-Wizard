@@ -28,18 +28,18 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     // spareArmor = new IcebreakerArmor();
     // spareArmor = new ElectrobreakerArmor();
     // spareHeadEquipment = new FlamebreakerHat();
-    // spareHeadEquipment = new IcebreakerHat();
+    spareHeadEquipment = new IcebreakerHat();
     // spareHeadEquipment = new ElectrobreakerHat();
     // spareLegEquipment = new FlamebreakerShoes();
     // spareLegEquipment = new IcebreakerShoes();
-    spareLegEquipment = new ElectrobreakerShoes();
+    // spareLegEquipment = new ElectrobreakerShoes();
 
     addItem(map);
     addItem(m_player1);
     addItem(m_player2);
     // addItem(spareArmor);
-    // addItem(spareHeadEquipment);
-    addItem(spareLegEquipment);
+    addItem(spareHeadEquipment);
+    // addItem(spareLegEquipment);
 
     map->scaleToFitScene(this);
     m_player1->setPos(map->getSpawnPos(0.25));
@@ -47,13 +47,13 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
 
     // spareArmor->unmount();
     // spareArmor->setPos(map->getSpawnPos(0.5));
-    // spareHeadEquipment->unmount();
-    // spareHeadEquipment->setPos(map->getSpawnPos(0.5));
-    spareLegEquipment->unmount();
-    spareLegEquipment->setPos(map->getSpawnPos(0.5));
+    spareHeadEquipment->unmount();
+    spareHeadEquipment->setPos(map->getSpawnPos(0.5));
+    // spareLegEquipment->unmount();
+    // spareLegEquipment->setPos(map->getSpawnPos(0.5));
 
-    m_player1->setFloorHeight(map->getFloorHeight());
-    m_player2->setFloorHeight(map->getFloorHeight());
+    // m_player1->setFloorHeight(map->getFloorHeight());
+    // m_player2->setFloorHeight(map->getFloorHeight());
 }
 
 void BattleScene::processInput() {
@@ -121,6 +121,8 @@ void BattleScene::update() {
     Scene::update();
 }
 
+
+// move
 void BattleScene::processMovement() {
     Scene::processMovement();
     if (m_player1 != nullptr)
@@ -129,15 +131,78 @@ void BattleScene::processMovement() {
                           m_player1->getVelocity() * (double) deltaTime);
         m_player1->setVelocity(m_player1->getVelocity() +
                                m_player1->getAcceleration() * (double) deltaTime);
-        if (m_player1->isOnGround())
+
+        // if (m_player1->isOnGround())
+        // {
+        //     m_player1->setAcceleration(QPointF(m_player1->getAcceleration().x(), 0));
+        //     m_player1->setVelocity(QPointF(m_player1->getVelocity().x(), 0));
+        //     m_player1->setPos(m_player1->pos().x(), map->getFloorHeight());
+        // }
+        // if (m_player1->isOnGround() == false)
+        // {
+        //     m_player1->setAcceleration(QPointF(m_player1->getAcceleration().x(), Item::GRAVITY.y()));
+        //     if (isOnGround(m_player1))
+        //     {
+        //         m_player1->setAcceleration(QPointF(m_player1->getAcceleration().x(), 0));
+        //         m_player1->setVelocity(QPointF(m_player1->getVelocity().x(), 0));
+        //         m_player1->setPos(m_player1->pos().x(), findNearestMap(m_player1->pos())->getFloorHeight());
+        //         m_player1->setOnGround(true);
+        //     }
+        // }
+        if (isOnGround(m_player1))
         {
             m_player1->setAcceleration(QPointF(m_player1->getAcceleration().x(), 0));
             m_player1->setVelocity(QPointF(m_player1->getVelocity().x(), 0));
-            m_player1->setPos(m_player1->pos().x(), map->getFloorHeight());
+            m_player1->setPos(m_player1->pos().x(), findNearestMap(m_player1->pos())->getFloorHeight());
+            m_player1->setOnGround(true);
+        }
+        else
+        {
+            m_player1->setAcceleration(QPointF(m_player1->getAcceleration().x(), Item::GRAVITY.y()));
+            m_player1->setOnGround(false);
         }
     }
 }
 
+Map *BattleScene::findNearestMap(const QPointF &pos)
+{
+    Map *nearest = nullptr;
+    qreal minDistance = std::numeric_limits<qreal>::max();
+
+    for (QGraphicsItem *item: items())
+    {
+        if (auto map = dynamic_cast<Map *>(item))
+        {
+            // Check if the player is within the horizontal bounds of the map
+            if (pos.x() >= map->sceneBoundingRect().left() &&
+                pos.x() <= map->sceneBoundingRect().right())
+            {
+                // positive distance means the player is above the floor of map
+                qreal distance = map->getFloorHeight() - pos.y();
+                // >= a negative value allows the player to be slightly below the floor
+                if (distance >= -20 && distance < minDistance)
+                {
+                    minDistance = distance;
+                    nearest = map;
+                }
+            }
+        }
+    }
+
+    return nearest;
+}
+
+bool BattleScene::isOnGround(Item *item)
+{
+    Map *nearestMap = findNearestMap(item->pos());
+    if (nearestMap != nullptr)
+    {
+        return item->pos().y() >= nearestMap->getFloorHeight();
+    }
+    return false;
+}
+
+// pick
 void BattleScene::processPicking()
 {
     Scene::processPicking();
@@ -170,11 +235,15 @@ Mountable *BattleScene::findNearestUnmountedMountable(const QPointF &pos, qreal 
     Mountable *nearest = nullptr;
     qreal minDistance = distance_threshold;
 
-    for (QGraphicsItem *item: items()) {
-        if (auto mountable = dynamic_cast<Mountable *>(item)) {
-            if (!mountable->isMounted()) {
+    for (QGraphicsItem *item: items())
+    {
+        if (auto mountable = dynamic_cast<Mountable *>(item))
+        {
+            if (!mountable->isMounted())
+            {
                 qreal distance = QLineF(pos, item->pos()).length();
-                if (distance < minDistance) {
+                if (distance < minDistance)
+                {
                     minDistance = distance;
                     nearest = mountable;
                 }
