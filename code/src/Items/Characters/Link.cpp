@@ -15,6 +15,8 @@
 #include "../LegEquipments/IcebreakerShoes.h"
 #include "../LegEquipments/ElectrobreakerShoes.h"
 
+#include "../MeleeWeapons/OneHandedSword.h"
+
 Link::Link(QGraphicsItem *parent, const QString &pixmapPath) :
     Character(parent, pixmapPath)
 {
@@ -33,9 +35,14 @@ Link::Link(QGraphicsItem *parent, const QString &pixmapPath) :
     // armor = new IcebreakerArmor(this);
     // armor = new ElectrobreakerArmor(this);
 
+    // m_meleeWeapon = new WoodenOneHandedSword(this);
+    m_meleeWeapon = new MetalOneHandedSword(this);
+
     headEquipment->mountToParent();
     legEquipment->mountToParent();
     armor->mountToParent();
+
+    m_meleeWeapon->equipToParent();
 }
 
 CPlayer1::CPlayer1(QGraphicsItem *parent) :

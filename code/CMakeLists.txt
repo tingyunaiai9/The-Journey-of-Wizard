@@ -16,8 +16,22 @@ find_package(Qt6 COMPONENTS
 add_executable(qt_programming_2024 src/main.cpp
         src/MyGame.cpp
         src/MyGame.h
+
+        assets/assets.qrc
+
         src/Items/Item.cpp
         src/Items/Item.h
+
+        src/Items/Mountable.cpp
+        src/Items/Mountable.h
+
+        src/Items/Weapon.cpp
+        src/Items/Weapon.h
+
+        src/Items/MeleeWeapons/MeleeWeapon.cpp
+        src/Items/MeleeWeapons/MeleeWeapon.h
+        src/Items/MeleeWeapons/OneHandedSword.cpp
+        src/Items/MeleeWeapons/OneHandedSword.h
 
         src/Items/Characters/Character.cpp
         src/Items/Characters/Character.h
@@ -32,21 +46,6 @@ add_executable(qt_programming_2024 src/main.cpp
         src/Items/HeadEquipments/HeadEquipment.h
         src/Items/LegEquipments/LegEquipment.cpp
         src/Items/LegEquipments/LegEquipment.h
-
-        src/Scenes/Scene.cpp
-        src/Scenes/Scene.h
-        src/Scenes/BattleScene.cpp
-        src/Scenes/BattleScene.h
-
-        assets/assets.qrc
-
-        src/Items/Maps/Map.cpp
-        src/Items/Maps/Map.h
-        src/Items/Maps/Battlefield.cpp
-        src/Items/Maps/Battlefield.h
-
-        src/Items/Mountable.cpp
-        src/Items/Mountable.h
 
         src/Items/Armors/BlackWizardRobe.cpp
         src/Items/Armors/BlackWizardRobe.h
@@ -74,13 +73,25 @@ add_executable(qt_programming_2024 src/main.cpp
         src/Items/LegEquipments/IcebreakerShoes.h
         src/Items/LegEquipments/ElectrobreakerShoes.cpp
         src/Items/LegEquipments/ElectrobreakerShoes.h
-        src/Items/Maps/Platform.h src/Items/Maps/Platform.cpp
+
+        src/Items/Maps/Map.cpp
+        src/Items/Maps/Map.h
+        src/Items/Maps/Battlefield.cpp
+        src/Items/Maps/Battlefield.h
+
+        src/Items/Maps/Platform.h
+        src/Items/Maps/Platform.cpp
         src/Items/Maps/WoodPlatform.cpp
         src/Items/Maps/WoodPlatform.h
         src/Items/Maps/RockPlatform.cpp
         src/Items/Maps/RockPlatform.h
         src/Items/Maps/MetalPlatform.cpp
-        src/Items/Maps/MetalPlatform.h)
+        src/Items/Maps/MetalPlatform.h
+
+        src/Scenes/Scene.cpp
+        src/Scenes/Scene.h
+        src/Scenes/BattleScene.cpp
+        src/Scenes/BattleScene.h)
 target_link_libraries(qt_programming_2024
         Qt::Core
         Qt::Gui

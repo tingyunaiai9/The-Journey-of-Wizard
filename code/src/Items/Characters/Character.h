@@ -5,6 +5,7 @@
 #include "../HeadEquipments/HeadEquipment.h"
 #include "../Armors/Armor.h"
 #include "../LegEquipments/LegEquipment.h"
+#include "../MeleeWeapons/MeleeWeapon.h"
 
 
 class Character : public Item
@@ -23,6 +24,9 @@ protected:
     HeadEquipment *headEquipment{};
     LegEquipment *legEquipment{};
     Armor *armor{};
+
+    MeleeWeapon *m_meleeWeapon{};
+
     QPointF m_velocity{};
     QPointF m_acceleration{};
 

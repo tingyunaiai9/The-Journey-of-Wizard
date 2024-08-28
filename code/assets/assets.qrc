@@ -18,5 +18,7 @@
         <file>Items/Maps/WoodPlatform/platform_wood.png</file>
         <file>Items/Maps/RockPlatform/platform_rock.png</file>
         <file>Items/Maps/MetalPlatform/platform_metal.png</file>
+        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_wooden.png</file>
+        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_metal.png</file>
     </qresource>
 </RCC>
