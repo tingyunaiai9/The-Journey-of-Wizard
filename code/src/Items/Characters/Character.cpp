@@ -88,7 +88,7 @@ void Character::processInput() {
     auto velocity = QPointF(0, getVelocity().y());
     auto acceleration = QPointF(0, 0);
     const auto moveSpeed = 0.3;
-    const auto jumpSpeed = -1.1;
+    const auto jumpSpeed = -1.25;
 
     if (isLeftDown()) {
         velocity.setX(velocity.x() - moveSpeed);

@@ -71,7 +71,9 @@ add_executable(qt_programming_2024 src/main.cpp
         src/Items/LegEquipments/IcebreakerShoes.cpp
         src/Items/LegEquipments/IcebreakerShoes.h
         src/Items/LegEquipments/ElectrobreakerShoes.cpp
-        src/Items/LegEquipments/ElectrobreakerShoes.h)
+        src/Items/LegEquipments/ElectrobreakerShoes.h
+        src/Items/Maps/Platform.h src/Items/Maps/Platform.cpp
+        src/Items/Maps/WoodPlatform.cpp)
 target_link_libraries(qt_programming_2024
         Qt::Core
         Qt::Gui

@@ -1,8 +1,8 @@
 #include "Map.h"
 
-#include <iostream>
-
-Map::Map(QGraphicsItem *parent, const QString &pixmapPath) : Item(parent, pixmapPath) {}
+Map::Map(QGraphicsItem *parent, const QString &pixmapPath) :
+    Item(parent, pixmapPath)
+{}
 
 void Map::scaleToFitScene(QGraphicsScene *scene) {
     // Calculate scale factors to scale the item to fit the entire scene

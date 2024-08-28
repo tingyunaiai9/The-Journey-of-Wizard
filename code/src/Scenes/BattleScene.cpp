@@ -1,6 +1,7 @@
 #include "BattleScene.h"
 #include "../Items/Characters/Link.h"
 #include "../Items/Maps/Battlefield.h"
+#include "../Items/Maps/Platform.h"
 
 #include "../Items/Armors/BlackWizardRobe.h"
 #include "../Items/Armors/FlamebreakerArmor.h"
@@ -21,6 +22,7 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     // This is useful if you want the scene to have the exact same dimensions as the view
     setSceneRect(0, 0, 1280, 720);
     map = new Battlefield();
+    m_woodPlatform = new Platform(nullptr, ":/Items/Maps/WoodPlatform/platform_wood.png");
     m_player1 = new CPlayer1();
     m_player2 = new CPlayer2();
 
@@ -35,6 +37,7 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     // spareLegEquipment = new ElectrobreakerShoes();
 
     addItem(map);
+    addItem(m_woodPlatform);
     addItem(m_player1);
     addItem(m_player2);
     // addItem(spareArmor);
@@ -174,8 +177,8 @@ Map *BattleScene::findNearestMap(const QPointF &pos)
         if (auto map = dynamic_cast<Map *>(item))
         {
             // Check if the player is within the horizontal bounds of the map
-            if (pos.x() >= map->sceneBoundingRect().left() &&
-                pos.x() <= map->sceneBoundingRect().right())
+            if (pos.x() >= map->sceneBoundingRect().left() - 5 &&
+                pos.x() <= map->sceneBoundingRect().right() + 5)
             {
                 // positive distance means the player is above the floor of map
                 qreal distance = map->getFloorHeight() - pos.y();
