@@ -1,0 +1,20 @@
+@startuml
+
+skinparam shadowing true
+
+[*] --> NORMAL
+
+NORMAL --> FIREING : Fire Attack
+FIREING --> NORMAL : Timeout
+NORMAL --> ICEING : Ice Attack
+ICEING --> NORMAL : Timeout
+NORMAL --> LIGHTNING : Lightning Attack
+LIGHTNING --> NORMAL : Timeout
+
+[*] --> HOLD
+HOLD --> ATTACKING : AttackDown
+ATTACKING --> HOLD : Timeout
+HOLD --> HITING : Be Attack
+HITING --> HOLD : Timeout
+
+@enduml

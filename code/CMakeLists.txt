@@ -21,6 +21,8 @@ add_executable(qt_programming_2024 src/main.cpp
 
         src/Items/Characters/Character.cpp
         src/Items/Characters/Character.h
+        src/Items/Characters/IHero.cpp
+        src/Items/Characters/IHero.h
         src/Items/Characters/Link.cpp
         src/Items/Characters/Link.h
 
@@ -84,4 +86,3 @@ target_link_libraries(qt_programming_2024
         Qt::Gui
         Qt::Widgets
 )
-

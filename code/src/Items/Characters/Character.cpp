@@ -61,11 +61,11 @@ void Character::setPickDown(bool pickDown) {
 }
 
 const QPointF &Character::getVelocity() const {
-    return velocity;
+    return m_velocity;
 }
 
 void Character::setVelocity(const QPointF &velocity) {
-    Character::velocity = velocity;
+    Character::m_velocity = velocity;
 }
 
 const QPointF &Character::getAcceleration() const {

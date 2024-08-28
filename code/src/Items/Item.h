@@ -3,6 +3,7 @@
 
 #include <QGraphicsItem>
 #include <QPainter>
+#include <QString>
 
 class Item : public QGraphicsItem
 {
@@ -30,5 +31,11 @@ protected:
     QGraphicsPixmapItem *pixmapItem{};
 };
 
+
+class CItemFactory
+{
+public:
+    Item* NewItem(QString strItem);
+};
 
 #endif //QT_PROGRAMMING_2024_ITEM_H

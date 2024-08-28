@@ -6,6 +6,7 @@
 #include "../Armors/Armor.h"
 #include "../LegEquipments/LegEquipment.h"
 
+
 class Character : public Item
 {
 private:
@@ -22,7 +23,7 @@ protected:
     HeadEquipment *headEquipment{};
     LegEquipment *legEquipment{};
     Armor *armor{};
-    QPointF velocity{};
+    QPointF m_velocity{};
     QPointF m_acceleration{};
 
 public:
