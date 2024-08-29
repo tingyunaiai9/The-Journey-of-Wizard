@@ -284,13 +284,13 @@ Mountable* BattleScene::pickupMountable(Character* player, Mountable* mountable)
     // remove the mountable picked up from m_spareEquipments
     if (mountable)
     {
-        m_spareEquipments.removeOne(mountable);
+        removeFromSpareEquipments(mountable);
     }
 
     // add the previous mountable to m_spareEquipments
     if (previousMountable)
     {
-        m_spareEquipments.append(previousMountable);
+        addToSpareEquipments(previousMountable);
     }
 
     return previousMountable;
@@ -326,6 +326,46 @@ void BattleScene::generateRandomEquipment() {
 
         newEquipment->unmount();
         addItem(newEquipment);
-        m_spareEquipments.append(newEquipment); // store the equipment
+
+        addToSpareEquipments(newEquipment); // store the equipment
+    }
+}
+
+void BattleScene::addToSpareEquipments(Mountable* equipment)
+{
+    m_spareEquipments.append(equipment);
+
+    // add a timer to remove the equipment
+    QTimer* timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, [this, equipment]() {
+        if (m_spareEquipments.contains(equipment))
+        {
+            removeItem(equipment);  // remove from scene
+            m_spareEquipments.removeOne(equipment);  // remove from spare equipments
+            m_spareEquipmentTimers.remove(equipment);  // remove timer
+            delete equipment;
+        }
+    });
+
+    timer->setSingleShot(true);  // only once
+    timer->start(20000);  // 20s
+
+    // map timer to equipment
+    m_spareEquipmentTimers.insert(equipment, timer);
+}
+
+void BattleScene::removeFromSpareEquipments(Mountable* equipment)
+{
+    m_spareEquipments.removeOne(equipment);
+
+    // if there is a timer for the equipment, remove it
+    if (m_spareEquipmentTimers.contains(equipment))
+    {
+        QTimer* timer = m_spareEquipmentTimers.take(equipment);
+        if (timer)
+        {
+            timer->stop();
+            delete timer;  // 删除定时器对象
+        }
     }
 }

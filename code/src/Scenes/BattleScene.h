@@ -28,6 +28,7 @@ private:
     LegEquipment *spareLegEquipment;
 
     QVector<Mountable*> m_spareEquipments;
+    QMap<Mountable*, QTimer*> m_spareEquipmentTimers; // timers for spare equipment to disappear
 
     QTimer *equipmentDropTimer; // time to drop equipment
 
@@ -60,6 +61,9 @@ private:
 
     Map *findNearestMap(const QPointF &pos);
     bool isOnGround(Item *item);
+
+    void addToSpareEquipments(Mountable* equipment);
+    void removeFromSpareEquipments(Mountable* equipment);
 };
 
 
