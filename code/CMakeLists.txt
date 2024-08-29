@@ -21,6 +21,8 @@ add_executable(qt_programming_2024 src/main.cpp
 
         src/Items/Item.cpp
         src/Items/Item.h
+        src/Items/CItemFactory.cpp
+        src/Items/CItemFactory.h
 
         src/Items/Mountable.cpp
         src/Items/Mountable.h
