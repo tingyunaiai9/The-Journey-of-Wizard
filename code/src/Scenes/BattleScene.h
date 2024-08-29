@@ -27,6 +27,8 @@ private:
     HeadEquipment *spareHeadEquipment;
     LegEquipment *spareLegEquipment;
 
+    QVector<Mountable*> m_spareEquipments;
+
     QTimer *equipmentDropTimer; // time to drop equipment
 
 protected slots:
@@ -54,7 +56,7 @@ protected:
 private:
 
     Mountable *findNearestUnmountedMountable(const QPointF &pos, qreal distance_threshold = std::numeric_limits<qreal>::max());
-    static Mountable * pickupMountable(Character *player, Mountable *mountable);
+    Mountable * pickupMountable(Character *player, Mountable *mountable);
 
     Map *findNearestMap(const QPointF &pos);
     bool isOnGround(Item *item);

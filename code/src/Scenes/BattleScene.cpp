@@ -265,21 +265,35 @@ Mountable *BattleScene::findNearestUnmountedMountable(const QPointF &pos, qreal 
     return nearest;
 }
 
-Mountable *BattleScene::pickupMountable(Character *player, Mountable *mountable) {
-    // Limitation: currently only supports armor
-    if (auto armor = dynamic_cast<Armor *>(mountable))
+Mountable* BattleScene::pickupMountable(Character* player, Mountable* mountable) {
+    Mountable* previousMountable = nullptr;
+
+    if (auto armor = dynamic_cast<Armor*>(mountable))
     {
-        return player->pickupArmor(armor);
+        previousMountable = player->pickupArmor(armor);
     }
-    else if (auto headEquipment = dynamic_cast<HeadEquipment *>(mountable))
+    else if (auto headEquipment = dynamic_cast<HeadEquipment*>(mountable))
     {
-        return player->pickupHeadEquipment(headEquipment);
+        previousMountable = player->pickupHeadEquipment(headEquipment);
     }
-    else if (auto legEquipment = dynamic_cast<LegEquipment *>(mountable))
+    else if (auto legEquipment = dynamic_cast<LegEquipment*>(mountable))
     {
-        return player->pickupLegEquipment(legEquipment);
+        previousMountable = player->pickupLegEquipment(legEquipment);
     }
-    return nullptr;
+
+    // remove the mountable picked up from m_spareEquipments
+    if (mountable)
+    {
+        m_spareEquipments.removeOne(mountable);
+    }
+
+    // add the previous mountable to m_spareEquipments
+    if (previousMountable)
+    {
+        m_spareEquipments.append(previousMountable);
+    }
+
+    return previousMountable;
 }
 
 // attack
@@ -295,18 +309,23 @@ void BattleScene::processAttacking()
 // drop item
 void BattleScene::generateRandomEquipment() {
     QStringList types = {"Armor", "HeadEquipment", "LegEquipment"};
-    QStringList elements = {"Black", "Flame", "Ice", "Electro"};
+    QStringList elements = {"Flame", "Ice", "Electro"};
 
     QString type = types.at(rand() % types.size());
     QString element = elements.at(rand() % elements.size());
 
     Mountable *newEquipment = CEquipmentFactory::NewEquipment(type, element);
 
-    if (newEquipment) {
-        newEquipment->setPos(m_battlefield->getSpawnPos(0.4));
-        // TODO: set a timer to remove the equipment
-        // TODO: set a random pos
+    // TODO: set a timer to remove the equipment
+    if (newEquipment)
+    {
+        // generate at a random x position
+        qreal randomX = static_cast<qreal>(rand() % static_cast<int>(this->sceneRect().width()));
+
+        newEquipment->setPos(randomX, 0);  // top: y=0
+
         newEquipment->unmount();
         addItem(newEquipment);
+        m_spareEquipments.append(newEquipment); // store the equipment
     }
 }

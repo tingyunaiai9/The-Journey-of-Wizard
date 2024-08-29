@@ -37,11 +37,7 @@ Mountable* CEquipmentFactory::NewEquipment(const QString& type, const QString& e
 {
     if (type == "Armor")
     {
-        if (element == "Black")
-        {
-            return new BlackWizardRobe();
-        }
-        else if (element == "Flame")
+        if (element == "Flame")
         {
             return new FlamebreakerArmor();
         }
@@ -53,14 +49,14 @@ Mountable* CEquipmentFactory::NewEquipment(const QString& type, const QString& e
         {
             return new ElectrobreakerArmor();
         }
+        else if (element == "Normal")
+        {
+            return new BlackWizardRobe();
+        }
     }
     else if (type == "HeadEquipment")
     {
-        if (element == "Black")
-        {
-            return new BlackHat();
-        }
-        else if (element == "Flame")
+        if (element == "Flame")
         {
             return new FlamebreakerHat();
         }
@@ -72,14 +68,14 @@ Mountable* CEquipmentFactory::NewEquipment(const QString& type, const QString& e
         {
             return new ElectrobreakerHat();
         }
+        else if (element == "Normal")
+        {
+            return new BlackHat();
+        }
     }
     else if (type == "LegEquipment")
     {
-        if (element == "Black")
-        {
-            return new BlackShoes();
-        }
-        else if (element == "Flame")
+        if (element == "Flame")
         {
             return new FlamebreakerShoes();
         }
@@ -90,6 +86,10 @@ Mountable* CEquipmentFactory::NewEquipment(const QString& type, const QString& e
         else if (element == "Electro")
         {
             return new ElectrobreakerShoes();
+        }
+        else if (element == "Normal")
+        {
+            return new BlackShoes();
         }
     }
 
