@@ -57,7 +57,7 @@ const QPointF &Character::getVelocity() const {
 }
 
 void Character::setVelocity(const QPointF &velocity) {
-    Character::m_velocity = velocity;
+    m_velocity = velocity;
 }
 
 const QPointF &Character::getAcceleration() const {

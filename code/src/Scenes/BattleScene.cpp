@@ -156,6 +156,7 @@ void BattleScene::update() {
 // move
 void BattleScene::processMovement() {
     Scene::processMovement();
+
     if (m_player1 != nullptr)
     {
         m_player1->setPos(m_player1->pos() +
@@ -174,6 +175,23 @@ void BattleScene::processMovement() {
         {
             m_player1->setAcceleration(QPointF(m_player1->getAcceleration().x(), Item::GRAVITY.y()));
             m_player1->setOnGround(false);
+        }
+    }
+
+    for(auto equipment : m_spareEquipments)
+    {
+        equipment->setPos(equipment->pos() + equipment->getVelocity() * (double) deltaTime);
+        equipment->setVelocity(equipment->getVelocity() + equipment->getAcceleration() * (double) deltaTime);
+
+        if (isOnGround(equipment))
+        {
+            equipment->setAcceleration(QPointF(equipment->getAcceleration().x(), 0));
+            equipment->setVelocity(QPointF(equipment->getVelocity().x(), 0));
+            equipment->setPos(equipment->pos().x(), findNearestMap(equipment->pos())->getFloorHeight());
+        }
+        else
+        {
+            equipment->setAcceleration(QPointF(equipment->getAcceleration().x(), Item::GRAVITY.y()));
         }
     }
 }
@@ -365,7 +383,7 @@ void BattleScene::removeFromSpareEquipments(Mountable* equipment)
         if (timer)
         {
             timer->stop();
-            delete timer;  // 删除定时器对象
+            delete timer;
         }
     }
 }

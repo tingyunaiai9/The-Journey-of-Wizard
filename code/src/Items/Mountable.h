@@ -3,10 +3,17 @@
 
 #include "Item.h"
 
+#include <QPointF>
+
 class Mountable : public Item
 {
+private:
+    bool mounted{};
+    QPointF m_velocity{};
+    QPointF m_acceleration{};
+
 public:
-    Mountable(QGraphicsItem *parent, const QString &pixmapPath);
+    explicit Mountable(QGraphicsItem *parent, const QString &pixmapPath);
 
     virtual void mountToParent();
 
@@ -14,8 +21,11 @@ public:
 
     [[nodiscard]] bool isMounted() const;
 
-private:
-    bool mounted{};
+    [[nodiscard]] const QPointF &getVelocity() const;
+    void setVelocity(const QPointF &velocity);
+
+    [[nodiscard]] const QPointF &getAcceleration() const;
+    void setAcceleration(const QPointF &acceleration);
 };
 
 
