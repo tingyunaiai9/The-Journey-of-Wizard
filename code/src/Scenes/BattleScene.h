@@ -42,12 +42,11 @@ public:
     explicit BattleScene(QObject *parent);
 
     void processInput() override;
-
     void processMovement() override;
-
     void processPicking() override;
-
     void processAttacking() override;
+
+    void process_fps(qint64 deltaTime) override;
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;

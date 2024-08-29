@@ -15,6 +15,23 @@ Character::Character(QGraphicsItem *parent, const QString &pixmapPath) :
     if (pixmapItem != nullptr) {
         pixmapItem->setPos(-16, 0);
     }
+
+    AddState(NORMAL_HOLD, new CNormalHold(this));
+    AddState(FLAME_HOLD, new CFlameHold(this));
+    AddState(ICE_HOLD, new CIceHold(this));
+    AddState(ELECTRO_HOLD, new CElectroHold(this));
+
+    AddState(NORMAL_ATTACKING, new CNormalAttacking(this));
+    AddState(FLAME_ATTACKING, new CFlameAttacking(this));
+    AddState(ICE_ATTACKING, new CIceAttacking(this));
+    AddState(ELECTRO_ATTACKING, new CElectroAttacking(this));
+
+    AddState(NORMAL_HITTING, new CNormalHitting(this));
+    AddState(FLAME_HITTING, new CFlameHitting(this));
+    AddState(ICE_HITTING, new CIceHitting(this));
+    AddState(ELECTRO_HITTING, new CElectroHitting(this));
+
+    InitState(NORMAL_HOLD);
 }
 
 bool Character::isLeftDown() const {
@@ -76,16 +93,20 @@ bool Character::isPicking() const {
     return m_picking;
 }
 
-bool Character::isAttackDown() const {
-    return m_attackDown;
+void Character::setAttackDown()
+{
+    IState* state_obj = nullptr;
+    state_obj = GetStateObj();
+
+    state_obj->setAttack();
 }
 
-void Character::setAttackDown(bool attackDown) {
-    m_attackDown = attackDown;
-}
+bool Character::isAttacking()
+{
+    IState* state_obj = nullptr;
+    state_obj = GetStateObj();
 
-bool Character::isAttacking() const {
-    return m_attacking;
+    return state_obj->isAttacking();
 }
 
 
@@ -184,4 +205,24 @@ LegEquipment *Character::pickupLegEquipment(LegEquipment *newLegEquipment) {
     newLegEquipment->mountToParent();
     legEquipment = newLegEquipment;
     return oldLegEquipment;
+}
+
+void Character::beHit(int damage, QString element)
+{
+    IState* state_obj = nullptr;
+    state_obj = GetStateObj();
+
+    state_obj->beHit(damage, element);
+}
+
+void Character::key_press(QKeyEvent *event)
+{}
+
+void Character::key_release(QKeyEvent *event)
+{}
+
+void Character::process_fps(qint64 deltaTime)
+{
+    IState* state_obj = nullptr;
+    state_obj = GetStateObj();
 }

@@ -14,7 +14,7 @@ LIGHTNING --> NORMAL : Timeout
 [*] --> HOLD
 HOLD --> ATTACKING : AttackDown
 ATTACKING --> HOLD : Timeout
-HOLD --> HITING : Be Attack
-HITING --> HOLD : Timeout
+HOLD --> HITTING : Be Attack
+HITTING --> HOLD : Timeout
 
 @enduml

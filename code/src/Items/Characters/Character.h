@@ -6,9 +6,9 @@
 #include "../Armors/Armor.h"
 #include "../LegEquipments/LegEquipment.h"
 #include "../MeleeWeapons/MeleeWeapon.h"
+#include "IHero.h"
 
-
-class Character : public Item
+class Character : public Item, public IHero
 {
 private:
     bool m_leftDown{}, m_rightDown{};
@@ -64,13 +64,17 @@ public:
     HeadEquipment* pickupHeadEquipment(HeadEquipment* newHeadEquipment);
     LegEquipment* pickupLegEquipment(LegEquipment* newLegEquipment);
 
-    [[nodiscard]] bool isAttackDown() const;
-    void setAttackDown(bool attackDown);
-
-    [[nodiscard]] bool isAttacking() const;
+    void setAttackDown();
+    [[nodiscard]] bool isAttacking();
 
     void processInput();
 
+    void beHit(int damage, QString element);
+
+public:
+    virtual void key_press(QKeyEvent *event);
+    virtual void key_release(QKeyEvent *event);
+    void process_fps(qint64 deltaTime);
 };
 
 

@@ -74,11 +74,20 @@ void BattleScene::keyPressEvent(QKeyEvent *event) {
             break;
         case Qt::Key_K: // attack
             if (m_player1 != nullptr) {
-                m_player1->setAttackDown(true);
+                m_player1->setAttackDown();
             }
             break;
         default:
             Scene::keyPressEvent(event);
+    }
+
+    //
+    if (m_player1 != nullptr) {
+        m_player1->key_press(event);
+    }
+
+    if (m_player2 != nullptr) {
+        m_player2->key_press(event);
     }
 }
 
@@ -104,13 +113,22 @@ void BattleScene::keyReleaseEvent(QKeyEvent *event) {
                 m_player1->setPickDown(false);
             }
             break;
-        case Qt::Key_K: // attack
-            if (m_player1 != nullptr) {
-                m_player1->setAttackDown(false);
+        case Qt::Key_K: // release attack
+            if (m_player1 != nullptr)
+            {
             }
             break;
         default:
             Scene::keyReleaseEvent(event);
+    }
+
+    //
+    if (m_player1 != nullptr) {
+        m_player1->key_release(event);
+    }
+
+    if (m_player2 != nullptr) {
+        m_player2->key_release(event);
     }
 }
 
@@ -285,16 +303,6 @@ Mountable* BattleScene::pickupMountable(Character* player, Mountable* mountable)
     return previousMountable;
 }
 
-// attack
-void BattleScene::processAttacking()
-{
-    Scene::processAttacking();
-    if (m_player1->isAttacking())
-    {
-        // Attack
-    }
-}
-
 // drop item
 void BattleScene::generateRandomEquipment() {
     QStringList types = {"Armor", "HeadEquipment", "LegEquipment"};
@@ -357,4 +365,27 @@ void BattleScene::removeFromSpareEquipments(Mountable* equipment)
             delete timer;
         }
     }
+}
+
+// attack
+void BattleScene::processAttacking()
+{
+    Scene::processAttacking();
+    if (m_player1->isAttacking())
+    {
+        // Attack
+    }
+}
+
+//
+void BattleScene::process_fps(qint64 deltaTime)
+{
+    if (m_player1 != nullptr) {
+        m_player1->process_fps(deltaTime);
+    }
+
+    if (m_player2 != nullptr) {
+        m_player2->process_fps(deltaTime);
+    }
+
 }

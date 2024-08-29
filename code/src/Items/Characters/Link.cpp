@@ -55,3 +55,13 @@ CPlayer2::CPlayer2(QGraphicsItem *parent) :
 {
     setTransform(QTransform().scale(-1, 1));
 }
+
+void CPlayer1::key_press(QKeyEvent *event)
+{}
+void CPlayer1::key_release(QKeyEvent *event)
+{}
+
+void CPlayer2::key_press(QKeyEvent *event)
+{}
+void CPlayer2::key_release(QKeyEvent *event)
+{}

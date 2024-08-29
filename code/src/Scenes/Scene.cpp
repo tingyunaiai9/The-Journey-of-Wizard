@@ -1,7 +1,3 @@
-//
-// Created by gerw on 8/20/24.
-//
-
 #include <QDateTime>
 #include "Scene.h"
 
@@ -21,6 +17,9 @@ void Scene::update() {
     processInput();
     processMovement();
     processPicking();
+
+    // add for hero handle fps by self
+    process_fps(deltaTime);
 }
 
 void Scene::startLoop() {
@@ -43,3 +42,6 @@ void Scene::processAttacking() {
 
 }
 
+void Scene::process_fps(qint64 deltaTime) {
+
+}

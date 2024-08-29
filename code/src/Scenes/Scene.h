@@ -17,12 +17,11 @@ public:
     void startLoop();
 
     virtual void processInput();
-
     virtual void processMovement();
-
     virtual void processPicking();
-
     virtual void processAttacking();
+
+    virtual void process_fps(qint64 deltaTime);
 
 protected slots:
 
