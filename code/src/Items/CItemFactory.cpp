@@ -33,7 +33,7 @@ Item* CItemFactory::NewItem(const QString& category, const QString& type, const 
     }
 }
 
-Item* CEquipmentFactory::NewEquipment(const QString& type, const QString& element)
+Mountable* CEquipmentFactory::NewEquipment(const QString& type, const QString& element)
 {
     if (type == "Armor")
     {
@@ -97,7 +97,7 @@ Item* CEquipmentFactory::NewEquipment(const QString& type, const QString& elemen
 }
 
 // TODO
-Item* CWeaponFactory::NewWeapon(const QString& type, const QString& element)
+Weapon* CWeaponFactory::NewWeapon(const QString& type, const QString& element)
 {
     return nullptr;
 }

@@ -4,7 +4,7 @@
 #include "../Item.h"
 #include "../Weapon.h"
 
-class MeleeWeapon : public Item, public Weapon
+class MeleeWeapon : public Weapon
 {
 public:
     explicit MeleeWeapon(QGraphicsItem *parent, const QString &pixmapPath);

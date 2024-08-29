@@ -2,6 +2,8 @@
 #define QT_PROGRAMMING_2024_CITEMFACTORY_H
 
 #include "Item.h"
+#include "Mountable.h"
+#include "Weapon.h"
 
 #include <QString>
 
@@ -14,13 +16,13 @@ public:
 class CEquipmentFactory
 {
 public:
-    static Item* NewEquipment(const QString& type, const QString& element);
+    static Mountable* NewEquipment(const QString& type, const QString& element);
 };
 
 class CWeaponFactory
 {
 public:
-    static Item* NewWeapon(const QString& type, const QString& element);
+    static Weapon* NewWeapon(const QString& type, const QString& element);
 };
 
 #endif //QT_PROGRAMMING_2024_CITEMFACTORY_H

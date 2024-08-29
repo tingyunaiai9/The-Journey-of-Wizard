@@ -1,10 +1,13 @@
 #ifndef QT_PROGRAMMING_2024_WEAPON_H
 #define QT_PROGRAMMING_2024_WEAPON_H
 
+#include "Item.h"
 
-class Weapon
+class Weapon : public Item
 {
 public:
+    Weapon(QGraphicsItem *parent, const QString &pixmapPath);
+
     virtual void equipToParent();
     virtual void unequip();
     [[nodiscard]] bool isEquipped() const;

@@ -1,5 +1,10 @@
 #include "Mountable.h"
 
+Mountable::Mountable(QGraphicsItem *parent, const QString &pixmapPath) :
+    Item(parent, pixmapPath)
+{
+}
+
 void Mountable::unmount() {
     mounted = false;
 }

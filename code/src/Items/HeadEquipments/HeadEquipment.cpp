@@ -1,7 +1,7 @@
 #include "HeadEquipment.h"
 
 HeadEquipment::HeadEquipment(QGraphicsItem *parent, const QString &pixmapPath) :
-    Item(parent, pixmapPath)
+    Mountable(parent, pixmapPath)
 {
 }
 

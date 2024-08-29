@@ -10,6 +10,7 @@
 
 #include <QKeyEvent>
 #include <QVector>
+#include <QTimer>
 
 class BattleScene : public Scene
 {
@@ -26,6 +27,14 @@ private:
     HeadEquipment *spareHeadEquipment;
     LegEquipment *spareLegEquipment;
 
+    QTimer *equipmentDropTimer; // time to drop equipment
+
+protected slots:
+    void update() override;
+
+private slots:
+    void generateRandomEquipment();
+
 public:
     explicit BattleScene(QObject *parent);
 
@@ -36,10 +45,6 @@ public:
     void processPicking() override;
 
     void processAttacking() override;
-
-protected slots:
-
-    void update() override;
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;

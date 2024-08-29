@@ -1,6 +1,8 @@
 #include "LegEquipment.h"
 
-LegEquipment::LegEquipment(QGraphicsItem *parent, const QString &pixmapPath) : Item(parent, pixmapPath) {
+LegEquipment::LegEquipment(QGraphicsItem *parent, const QString &pixmapPath) :
+    Mountable(parent, pixmapPath)
+{
 }
 
 void LegEquipment::mountToParent() {

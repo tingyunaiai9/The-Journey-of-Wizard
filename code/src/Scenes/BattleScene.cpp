@@ -1,5 +1,9 @@
 #include "BattleScene.h"
+
+#include "../Items/CItemFactory.h"
+
 #include "../Items/Characters/Link.h"
+
 #include "../Items/Maps/Battlefield.h"
 #include "../Items/Maps/WoodPlatform.h"
 #include "../Items/Maps/RockPlatform.h"
@@ -65,6 +69,12 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     spareHeadEquipment->setPos(m_battlefield->getSpawnPos(0.5));
     // spareLegEquipment->unmount();
     // spareLegEquipment->setPos(m_battlefield->getSpawnPos(0.5));
+
+
+    // generate equipment
+    equipmentDropTimer = new QTimer(this);
+    connect(equipmentDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomEquipment);
+    equipmentDropTimer->start(10000); // 10s
 }
 
 void BattleScene::processInput() {
@@ -279,5 +289,24 @@ void BattleScene::processAttacking()
     if (m_player1->isAttacking())
     {
         // Attack
+    }
+}
+
+// drop item
+void BattleScene::generateRandomEquipment() {
+    QStringList types = {"Armor", "HeadEquipment", "LegEquipment"};
+    QStringList elements = {"Black", "Flame", "Ice", "Electro"};
+
+    QString type = types.at(rand() % types.size());
+    QString element = elements.at(rand() % elements.size());
+
+    Mountable *newEquipment = CEquipmentFactory::NewEquipment(type, element);
+
+    if (newEquipment) {
+        newEquipment->setPos(m_battlefield->getSpawnPos(0.4));
+        // TODO: set a timer to remove the equipment
+        // TODO: set a random pos
+        newEquipment->unmount();
+        addItem(newEquipment);
     }
 }

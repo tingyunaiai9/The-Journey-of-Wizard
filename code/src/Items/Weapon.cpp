@@ -1,5 +1,10 @@
 #include "Weapon.h"
 
+Weapon::Weapon(QGraphicsItem *parent, const QString &pixmapPath) :
+    Item(parent, pixmapPath)
+{
+}
+
 void Weapon::unequip() {
     equipped = false;
 }
