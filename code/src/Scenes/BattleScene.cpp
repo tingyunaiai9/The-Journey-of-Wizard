@@ -9,19 +9,6 @@
 #include "../Items/Maps/RockPlatform.h"
 #include "../Items/Maps/MetalPlatform.h"
 
-#include "../Items/Armors/BlackWizardRobe.h"
-#include "../Items/Armors/FlamebreakerArmor.h"
-#include "../Items/Armors/IcebreakerArmor.h"
-#include "../Items/Armors/ElectrobreakerArmor.h"
-
-#include "../Items/HeadEquipments/FlamebreakerHat.h"
-#include "../Items/HeadEquipments/IcebreakerHat.h"
-#include "../Items/HeadEquipments/ElectrobreakerHat.h"
-
-#include "../Items/LegEquipments/FlamebreakerShoes.h"
-#include "../Items/LegEquipments/IcebreakerShoes.h"
-#include "../Items/LegEquipments/ElectrobreakerShoes.h"
-
 #include <QDebug>
 
 BattleScene::BattleScene(QObject *parent) : Scene(parent) {
@@ -39,37 +26,16 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     m_player1 = new CPlayer1();
     m_player2 = new CPlayer2();
 
-    // spareArmor = new FlamebreakerArmor();
-    // spareArmor = new IcebreakerArmor();
-    // spareArmor = new ElectrobreakerArmor();
-    // spareHeadEquipment = new FlamebreakerHat();
-    spareHeadEquipment = new IcebreakerHat();
-    // spareHeadEquipment = new ElectrobreakerHat();
-    // spareLegEquipment = new FlamebreakerShoes();
-    // spareLegEquipment = new IcebreakerShoes();
-    // spareLegEquipment = new ElectrobreakerShoes();
-
     for (Map* map : m_maps) {
         addItem(map);
     }
 
     addItem(m_player1);
     addItem(m_player2);
-    // addItem(spareArmor);
-    addItem(spareHeadEquipment);
-    // addItem(spareLegEquipment);
 
     m_battlefield->scaleToFitScene(this);
     m_player1->setPos(m_battlefield->getSpawnPos(0.2));
     m_player2->setPos(m_battlefield->getSpawnPos(0.8));
-
-    // spareArmor->unmount();
-    // spareArmor->setPos(m_battlefield->getSpawnPos(0.5));
-    spareHeadEquipment->unmount();
-    spareHeadEquipment->setPos(m_battlefield->getSpawnPos(0.5));
-    // spareLegEquipment->unmount();
-    // spareLegEquipment->setPos(m_battlefield->getSpawnPos(0.5));
-
 
     // generate equipment
     equipmentDropTimer = new QTimer(this);
@@ -159,8 +125,11 @@ void BattleScene::processMovement() {
 
     if (m_player1 != nullptr)
     {
-        m_player1->setPos(m_player1->pos() +
-                          m_player1->getVelocity() * (double) deltaTime);
+        // m_player1->setPos(m_player1->pos() +
+        //                   m_player1->getVelocity() * (double) deltaTime);
+        // avoid drop out of the scene
+        m_player1->setPos(m_player1->pos().x() + m_player1->getVelocity().x() * (double) deltaTime,
+                          fmin(480, m_player1->pos().y() + m_player1->getVelocity().y() * (double) deltaTime));
         m_player1->setVelocity(m_player1->getVelocity() +
                                m_player1->getAcceleration() * (double) deltaTime);
 
@@ -180,7 +149,9 @@ void BattleScene::processMovement() {
 
     for(auto equipment : m_spareEquipments)
     {
-        equipment->setPos(equipment->pos() + equipment->getVelocity() * (double) deltaTime);
+        // equipment->setPos(equipment->pos() + equipment->getVelocity() * (double) deltaTime);
+        equipment->setPos(equipment->pos().x() + equipment->getVelocity().x() * (double) deltaTime,
+                          fmin(480, equipment->pos().y() + equipment->getVelocity().y() * (double) deltaTime));
         equipment->setVelocity(equipment->getVelocity() + equipment->getAcceleration() * (double) deltaTime);
 
         if (isOnGround(equipment))
@@ -204,8 +175,8 @@ Map *BattleScene::findNearestMap(const QPointF &pos)
     for (Map *map : m_maps)
     {
         // Check if the player is within the horizontal bounds of the map
-        if (pos.x() >= map->sceneBoundingRect().left() - 10 &&
-            pos.x() <= map->sceneBoundingRect().right() + 10)
+        if (pos.x() >= map->sceneBoundingRect().left() - 5 &&
+            pos.x() <= map->sceneBoundingRect().right() + 5)
         {
             // positive distance means the player is above the floor of map
             qreal distance = map->getFloorHeight() - pos.y();
@@ -241,21 +212,21 @@ void BattleScene::processPicking()
         if (mountable != nullptr)
         {
             auto picked = pickupMountable(m_player1, mountable);
-            if (picked != nullptr)
-            {
-                if (auto armor = dynamic_cast<Armor *>(picked))
-                {
-                    spareArmor = armor;
-                }
-                else if (auto headEquipment = dynamic_cast<HeadEquipment *>(picked))
-                {
-                    spareHeadEquipment = headEquipment;
-                }
-                else if (auto legEquipment = dynamic_cast<LegEquipment *>(picked))
-                {
-                    spareLegEquipment = legEquipment;
-                }
-            }
+            // if (picked != nullptr)
+            // {
+            //     if (auto armor = dynamic_cast<Armor *>(picked))
+            //     {
+            //         spareArmor = armor;
+            //     }
+            //     else if (auto headEquipment = dynamic_cast<HeadEquipment *>(picked))
+            //     {
+            //         spareHeadEquipment = headEquipment;
+            //     }
+            //     else if (auto legEquipment = dynamic_cast<LegEquipment *>(picked))
+            //     {
+            //         spareLegEquipment = legEquipment;
+            //     }
+            // }
         }
     }
 }

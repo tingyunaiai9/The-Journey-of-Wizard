@@ -23,9 +23,9 @@ private:
     Character *m_player1;
     Character *m_player2;
 
-    Armor *spareArmor;
-    HeadEquipment *spareHeadEquipment;
-    LegEquipment *spareLegEquipment;
+    // Armor *spareArmor;
+    // HeadEquipment *spareHeadEquipment;
+    // LegEquipment *spareLegEquipment;
 
     QVector<Mountable*> m_spareEquipments;
     QMap<Mountable*, QTimer*> m_spareEquipmentTimers; // timers for spare equipment to disappear
