@@ -379,14 +379,13 @@ void BattleScene::processAttacking()
 }
 
 //
-void BattleScene::process_fps(qint64 deltaTime)
+void BattleScene::processFps(qint64 deltaTime)
 {
     if (m_player1 != nullptr) {
-        m_player1->process_fps(deltaTime);
+        m_player1->processFps(deltaTime);
     }
 
     if (m_player2 != nullptr) {
-        m_player2->process_fps(deltaTime);
+        m_player2->processFps(deltaTime);
     }
-
 }

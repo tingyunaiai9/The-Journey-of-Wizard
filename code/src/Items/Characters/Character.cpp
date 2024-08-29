@@ -16,22 +16,22 @@ Character::Character(QGraphicsItem *parent, const QString &pixmapPath) :
         pixmapItem->setPos(-16, 0);
     }
 
-    AddState(NORMAL_HOLD, new CNormalHold(this));
-    AddState(FLAME_HOLD, new CFlameHold(this));
-    AddState(ICE_HOLD, new CIceHold(this));
-    AddState(ELECTRO_HOLD, new CElectroHold(this));
+    addState(NORMAL_HOLD, new CNormalHold(this));
+    addState(FLAME_HOLD, new CFlameHold(this));
+    addState(ICE_HOLD, new CIceHold(this));
+    addState(ELECTRO_HOLD, new CElectroHold(this));
 
-    AddState(NORMAL_ATTACKING, new CNormalAttacking(this));
-    AddState(FLAME_ATTACKING, new CFlameAttacking(this));
-    AddState(ICE_ATTACKING, new CIceAttacking(this));
-    AddState(ELECTRO_ATTACKING, new CElectroAttacking(this));
+    addState(NORMAL_ATTACKING, new CNormalAttacking(this));
+    addState(FLAME_ATTACKING, new CFlameAttacking(this));
+    addState(ICE_ATTACKING, new CIceAttacking(this));
+    addState(ELECTRO_ATTACKING, new CElectroAttacking(this));
 
-    AddState(NORMAL_HITTING, new CNormalHitting(this));
-    AddState(FLAME_HITTING, new CFlameHitting(this));
-    AddState(ICE_HITTING, new CIceHitting(this));
-    AddState(ELECTRO_HITTING, new CElectroHitting(this));
+    addState(NORMAL_HITTING, new CNormalHitting(this));
+    addState(FLAME_HITTING, new CFlameHitting(this));
+    addState(ICE_HITTING, new CIceHitting(this));
+    addState(ELECTRO_HITTING, new CElectroHitting(this));
 
-    InitState(NORMAL_HOLD);
+    initState(NORMAL_HOLD);
 }
 
 bool Character::isLeftDown() const {
@@ -93,23 +93,6 @@ bool Character::isPicking() const {
     return m_picking;
 }
 
-void Character::setAttackDown()
-{
-    IState* state_obj = nullptr;
-    state_obj = GetStateObj();
-
-    state_obj->setAttack();
-}
-
-bool Character::isAttacking()
-{
-    IState* state_obj = nullptr;
-    state_obj = GetStateObj();
-
-    return state_obj->isAttacking();
-}
-
-
 void Character::setAcceleration(const QPointF &acceleration) {
     m_acceleration = acceleration;
 }
@@ -151,21 +134,6 @@ void Character::processInput() {
     }
     m_lastPickDown = m_pickDown;
 
-    if (!m_lastAttackDown && m_attackDown) // first time attackDown
-    {
-        m_attacking = true;
-        m_meleeWeapon->startAttack();
-    }
-    else if (m_lastAttackDown && !m_attackDown) // last time attackDown, this time not attackDown
-    {
-        m_attacking = false;
-        m_meleeWeapon->stopAttack();
-    }
-    else
-    {
-        m_attacking = false;
-    }
-    m_lastAttackDown = m_attackDown;
 }
 
 Armor *Character::pickupArmor(Armor *newArmor) {
@@ -210,7 +178,7 @@ LegEquipment *Character::pickupLegEquipment(LegEquipment *newLegEquipment) {
 void Character::beHit(int damage, QString element)
 {
     IState* state_obj = nullptr;
-    state_obj = GetStateObj();
+    state_obj = getStateObj();
 
     state_obj->beHit(damage, element);
 }
@@ -221,8 +189,45 @@ void Character::key_press(QKeyEvent *event)
 void Character::key_release(QKeyEvent *event)
 {}
 
-void Character::process_fps(qint64 deltaTime)
+void Character::processFps(qint64 deltaTime)
 {
     IState* state_obj = nullptr;
-    state_obj = GetStateObj();
+    state_obj = getStateObj();
+
+    state_obj->processFps(deltaTime);
+}
+
+
+// attack
+void Character::setAttackDown()
+{
+    // check whether the character is holding a weapon
+    if (m_holdingWeapon == nullptr)
+    {
+        return;
+    }
+
+    IState* state_obj = nullptr;
+    state_obj = getStateObj();
+
+    state_obj->setAttack();
+}
+
+bool Character::isAttacking()
+{
+    IState* state_obj = nullptr;
+    state_obj = getStateObj();
+
+    return state_obj->isAttacking();
+}
+
+void Character::h_startAttack()
+{
+    // TODO: check m_holdingWeapon?
+    m_holdingWeapon->startAttack();
+}
+
+void Character::h_stopAttack()
+{
+    m_holdingWeapon->stopAttack();
 }

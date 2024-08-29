@@ -37,6 +37,7 @@ Link::Link(QGraphicsItem *parent, const QString &pixmapPath) :
 
     // m_meleeWeapon = new WoodenOneHandedSword(this);
     m_meleeWeapon = new MetalOneHandedSword(this);
+    m_holdingWeapon = m_meleeWeapon;
 
     headEquipment->mountToParent();
     legEquipment->mountToParent();

@@ -19,7 +19,7 @@ void Scene::update() {
     processPicking();
 
     // add for hero handle fps by self
-    process_fps(deltaTime);
+    processFps(deltaTime);
 }
 
 void Scene::startLoop() {
@@ -42,6 +42,6 @@ void Scene::processAttacking() {
 
 }
 
-void Scene::process_fps(qint64 deltaTime) {
+void Scene::processFps(qint64 deltaTime) {
 
 }

@@ -5,9 +5,9 @@ IState::IState(IHero* heroObj)
     m_HeroObj = heroObj;
 }
 
-QString IState::GetName()
+QString IState::getName()
 {
-    return "IState";
+    return "";
 }
 
 bool IState::isAttacking()
@@ -28,36 +28,54 @@ void IState::beHit(int damage, QString element)
 {
 }
 
+void IState::processFps(qint64 deltaTime)
+{
+}
+
 //
-IState* IHero::GetStateObj()
+IState* IHero::getStateObj()
 {
     return m_StateMap[m_State];
 }
 
-void IHero::InitState(HEROSTATE stateType)
+void IHero::initState(HEROSTATE stateType)
 {
     m_State = stateType;
 }
 
-void IHero::SetState(HEROSTATE stateType)
+void IHero::setState(HEROSTATE stateType)
 {
     m_State = stateType;
 }
 
-void IHero::AddState(HEROSTATE stateType, IState* stateObj)
+void IHero::addState(HEROSTATE stateType, IState* stateObj)
 {
     m_StateMap[stateType] = stateObj;
 }
 
-void IHero::ClearStateMap()
+void IHero::clearStateMap()
 {
     m_StateMap.clear();
+}
+
+void IHero::h_startAttack()
+{
+}
+
+void IHero::h_stopAttack()
+{
 }
 
 //
 IHold::IHold(IHero* heroObj):
     IState(heroObj)
 {
+}
+
+void IHold::setAttack()
+{
+    // TODO: check if the hero is holding a weapon
+    m_HeroObj->h_startAttack();
 }
 
 IAttacking::IAttacking(IHero* heroObj):
@@ -70,6 +88,17 @@ bool IAttacking::isAttacking()
     return true;
 }
 
+void IAttacking::processFps(qint64 deltaTime)
+{
+    m_elapsedTime += deltaTime;
+
+    // TODO: 时间到了切换武器状态回
+    if (m_elapsedTime > m_lastingTime)
+    {
+        m_HeroObj->h_stopAttack();
+    }
+}
+
 IHitting::IHitting(IHero* heroObj):
     IState(heroObj)
 {
@@ -80,19 +109,34 @@ bool IHitting::isHitting()
     return true;
 }
 
+void IHitting::processFps(qint64 deltaTime)
+{
+    m_elapsedTime += deltaTime;
+}
+
 //
 CNormalHold::CNormalHold(IHero* heroObj):
     IHold(heroObj)
 {
 }
 
+QString CNormalHold::getName()
+{
+    return "NormalHold";
+}
+
+// change the state to normal attacking
 void CNormalHold::setAttack()
 {
+    IHold::setAttack();
     // TODO: set timer to quit attacking
+    // or fps?
+
+    // TODO: change the state of weapon to attacking
 
 
 
-    m_HeroObj->SetState(HEROSTATE::NORMAL_ATTACKING);
+    m_HeroObj->setState(HEROSTATE::NORMAL_ATTACKING);
 }
 
 CFlameHold::CFlameHold(IHero* heroObj):
@@ -100,14 +144,29 @@ CFlameHold::CFlameHold(IHero* heroObj):
 {
 }
 
+QString CFlameHold::getName()
+{
+    return "FlameHold";
+}
+
 CIceHold::CIceHold(IHero* heroObj):
     IHold(heroObj)
 {
 }
 
+QString CIceHold::getName()
+{
+    return "IceHold";
+}
+
 CElectroHold::CElectroHold(IHero* heroObj):
     IHold(heroObj)
 {
+}
+
+QString CElectroHold::getName()
+{
+    return "ElectroHold";
 }
 
 //
@@ -116,9 +175,39 @@ CNormalAttacking::CNormalAttacking(IHero* heroObj):
 {
 }
 
+QString CNormalAttacking::getName()
+{
+    return "NormalAttacking";
+}
+
+void CNormalAttacking::processFps(qint64 deltaTime)
+{
+    IAttacking::processFps(deltaTime);
+    if (m_elapsedTime > m_lastingTime)
+    {
+        m_HeroObj->setState(HEROSTATE::NORMAL_HOLD);
+        m_elapsedTime = 0;
+    }
+}
+
 CFlameAttacking::CFlameAttacking(IHero* heroObj):
     IAttacking(heroObj)
 {
+}
+
+QString CFlameAttacking::getName()
+{
+    return "FlameAttacking";
+}
+
+void CFlameAttacking::processFps(qint64 deltaTime)
+{
+    IAttacking::processFps(deltaTime);
+    if (m_elapsedTime > m_lastingTime)
+    {
+        m_HeroObj->setState(HEROSTATE::FLAME_HOLD);
+        m_elapsedTime = 0;
+    }
 }
 
 CIceAttacking::CIceAttacking(IHero* heroObj):
@@ -126,15 +215,60 @@ CIceAttacking::CIceAttacking(IHero* heroObj):
 {
 }
 
+QString CIceAttacking::getName()
+{
+    return "IceAttacking";
+}
+
+void CIceAttacking::processFps(qint64 deltaTime)
+{
+    IAttacking::processFps(deltaTime);
+    if (m_elapsedTime > m_lastingTime)
+    {
+        m_HeroObj->setState(HEROSTATE::ICE_HOLD);
+        m_elapsedTime = 0;
+    }
+}
+
 CElectroAttacking::CElectroAttacking(IHero* heroObj):
     IAttacking(heroObj)
 {
 }
 
-//
+QString CElectroAttacking::getName()
+{
+    return "ElectroAttacking";
+}
+
+void CElectroAttacking::processFps(qint64 deltaTime)
+{
+    IAttacking::processFps(deltaTime);
+    if (m_elapsedTime > m_lastingTime)
+    {
+        m_HeroObj->setState(HEROSTATE::ELECTRO_HOLD);
+        m_elapsedTime = 0;
+    }
+}
+
+// hitting
 CNormalHitting::CNormalHitting(IHero* heroObj):
     IHitting(heroObj)
 {
+}
+
+QString CNormalHitting::getName()
+{
+    return "NormalHitting";
+}
+
+void CNormalHitting::processFps(qint64 deltaTime)
+{
+    IHitting::processFps(deltaTime);
+    if (m_elapsedTime > m_lastingTime)
+    {
+        m_HeroObj->setState(HEROSTATE::NORMAL_HOLD);
+        m_elapsedTime = 0;
+    }
 }
 
 CFlameHitting::CFlameHitting(IHero* heroObj):
@@ -142,12 +276,57 @@ CFlameHitting::CFlameHitting(IHero* heroObj):
 {
 }
 
+QString CFlameHitting::getName()
+{
+    return "FlameHitting";
+}
+
+void CFlameHitting::processFps(qint64 deltaTime)
+{
+    IHitting::processFps(deltaTime);
+    if (m_elapsedTime > m_lastingTime)
+    {
+        m_HeroObj->setState(HEROSTATE::FLAME_HOLD);
+        m_elapsedTime = 0;
+    }
+}
+
 CIceHitting::CIceHitting(IHero* heroObj):
     IHitting(heroObj)
 {
 }
 
+QString CIceHitting::getName()
+{
+    return "IceHitting";
+}
+
+void CIceHitting::processFps(qint64 deltaTime)
+{
+    IHitting::processFps(deltaTime);
+    if (m_elapsedTime > m_lastingTime)
+    {
+        m_HeroObj->setState(HEROSTATE::ICE_HOLD);
+        m_elapsedTime = 0;
+    }
+}
+
 CElectroHitting::CElectroHitting(IHero* heroObj):
     IHitting(heroObj)
 {
+}
+
+QString CElectroHitting::getName()
+{
+    return "ElectroHitting";
+}
+
+void CElectroHitting::processFps(qint64 deltaTime)
+{
+    IHitting::processFps(deltaTime);
+    if (m_elapsedTime > m_lastingTime)
+    {
+        m_HeroObj->setState(HEROSTATE::ELECTRO_HOLD);
+        m_elapsedTime = 0;
+    }
 }

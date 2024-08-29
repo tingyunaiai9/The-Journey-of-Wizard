@@ -21,7 +21,7 @@ public:
     virtual void processPicking();
     virtual void processAttacking();
 
-    virtual void process_fps(qint64 deltaTime);
+    virtual void processFps(qint64 deltaTime);
 
 protected slots:
 

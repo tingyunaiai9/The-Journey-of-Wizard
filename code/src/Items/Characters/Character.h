@@ -2,6 +2,7 @@
 #define QT_PROGRAMMING_2024_CHARACTER_H
 
 #include <QGraphicsEllipseItem>
+#include "../Weapon.h"
 #include "../HeadEquipments/HeadEquipment.h"
 #include "../Armors/Armor.h"
 #include "../LegEquipments/LegEquipment.h"
@@ -20,16 +21,13 @@ private:
     bool m_lastPickDown{};
     bool m_picking{};
 
-    bool m_attackDown{};
-    bool m_lastAttackDown{};
-    bool m_attacking{};
-
 protected:
     HeadEquipment *headEquipment{};
     LegEquipment *legEquipment{};
     Armor *armor{};
 
     MeleeWeapon *m_meleeWeapon{};
+    Weapon *m_holdingWeapon{}; // the weapon character holding
 
     QPointF m_velocity{};
     QPointF m_acceleration{};
@@ -66,6 +64,8 @@ public:
 
     void setAttackDown();
     [[nodiscard]] bool isAttacking();
+    virtual void h_startAttack() override; // from IHero
+    virtual void h_stopAttack() override;
 
     void processInput();
 
@@ -74,7 +74,7 @@ public:
 public:
     virtual void key_press(QKeyEvent *event);
     virtual void key_release(QKeyEvent *event);
-    void process_fps(qint64 deltaTime);
+    void processFps(qint64 deltaTime);
 };
 
 
