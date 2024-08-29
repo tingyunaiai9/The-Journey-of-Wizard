@@ -151,7 +151,8 @@ void BattleScene::processMovement() {
         m_player1->setVelocity(m_player1->getVelocity() +
                                m_player1->getAcceleration() * (double) deltaTime);
 
-        if (isOnGround(m_player1))
+        // onground and not jumping
+        if (isOnGround(m_player1) && m_player1->getVelocity().y() >= 0)
         {
             m_player1->setAcceleration(QPointF(m_player1->getAcceleration().x(), 0));
             m_player1->setVelocity(QPointF(m_player1->getVelocity().x(), 0));
