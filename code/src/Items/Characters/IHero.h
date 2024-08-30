@@ -51,6 +51,7 @@ public:
     explicit IHold(IHero* heroObj);
 
     void setAttack() override;
+    void beHit(int damage, QString element) override;
 };
 
 class IAttacking : public IState

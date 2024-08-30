@@ -355,7 +355,6 @@ void BattleScene::generateRandomEquipment() {
 
     Mountable *newEquipment = CEquipmentFactory::NewEquipment(type, element);
 
-    // TODO: set a timer to remove the equipment
     if (newEquipment)
     {
         // generate at a random x position
@@ -413,9 +412,59 @@ void BattleScene::removeFromSpareEquipments(Mountable* equipment)
 void BattleScene::processAttacking()
 {
     Scene::processAttacking();
+
     if (m_player1->isAttacking())
     {
-        // Attack
+        Weapon* weapon = m_player1->getHoldingWeapon();
+        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
+        if (meleeWeapon)
+        {
+            bool facingRight = m_player1->isFacingRight();
+
+            // 计算攻击范围矩形
+            QRectF attackRange;
+            if (facingRight)
+            {
+                attackRange = QRectF(m_player1->pos().x(), m_player1->pos().y() - 24, 100, 48);
+            }
+            else
+            {
+                attackRange = QRectF(m_player1->pos().x() - meleeWeapon->getAttackDistance(), m_player1->pos().y(), meleeWeapon->getAttackDistance(), m_player1->boundingRect().height());
+            }
+
+            // 获取 Player2 的位置
+            QPointF player2Pos = m_player2->pos();
+
+            // 打印矩形的详细信息
+            qDebug() << "Attack Range:" << attackRange;
+            qDebug() << "Player2 Position:" << player2Pos;
+
+            // 使用 contains 进行位置检测
+            if (attackRange.contains(player2Pos))
+            {
+                m_player2->beHit(10, meleeWeapon->getElement());
+            }
+
+            // 绘制攻击范围矩形
+            QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);
+            attackRangeRect->setPen(QPen(Qt::red));
+            attackRangeRect->setBrush(Qt::NoBrush);
+            addItem(attackRangeRect);
+
+            // 绘制 Player2 的位置点
+            QGraphicsEllipseItem* player2Point = new QGraphicsEllipseItem(player2Pos.x() - 2, player2Pos.y() - 2, 4, 4);
+            player2Point->setPen(QPen(Qt::blue));
+            player2Point->setBrush(Qt::blue);
+            addItem(player2Point);
+
+            // 可选：在一段时间后自动移除这些绘制内容
+            QTimer::singleShot(1000, this, [this, attackRangeRect, player2Point]() {
+                removeItem(attackRangeRect);
+                removeItem(player2Point);
+                delete attackRangeRect;
+                delete player2Point;
+            });
+        }
     }
 }
 

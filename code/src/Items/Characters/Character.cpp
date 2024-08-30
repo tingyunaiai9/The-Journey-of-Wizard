@@ -233,6 +233,26 @@ void Character::h_stopAttack()
     m_holdingWeapon->stopAttack();
 }
 
+Weapon *Character::getHoldingWeapon()
+{
+    return m_holdingWeapon;
+}
+
+MeleeWeapon *Character::getMeleeWeapon()
+{
+    return m_meleeWeapon;
+}
+
+RangedWeapon *Character::getRangedWeapon()
+{
+    return m_rangedWeapon;
+}
+
+bool Character::isFacingRight() const
+{
+    return transform().m11() > 0;
+}
+
 // hit
 void Character::h_reduceHp(int damage)
 {

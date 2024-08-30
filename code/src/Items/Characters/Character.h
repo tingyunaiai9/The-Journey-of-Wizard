@@ -7,6 +7,7 @@
 #include "../Armors/Armor.h"
 #include "../LegEquipments/LegEquipment.h"
 #include "../MeleeWeapons/MeleeWeapon.h"
+#include "../RangedWeapons/RangedWeapon.h"
 #include "IHero.h"
 
 class Character : public Item, public IHero
@@ -29,7 +30,9 @@ protected:
     LegEquipment *legEquipment{};
     Armor *armor{};
 
+    // weapon
     MeleeWeapon *m_meleeWeapon{};
+    RangedWeapon *m_rangedWeapon{};
     Weapon *m_holdingWeapon{}; // the weapon character holding
 
     QPointF m_velocity{};
@@ -73,6 +76,12 @@ public:
     [[nodiscard]] bool isAttacking();
     virtual void h_startAttack() override; // from IHero
     virtual void h_stopAttack() override;
+
+    Weapon* getHoldingWeapon();
+    MeleeWeapon* getMeleeWeapon();
+    RangedWeapon* getRangedWeapon();
+
+    bool isFacingRight() const; // direction of the character
 
     void processInput();
 

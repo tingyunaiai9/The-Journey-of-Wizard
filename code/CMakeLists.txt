@@ -35,6 +35,9 @@ add_executable(qt_programming_2024 src/main.cpp
         src/Items/MeleeWeapons/OneHandedSword.cpp
         src/Items/MeleeWeapons/OneHandedSword.h
 
+        src/Items/RangedWeapons/RangedWeapon.cpp
+        src/Items/RangedWeapons/RangedWeapon.h
+
         src/Items/Characters/Character.cpp
         src/Items/Characters/Character.h
         src/Items/Characters/IHero.cpp

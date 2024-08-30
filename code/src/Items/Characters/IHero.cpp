@@ -82,6 +82,14 @@ void IHold::setAttack()
     m_HeroObj->h_startAttack();
 }
 
+void IHold::beHit(int damage, QString element)
+{
+    m_HeroObj->h_reduceHp(damage);
+    // TODO: override the function in the derived class to change element
+
+    m_HeroObj->setState(HEROSTATE::NORMAL_HITTING); // TODO: need to delete
+}
+
 IAttacking::IAttacking(IHero* heroObj):
     IState(heroObj)
 {

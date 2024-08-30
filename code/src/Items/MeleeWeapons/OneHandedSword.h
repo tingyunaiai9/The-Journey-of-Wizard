@@ -5,6 +5,10 @@
 
 class OneHandedSword : public MeleeWeapon
 {
+protected:
+    int m_attackDistance = 50;
+    int m_damage = 5;
+
 public:
     explicit OneHandedSword(QGraphicsItem *parent, const QString &pixmapPath);
 
@@ -16,12 +20,18 @@ public:
 
 class WoodenOneHandedSword : public OneHandedSword
 {
+protected:
+    QString m_element = "Normal";
+
 public:
     explicit WoodenOneHandedSword(QGraphicsItem *parent);
 };
 
 class MetalOneHandedSword : public OneHandedSword
 {
+protected:
+    QString m_element = "Normal"; // TODO: ? Maybe metal to contain different elements
+
 public:
     explicit MetalOneHandedSword(QGraphicsItem *parent);
 };
