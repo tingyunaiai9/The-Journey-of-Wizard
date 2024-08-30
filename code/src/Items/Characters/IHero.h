@@ -44,6 +44,7 @@ public:
 };
 
 // only beHit while holding
+// only start attack while holding
 class IHold : public IState
 {
 public:
@@ -94,8 +95,11 @@ protected:
 
 public:
     void setState(HEROSTATE stateType);
-    virtual void h_startAttack();
+
+    virtual void h_startAttack(); // implement in Character
     virtual void h_stopAttack();
+
+    virtual void h_reduceHp(int damage);
 };
 
 

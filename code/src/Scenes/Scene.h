@@ -22,6 +22,7 @@ public:
     virtual void processAttacking();
 
     virtual void processFps(qint64 deltaTime);
+    virtual void processHp();
 
 protected slots:
 

@@ -419,7 +419,7 @@ void BattleScene::processAttacking()
     }
 }
 
-//
+// fps
 void BattleScene::processFps(qint64 deltaTime)
 {
     if (m_player1 != nullptr) {
@@ -428,5 +428,19 @@ void BattleScene::processFps(qint64 deltaTime)
 
     if (m_player2 != nullptr) {
         m_player2->processFps(deltaTime);
+    }
+}
+
+// update hp
+void BattleScene::processHp()
+{
+    if (m_player1 != nullptr)
+    {
+        m_bar1->setValue(m_player1->getHp());
+    }
+
+    if (m_player2 != nullptr)
+    {
+        m_bar2->setValue(m_player2->getHp());
     }
 }

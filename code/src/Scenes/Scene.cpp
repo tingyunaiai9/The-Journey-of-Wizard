@@ -20,6 +20,8 @@ void Scene::update() {
 
     // add for hero handle fps by self
     processFps(deltaTime);
+
+    processHp();
 }
 
 void Scene::startLoop() {
@@ -43,5 +45,9 @@ void Scene::processAttacking() {
 }
 
 void Scene::processFps(qint64 deltaTime) {
+
+}
+
+void Scene::processHp() {
 
 }

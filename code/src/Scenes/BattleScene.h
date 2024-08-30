@@ -51,6 +51,7 @@ public:
     void processAttacking() override;
 
     void processFps(qint64 deltaTime) override;
+    void processHp() override;
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;

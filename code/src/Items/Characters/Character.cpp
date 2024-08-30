@@ -179,14 +179,6 @@ LegEquipment *Character::pickupLegEquipment(LegEquipment *newLegEquipment) {
     return oldLegEquipment;
 }
 
-void Character::beHit(int damage, QString element)
-{
-    IState* state_obj = nullptr;
-    state_obj = getStateObj();
-
-    state_obj->beHit(damage, element);
-}
-
 void Character::key_press(QKeyEvent *event)
 {}
 
@@ -239,4 +231,23 @@ void Character::h_startAttack()
 void Character::h_stopAttack()
 {
     m_holdingWeapon->stopAttack();
+}
+
+// hit
+void Character::h_reduceHp(int damage)
+{
+    m_hp -= damage;
+}
+
+int Character::getHp() const
+{
+    return m_hp;
+}
+
+void Character::beHit(int damage, QString element)
+{
+    IState* state_obj = nullptr;
+    state_obj = getStateObj();
+
+    state_obj->beHit(damage, element);
 }

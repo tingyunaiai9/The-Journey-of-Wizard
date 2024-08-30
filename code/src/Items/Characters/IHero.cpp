@@ -66,7 +66,11 @@ void IHero::h_stopAttack()
 {
 }
 
-//
+void IHero::h_reduceHp(int damage)
+{
+}
+
+// IHode, IAttacking, IHitting
 IHold::IHold(IHero* heroObj):
     IState(heroObj)
 {
@@ -114,7 +118,7 @@ void IHitting::processFps(qint64 deltaTime)
     m_elapsedTime += deltaTime;
 }
 
-//
+// hold
 CNormalHold::CNormalHold(IHero* heroObj):
     IHold(heroObj)
 {
@@ -169,7 +173,7 @@ QString CElectroHold::getName()
     return "ElectroHold";
 }
 
-//
+// attacking
 CNormalAttacking::CNormalAttacking(IHero* heroObj):
     IAttacking(heroObj)
 {

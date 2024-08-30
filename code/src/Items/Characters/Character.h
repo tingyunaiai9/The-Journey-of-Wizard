@@ -35,6 +35,8 @@ protected:
     QPointF m_velocity{};
     QPointF m_acceleration{};
 
+    int m_hp = 100;
+
 public:
     explicit Character(QGraphicsItem *parent, const QString &pixmapPath);
 
@@ -75,6 +77,9 @@ public:
     void processInput();
 
     void beHit(int damage, QString element);
+
+    virtual void h_reduceHp(int damage) override;
+    int getHp() const;
 
 public:
     virtual void key_press(QKeyEvent *event);
