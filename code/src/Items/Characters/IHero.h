@@ -80,7 +80,8 @@ public:
     virtual void processFps(qint64 deltaTime) override;
 };
 
-class IHero{
+class IHero: public QObject
+{
 private:
     HEROSTATE m_State;
     QMap<HEROSTATE, IState*> m_StateMap;

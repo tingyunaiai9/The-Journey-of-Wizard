@@ -15,6 +15,7 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     // This is useful if you want the scene to have the exact same dimensions as the view
     setSceneRect(0, 0, 1280, 720);
 
+    // init maps
     m_battlefield = new Battlefield();
     m_maps.append(m_battlefield);
     m_maps.append(new WoodPlatform());
@@ -23,6 +24,7 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     m_maps.append(new RockPlatform());
     m_maps.append(new MetalPlatform());
 
+    // init players
     m_player1 = new CPlayer1();
     m_player2 = new CPlayer2();
 
@@ -36,6 +38,43 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     m_battlefield->scaleToFitScene(this);
     m_player1->setPos(m_battlefield->getSpawnPos(0.2));
     m_player2->setPos(m_battlefield->getSpawnPos(0.8));
+
+    // init lifebar
+    m_bar1 = new QProgressBar();
+    m_bar1->setTextVisible(false);
+    m_bar1->setRange(0, 100);
+    m_bar1->setValue(50);
+    m_bar1->setStyleSheet(
+        "QProgressBar {"
+        "    background-color: transparent;"
+        "    border: 2px solid white;"  // white border 2px
+        "    border-radius: 5px;"        // border radius 5px
+        "}"
+        "QProgressBar::chunk {"
+        "    background-color: red;"
+        "}");
+
+    m_bar2 = new QProgressBar();
+    m_bar2->setTextVisible(false);
+    m_bar2->setRange(0, 100);
+    m_bar2->setValue(80);
+    m_bar2->setInvertedAppearance(true);
+    m_bar2->setAttribute(Qt::WA_StaticContents, true);
+    m_bar2->setStyleSheet(
+        "QProgressBar {"
+        "    background-color: transparent;"
+        "    border: 2px solid white;"  // white border 2px
+        "    border-radius: 5px;"        // border radius 5px
+        "}"
+        "QProgressBar::chunk {"
+        "    background-color: red;"
+        "}");
+
+    QGraphicsProxyWidget *proxy = nullptr;
+    proxy = addWidget(m_bar1);
+    proxy->setPos(100, 100);
+    proxy = addWidget(m_bar2);
+    proxy->setPos(980, 100); // 设置位置
 
     // generate equipment
     equipmentDropTimer = new QTimer(this);

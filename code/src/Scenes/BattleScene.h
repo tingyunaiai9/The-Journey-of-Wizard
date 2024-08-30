@@ -11,6 +11,8 @@
 #include <QKeyEvent>
 #include <QVector>
 #include <QTimer>
+#include <QProgressBar>
+#include <QGraphicsProxyWidget>
 
 class BattleScene : public Scene
 {
@@ -23,6 +25,8 @@ private:
     Character *m_player1;
     Character *m_player2;
 
+    QProgressBar * m_bar1;
+    QProgressBar * m_bar2;
     // Armor *spareArmor;
     // HeadEquipment *spareHeadEquipment;
     // LegEquipment *spareLegEquipment;
