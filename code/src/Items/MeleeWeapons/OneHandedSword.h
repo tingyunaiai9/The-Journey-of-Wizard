@@ -5,10 +5,6 @@
 
 class OneHandedSword : public MeleeWeapon
 {
-protected:
-    int m_attackDistance = 50;
-    int m_damage = 5;
-
 public:
     explicit OneHandedSword(QGraphicsItem *parent, const QString &pixmapPath);
 
@@ -16,24 +12,26 @@ public:
 
     void startAttack() override;
     void stopAttack() override;
+
+    [[nodiscard]] virtual int getAttackDistance() const override { return 100;}
+    [[nodiscard]] virtual int getDamage() const override { return 5; }
 };
 
 class WoodenOneHandedSword : public OneHandedSword
 {
-protected:
-    QString m_element = "Normal";
-
 public:
     explicit WoodenOneHandedSword(QGraphicsItem *parent);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Normal"; }
 };
 
 class MetalOneHandedSword : public OneHandedSword
 {
-protected:
-    QString m_element = "Normal"; // TODO: ? Maybe metal to contain different elements
-
 public:
     explicit MetalOneHandedSword(QGraphicsItem *parent);
+
+    // TODO: ? Maybe metal to contain different elements
+    [[nodiscard]] virtual QString getElement() const override { return "Normal"; }
 };
 
 #endif //QT_PROGRAMMING_2024_ONEHANDEDSWORD_H

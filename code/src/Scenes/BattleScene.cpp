@@ -40,7 +40,6 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     m_player2->setPos(m_battlefield->getSpawnPos(0.8));
 
     // init lifebar
-    // TODO: connect lifebar with life
     m_bar1 = new QProgressBar();
     m_bar1->setTextVisible(false);
     m_bar1->setRange(0, 100);
@@ -421,28 +420,27 @@ void BattleScene::processAttacking()
         {
             bool facingRight = m_player1->isFacingRight();
 
-            // 计算攻击范围矩形
+            // calculate the attack rectangle
             QRectF attackRange;
             if (facingRight)
             {
-                attackRange = QRectF(m_player1->pos().x(), m_player1->pos().y() - 24, 100, 48);
+                attackRange = QRectF(m_player1->pos().x(), m_player1->pos().y() - 24, meleeWeapon->getAttackDistance(), 48);
             }
             else
             {
-                attackRange = QRectF(m_player1->pos().x() - meleeWeapon->getAttackDistance(), m_player1->pos().y(), meleeWeapon->getAttackDistance(), m_player1->boundingRect().height());
+                attackRange = QRectF(m_player1->pos().x() - meleeWeapon->getAttackDistance(), m_player1->pos().y() - 24, meleeWeapon->getAttackDistance(), 48);
             }
 
-            // 获取 Player2 的位置
             QPointF player2Pos = m_player2->pos();
 
             // 打印矩形的详细信息
             qDebug() << "Attack Range:" << attackRange;
             qDebug() << "Player2 Position:" << player2Pos;
 
-            // 使用 contains 进行位置检测
+            // the rectangle contains the point?
             if (attackRange.contains(player2Pos))
             {
-                m_player2->beHit(10, meleeWeapon->getElement());
+                m_player2->beHit(meleeWeapon->getDamage(), meleeWeapon->getElement());
             }
 
             // 绘制攻击范围矩形
@@ -458,7 +456,7 @@ void BattleScene::processAttacking()
             addItem(player2Point);
 
             // 可选：在一段时间后自动移除这些绘制内容
-            QTimer::singleShot(1000, this, [this, attackRangeRect, player2Point]() {
+            QTimer::singleShot(100, this, [this, attackRangeRect, player2Point]() {
                 removeItem(attackRangeRect);
                 removeItem(player2Point);
                 delete attackRangeRect;
