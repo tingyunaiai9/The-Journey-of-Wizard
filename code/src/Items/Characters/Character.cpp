@@ -16,6 +16,7 @@ Character::Character(QGraphicsItem *parent, const QString &pixmapPath) :
         pixmapItem->setPos(-16, 0);
     }
 
+    // init 12 states
     addState(NORMAL_HOLD, new CNormalHold(this));
     addState(FLAME_HOLD, new CFlameHold(this));
     addState(ICE_HOLD, new CIceHold(this));
@@ -117,15 +118,11 @@ void Character::processInput() {
         // velocity.setY(velocity.y() + jumpSpeed);
         velocity.setY(jumpSpeed);
     }
-    // else if (!isOnGround())
-    // {
-    //     acceleration.setY(Item::GRAVITY.y());
-    // }
     setVelocity(velocity);
     // setAcceleration(acceleration);
 
-    if (!m_lastPickDown && m_pickDown)
-    { // first time pickDown
+    if (!m_lastPickDown && m_pickDown) // first time pickDown
+    {
         m_picking = true;
     }
     else
@@ -133,6 +130,13 @@ void Character::processInput() {
         m_picking = false;
     }
     m_lastPickDown = m_pickDown;
+
+    // attack
+    if (!m_lastAttackDown && m_attackDown) // first time attackDown
+    {
+        setAttack(); // change state to attack
+    }
+    m_lastAttackDown = m_attackDown;
 
 }
 
@@ -199,7 +203,12 @@ void Character::processFps(qint64 deltaTime)
 
 
 // attack
-void Character::setAttackDown()
+void Character::setAttackDown(bool attackDown)
+{
+    m_attackDown = attackDown;
+}
+
+void Character::setAttack()
 {
     // check whether the character is holding a weapon
     if (m_holdingWeapon == nullptr)

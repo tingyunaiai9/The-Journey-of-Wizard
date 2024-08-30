@@ -1,6 +1,3 @@
-//
-// Created by gerw on 8/20/24.
-//
 #include "MyGame.h"
 #include "Scenes/BattleScene.h"
 

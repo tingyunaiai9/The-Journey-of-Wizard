@@ -21,6 +21,9 @@ private:
     bool m_lastPickDown{};
     bool m_picking{};
 
+    bool m_attackDown{};
+    bool m_lastAttackDown{};
+
 protected:
     HeadEquipment *headEquipment{};
     LegEquipment *legEquipment{};
@@ -62,7 +65,9 @@ public:
     HeadEquipment* pickupHeadEquipment(HeadEquipment* newHeadEquipment);
     LegEquipment* pickupLegEquipment(LegEquipment* newLegEquipment);
 
-    void setAttackDown();
+    // attack
+    void setAttackDown(bool attackDown);
+    void setAttack();
     [[nodiscard]] bool isAttacking();
     virtual void h_startAttack() override; // from IHero
     virtual void h_stopAttack() override;

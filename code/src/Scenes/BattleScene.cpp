@@ -40,6 +40,7 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     m_player2->setPos(m_battlefield->getSpawnPos(0.8));
 
     // init lifebar
+    // TODO: connect lifebar with life
     m_bar1 = new QProgressBar();
     m_bar1->setTextVisible(false);
     m_bar1->setRange(0, 100);
@@ -113,7 +114,7 @@ void BattleScene::keyPressEvent(QKeyEvent *event) {
             break;
         case Qt::Key_K: // attack
             if (m_player1 != nullptr) {
-                m_player1->setAttackDown();
+                m_player1->setAttackDown(true);
             }
             break;
         default:
@@ -155,6 +156,7 @@ void BattleScene::keyReleaseEvent(QKeyEvent *event) {
         case Qt::Key_K: // release attack
             if (m_player1 != nullptr)
             {
+                m_player1->setAttackDown(false);
             }
             break;
         default:
