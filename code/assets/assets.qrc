@@ -26,5 +26,9 @@
         <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_flame.png</file>
         <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_ice.png</file>
         <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_wooden.png</file>
+        <file>Items/MeleeWeapons/Spear/spear_electro.png</file>
+        <file>Items/MeleeWeapons/Spear/spear_flame.png</file>
+        <file>Items/MeleeWeapons/Spear/spear_ice.png</file>
+        <file>Items/MeleeWeapons/Spear/spear_wooden.png</file>
     </qresource>
 </RCC>

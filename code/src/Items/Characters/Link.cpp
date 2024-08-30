@@ -1,22 +1,13 @@
-#include <memory>
 #include "Link.h"
 #include "../HeadEquipments/BlackHat.h"
-#include "../HeadEquipments/FlamebreakerHat.h"
-#include "../HeadEquipments/IcebreakerHat.h"
-#include "../HeadEquipments/ElectrobreakerHat.h"
 
 #include "../Armors/BlackWizardRobe.h"
-#include "../Armors/FlamebreakerArmor.h"
-#include "../Armors/IcebreakerArmor.h"
-#include "../Armors/ElectrobreakerArmor.h"
 
 #include "../LegEquipments/BlackShoes.h"
-#include "../LegEquipments/FlamebreakerShoes.h"
-#include "../LegEquipments/IcebreakerShoes.h"
-#include "../LegEquipments/ElectrobreakerShoes.h"
 
 #include "../MeleeWeapons/OneHandedSword.h"
 #include "../MeleeWeapons/TwoHandedSword.h"
+#include "../MeleeWeapons/Spear.h"
 
 Link::Link(QGraphicsItem *parent, const QString &pixmapPath) :
     Character(parent, pixmapPath)
@@ -36,8 +27,7 @@ Link::Link(QGraphicsItem *parent, const QString &pixmapPath) :
     // armor = new IcebreakerArmor(this);
     // armor = new ElectrobreakerArmor(this);
 
-    // m_meleeWeapon = new ElectroOneHandedSword(this);
-    m_meleeWeapon = new ElectroTwoHandedSword(this);
+    m_meleeWeapon = new ElectroSpear(this);
     m_holdingWeapon = m_meleeWeapon;
 
     headEquipment->mountToParent();
