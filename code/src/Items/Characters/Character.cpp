@@ -179,6 +179,31 @@ LegEquipment *Character::pickupLegEquipment(LegEquipment *newLegEquipment) {
     return oldLegEquipment;
 }
 
+MeleeWeapon *Character::pickupMeleeWeapon(MeleeWeapon *newMeleeWeapon)
+{
+    // TODO: can not pick if already have one
+    auto oldMeleeWeapon = m_meleeWeapon;
+
+    if (oldMeleeWeapon != nullptr) {
+        oldMeleeWeapon->unequip();
+        oldMeleeWeapon->setPos(newMeleeWeapon->pos());
+        oldMeleeWeapon->setParentItem(parentItem());
+    }
+
+    newMeleeWeapon->setParentItem(this);
+    newMeleeWeapon->equipToParent();
+    m_meleeWeapon = newMeleeWeapon;
+    m_holdingWeapon = m_meleeWeapon;
+    return oldMeleeWeapon;
+}
+
+RangedWeapon *Character::pickupRangedWeapon(RangedWeapon *newRangedWeapon)
+{
+    // TODO: complete
+
+    return nullptr;
+}
+
 void Character::key_press(QKeyEvent *event)
 {}
 

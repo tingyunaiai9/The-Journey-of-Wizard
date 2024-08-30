@@ -14,6 +14,14 @@ void OneHandedSword::equipToParent() {
     }
 }
 
+void OneHandedSword::unequip() {
+    MeleeWeapon::unequip();
+    setScale(4);
+    if (pixmapItem != nullptr) {
+        pixmapItem->setPos(0, 15);
+    }
+}
+
 void OneHandedSword::startAttack() {
     MeleeWeapon::startAttack();
 

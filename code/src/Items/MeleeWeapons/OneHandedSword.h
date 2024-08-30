@@ -9,6 +9,7 @@ public:
     explicit OneHandedSword(QGraphicsItem *parent, const QString &pixmapPath);
 
     void equipToParent() override;
+    void unequip() override;
 
     void startAttack() override;
     void stopAttack() override;
@@ -20,7 +21,7 @@ public:
 class WoodenOneHandedSword : public OneHandedSword
 {
 public:
-    explicit WoodenOneHandedSword(QGraphicsItem *parent);
+    explicit WoodenOneHandedSword(QGraphicsItem *parent = nullptr);
 
     [[nodiscard]] virtual QString getElement() const override { return "Normal"; }
 };
@@ -28,7 +29,7 @@ public:
 class MetalOneHandedSword : public OneHandedSword
 {
 public:
-    explicit MetalOneHandedSword(QGraphicsItem *parent);
+    explicit MetalOneHandedSword(QGraphicsItem *parent = nullptr);
 
     // TODO: ? Maybe metal to contain different elements
     [[nodiscard]] virtual QString getElement() const override { return "Normal"; }

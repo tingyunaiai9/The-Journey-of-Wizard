@@ -4,9 +4,8 @@
 #include "Scene.h"
 #include "../Items/Maps/Map.h"
 #include "../Items/Characters/Character.h"
-#include "../Items/Armors/Armor.h"
-#include "../Items/HeadEquipments/HeadEquipment.h"
-#include "../Items/LegEquipments/LegEquipment.h"
+#include "../Items/Mountable.h"
+#include "../Items/Weapon.h"
 
 #include <QKeyEvent>
 #include <QVector>
@@ -27,12 +26,13 @@ private:
 
     QProgressBar * m_bar1;
     QProgressBar * m_bar2;
-    // Armor *spareArmor;
-    // HeadEquipment *spareHeadEquipment;
-    // LegEquipment *spareLegEquipment;
 
     QVector<Mountable*> m_spareEquipments;
     QMap<Mountable*, QTimer*> m_spareEquipmentTimers; // timers for spare equipment to disappear
+
+    Weapon* m_spareWeapon;
+    QVector<Weapon*> m_spareWeapons;
+    QMap<Weapon*, QTimer*> m_spareWeaponTimers; // timers for spare melee weapons to disappear
 
     QTimer *equipmentDropTimer; // time to drop equipment
 
@@ -63,11 +63,17 @@ private:
     Mountable *findNearestUnmountedMountable(const QPointF &pos, qreal distance_threshold = std::numeric_limits<qreal>::max());
     Mountable * pickupMountable(Character *player, Mountable *mountable);
 
+    Weapon *findNearestWeapon(const QPointF &pos, qreal distance_threshold = std::numeric_limits<qreal>::max());
+    Weapon *pickupWeapon(Character *player, Weapon *weapon);
+
     Map *findNearestMap(const QPointF &pos);
     bool isOnGround(Item *item);
 
     void addToSpareEquipments(Mountable* equipment);
     void removeFromSpareEquipments(Mountable* equipment);
+
+    void addToSpareWeapons(Weapon* weapon);
+    void removeFromSpareWeapons(Weapon* weapon);
 };
 
 

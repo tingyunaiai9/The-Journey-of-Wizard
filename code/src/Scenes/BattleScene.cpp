@@ -9,6 +9,8 @@
 #include "../Items/Maps/RockPlatform.h"
 #include "../Items/Maps/MetalPlatform.h"
 
+#include "../Items/MeleeWeapons/OneHandedSword.h"
+
 #include <QDebug>
 
 BattleScene::BattleScene(QObject *parent) : Scene(parent) {
@@ -80,6 +82,12 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     equipmentDropTimer = new QTimer(this);
     connect(equipmentDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomEquipment);
     equipmentDropTimer->start(10000); // 10s
+
+    m_spareWeapon = new WoodenOneHandedSword();
+    addItem(m_spareWeapon);
+    m_spareWeapon->unequip();
+    m_spareWeapon->setPos(m_battlefield->getSpawnPos(0.5));
+    addToSpareWeapons(m_spareWeapon);
 }
 
 void BattleScene::processInput() {
@@ -270,22 +278,13 @@ void BattleScene::processPicking()
         auto mountable = findNearestUnmountedMountable(m_player1->pos(), 100.);
         if (mountable != nullptr)
         {
-            auto picked = pickupMountable(m_player1, mountable);
-            // if (picked != nullptr)
-            // {
-            //     if (auto armor = dynamic_cast<Armor *>(picked))
-            //     {
-            //         spareArmor = armor;
-            //     }
-            //     else if (auto headEquipment = dynamic_cast<HeadEquipment *>(picked))
-            //     {
-            //         spareHeadEquipment = headEquipment;
-            //     }
-            //     else if (auto legEquipment = dynamic_cast<LegEquipment *>(picked))
-            //     {
-            //         spareLegEquipment = legEquipment;
-            //     }
-            // }
+            pickupMountable(m_player1, mountable);
+        }
+
+        auto weapon = findNearestWeapon(m_player1->pos(), 100.);
+        if (weapon != nullptr)
+        {
+            pickupWeapon(m_player1, weapon);
         }
     }
 }
@@ -294,19 +293,13 @@ Mountable *BattleScene::findNearestUnmountedMountable(const QPointF &pos, qreal 
     Mountable *nearest = nullptr;
     qreal minDistance = distance_threshold;
 
-    for (QGraphicsItem *item: items())
+    for (auto equipment : m_spareEquipments)
     {
-        if (auto mountable = dynamic_cast<Mountable *>(item))
+        qreal distance = QLineF(pos, equipment->pos()).length();
+        if (distance < minDistance)
         {
-            if (!mountable->isMounted())
-            {
-                qreal distance = QLineF(pos, item->pos()).length();
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    nearest = mountable;
-                }
-            }
+            minDistance = distance;
+            nearest = equipment;
         }
     }
 
@@ -342,6 +335,50 @@ Mountable* BattleScene::pickupMountable(Character* player, Mountable* mountable)
     }
 
     return previousMountable;
+}
+
+Weapon *BattleScene::findNearestWeapon(const QPointF &pos, qreal distance_threshold)
+{
+    Weapon *nearest = nullptr;
+    qreal minDistance = distance_threshold;
+
+    for (auto weapon : m_spareWeapons)
+    {
+        qreal distance = QLineF(pos, weapon->pos()).length();
+        if (distance < minDistance)
+        {
+            minDistance = distance;
+            nearest = weapon;
+        }
+    }
+
+    return nearest;
+}
+
+Weapon *BattleScene::pickupWeapon(Character *player, Weapon *weapon)
+{
+    Weapon *previousWeapon = nullptr;
+
+    if (auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon))
+    {
+        previousWeapon = player->pickupMeleeWeapon(meleeWeapon);
+    }
+    else if (auto rangedWeapon = dynamic_cast<RangedWeapon *>(weapon))
+    {
+        previousWeapon = player->pickupRangedWeapon(rangedWeapon);
+    }
+
+    if (weapon)
+    {
+        removeFromSpareWeapons(weapon);
+    }
+
+    if (previousWeapon)
+    {
+        addToSpareWeapons(previousWeapon);
+    }
+
+    return previousWeapon;
 }
 
 // drop item
@@ -407,6 +444,45 @@ void BattleScene::removeFromSpareEquipments(Mountable* equipment)
     }
 }
 
+void BattleScene::addToSpareWeapons(Weapon *weapon)
+{
+    m_spareWeapons.append(weapon);
+
+    // add a timer to remove the weapon
+    QTimer *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, [this, weapon]() {
+        if (m_spareWeapons.contains(weapon))
+        {
+            removeItem(weapon);  // remove from scene
+            m_spareWeapons.removeOne(weapon);  // remove from spare weapons
+            m_spareWeaponTimers.remove(weapon);  // remove timer
+            delete weapon;
+        }
+    });
+
+    timer->setSingleShot(true);  // only once
+    timer->start(20000);  // 20s
+
+    // map timer to weapon
+    m_spareWeaponTimers.insert(weapon, timer);
+}
+
+void BattleScene::removeFromSpareWeapons(Weapon *weapon)
+{
+    m_spareWeapons.removeOne(weapon);
+
+    // if there is a timer for the weapon, remove it
+    if (m_spareWeaponTimers.contains(weapon))
+    {
+        QTimer *timer = m_spareWeaponTimers.take(weapon);
+        if (timer)
+        {
+            timer->stop();
+            delete timer;
+        }
+    }
+}
+
 // attack
 void BattleScene::processAttacking()
 {
@@ -416,6 +492,7 @@ void BattleScene::processAttacking()
     {
         Weapon* weapon = m_player1->getHoldingWeapon();
         auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
+
         if (meleeWeapon)
         {
             bool facingRight = m_player1->isFacingRight();
@@ -463,6 +540,8 @@ void BattleScene::processAttacking()
                 delete player2Point;
             });
         }
+
+        // TODO: RangedWeapons
     }
 }
 

@@ -70,6 +70,9 @@ public:
     HeadEquipment* pickupHeadEquipment(HeadEquipment* newHeadEquipment);
     LegEquipment* pickupLegEquipment(LegEquipment* newLegEquipment);
 
+    MeleeWeapon* pickupMeleeWeapon(MeleeWeapon* newMeleeWeapon);
+    RangedWeapon* pickupRangedWeapon(RangedWeapon* newRangedWeapon);
+
     // attack
     void setAttackDown(bool attackDown);
     void setAttack();
