@@ -8,7 +8,10 @@ class MeleeWeapon : public Weapon
 public:
     explicit MeleeWeapon(QGraphicsItem *parent, const QString &pixmapPath);
 
-    [[nodiscard]] virtual int getAttackDistance() const = 0;
+    [[nodiscard]] virtual int getAttackForwardDistance() const = 0;
+
+    [[nodiscard]] virtual int getAttackBackwardDistance() const = 0;
+
     [[nodiscard]] virtual int getDamage() const = 0;
 
     [[nodiscard]] virtual QString getElement() const = 0;

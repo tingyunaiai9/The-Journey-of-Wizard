@@ -14,7 +14,8 @@ public:
     void startAttack() override;
     void stopAttack() override;
 
-    [[nodiscard]] virtual int getAttackDistance() const override { return 100;}
+    [[nodiscard]] virtual int getAttackForwardDistance() const override { return 100;}
+    [[nodiscard]] virtual int getAttackBackwardDistance() const override { return 0; }
     [[nodiscard]] virtual int getDamage() const override { return 5; }
 };
 

@@ -61,7 +61,7 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     m_bar2->setRange(0, 100);
     m_bar2->setValue(80);
     m_bar2->setInvertedAppearance(true);
-    m_bar2->setAttribute(Qt::WA_StaticContents, true);
+    // m_bar2->setAttribute(Qt::WA_StaticContents, true);
     m_bar2->setStyleSheet(
         "QProgressBar {"
         "    background-color: transparent;"
@@ -501,11 +501,17 @@ void BattleScene::processAttacking()
             QRectF attackRange;
             if (facingRight)
             {
-                attackRange = QRectF(m_player1->pos().x(), m_player1->pos().y() - 24, meleeWeapon->getAttackDistance(), 48);
+                attackRange = QRectF(m_player1->pos().x() - meleeWeapon->getAttackBackwardDistance(),
+                                     m_player1->pos().y() - 24,
+                                     meleeWeapon->getAttackForwardDistance() + meleeWeapon->getAttackBackwardDistance(),
+                                     48);
             }
             else
             {
-                attackRange = QRectF(m_player1->pos().x() - meleeWeapon->getAttackDistance(), m_player1->pos().y() - 24, meleeWeapon->getAttackDistance(), 48);
+                attackRange = QRectF(m_player1->pos().x() - meleeWeapon->getAttackForwardDistance() - meleeWeapon->getAttackBackwardDistance(),
+                                     m_player1->pos().y() - 24,
+                                     meleeWeapon->getAttackForwardDistance() + meleeWeapon->getAttackBackwardDistance(),
+                                     48);
             }
 
             QPointF player2Pos = m_player2->pos();

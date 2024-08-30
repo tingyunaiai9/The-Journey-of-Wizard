@@ -1,6 +1,8 @@
 #include "Character.h"
+#include "../MeleeWeapons/TwoHandedSword.h"
 
 #include <QTransform>
+#include <QTimer>
 
 Character::Character(QGraphicsItem *parent, const QString &pixmapPath) :
     Item(parent, pixmapPath)
@@ -134,7 +136,16 @@ void Character::processInput() {
     // attack
     if (!m_lastAttackDown && m_attackDown) // first time attackDown
     {
-        setAttack(); // change state to attack
+        TwoHandedSword* twoHandedSword = dynamic_cast<TwoHandedSword*>(m_meleeWeapon);
+        if (twoHandedSword == nullptr)
+        {
+            setAttack(); // change state to attack
+        }
+        else // 双手剑按下攻击按键后间隔一段时间才开始攻击
+        {
+            QTimer::singleShot(twoHandedSword->getDelayTime(), this, &Character::setAttack);
+        }
+
     }
     m_lastAttackDown = m_attackDown;
 
