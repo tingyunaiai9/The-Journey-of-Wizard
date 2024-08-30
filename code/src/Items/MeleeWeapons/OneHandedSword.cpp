@@ -47,7 +47,17 @@ WoodenOneHandedSword::WoodenOneHandedSword(QGraphicsItem *parent) :
 {
 }
 
-MetalOneHandedSword::MetalOneHandedSword(QGraphicsItem *parent) :
-    OneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_metal.png")
+FlameOneHandedSword::FlameOneHandedSword(QGraphicsItem *parent) :
+    OneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_flame.png")
+{
+}
+
+IceOneHandedSword::IceOneHandedSword(QGraphicsItem *parent) :
+    OneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_ice.png")
+{
+}
+
+ElectroOneHandedSword::ElectroOneHandedSword(QGraphicsItem *parent) :
+    OneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_electro.png")
 {
 }

@@ -26,13 +26,28 @@ public:
     [[nodiscard]] virtual QString getElement() const override { return "Normal"; }
 };
 
-class MetalOneHandedSword : public OneHandedSword
+class FlameOneHandedSword : public OneHandedSword
 {
 public:
-    explicit MetalOneHandedSword(QGraphicsItem *parent = nullptr);
+    explicit FlameOneHandedSword(QGraphicsItem *parent = nullptr);
 
-    // TODO: ? Maybe metal to contain different elements
-    [[nodiscard]] virtual QString getElement() const override { return "Normal"; }
+    [[nodiscard]] virtual QString getElement() const override { return "Flame"; }
+};
+
+class IceOneHandedSword : public OneHandedSword
+{
+public:
+    explicit IceOneHandedSword(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Ice"; }
+};
+
+class ElectroOneHandedSword : public OneHandedSword
+{
+public:
+    explicit ElectroOneHandedSword(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Electro"; }
 };
 
 #endif //QT_PROGRAMMING_2024_ONEHANDEDSWORD_H
