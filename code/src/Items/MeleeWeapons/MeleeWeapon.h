@@ -15,6 +15,8 @@ public:
     [[nodiscard]] virtual int getDamage() const = 0;
 
     [[nodiscard]] virtual QString getElement() const = 0;
+
+    void shoot(bool isFacingRight = true, QPointF velocity = {1, 0}) override;
 };
 
 #endif //QT_PROGRAMMING_2024_MELEEWEAPON_H

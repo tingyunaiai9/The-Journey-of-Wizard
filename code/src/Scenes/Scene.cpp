@@ -18,6 +18,7 @@ void Scene::update() {
     processMovement();
     processPicking();
     processAttacking();
+    processShooting();
 
     // add for hero handle fps by self
     processFps(deltaTime);
@@ -42,6 +43,10 @@ void Scene::processPicking() {
 }
 
 void Scene::processAttacking() {
+
+}
+
+void Scene::processShooting() {
 
 }
 

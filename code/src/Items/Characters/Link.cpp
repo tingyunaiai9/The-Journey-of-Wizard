@@ -68,6 +68,9 @@ void CPlayer1::key_press(QKeyEvent *event)
         case Qt::Key_K: // attack
             setAttackDown(true);
             break;
+        case Qt::Key_L: // shoot
+            setShootDown(true);
+            break;
         default:
             break;
     }
@@ -90,6 +93,9 @@ void CPlayer1::key_release(QKeyEvent *event)
             break;
         case Qt::Key_K: // release attack
             setAttackDown(false);
+            break;
+        case Qt::Key_L: // release shoot
+            setShootDown(false);
             break;
         default:
             break;

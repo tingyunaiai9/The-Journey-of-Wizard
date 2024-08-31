@@ -34,6 +34,8 @@ private:
     QVector<Weapon*> m_spareWeapons;
     QMap<Weapon*, QTimer*> m_spareWeaponTimers; // timers for spare melee weapons to disappear
 
+    QVector<Weapon*> m_shootingWeapons;
+
     QTimer *equipmentDropTimer; // time to drop equipment
 
 protected slots:
@@ -49,6 +51,7 @@ public:
     void processMovement() override;
     void processPicking() override;
     void processAttacking() override;
+    void processShooting() override;
 
     void processFps(qint64 deltaTime) override;
     void processHp() override;
@@ -63,7 +66,7 @@ private:
     Mountable *findNearestUnmountedMountable(const QPointF &pos, qreal distance_threshold = std::numeric_limits<qreal>::max());
     Mountable * pickupMountable(Character *player, Mountable *mountable);
 
-    Weapon *findNearestWeapon(const QPointF &pos, qreal distance_threshold = std::numeric_limits<qreal>::max());
+    Weapon *findNearestUnequipWeapon(const QPointF &pos, qreal distance_threshold = std::numeric_limits<qreal>::max());
     Weapon *pickupWeapon(Character *player, Weapon *weapon);
 
     Map *findNearestMap(const QPointF &pos);
@@ -74,6 +77,9 @@ private:
 
     void addToSpareWeapons(Weapon* weapon);
     void removeFromSpareWeapons(Weapon* weapon);
+
+    void addToShootingWeapons(Weapon* weapon);
+    void removeFromShootingWeapons(Weapon* weapon);
 };
 
 

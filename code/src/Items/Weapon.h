@@ -5,6 +5,14 @@
 
 class Weapon : public Item
 {
+private:
+    bool equipped{};
+
+    bool m_isAttacking{};
+
+    QPointF m_velocity{};
+    QPointF m_acceleration{};
+
 public:
     Weapon(QGraphicsItem *parent, const QString &pixmapPath);
 
@@ -16,10 +24,14 @@ public:
     virtual void stopAttack();
     [[nodiscard]] bool isAttacking() const;
 
-private:
-    bool equipped{};
+    // shoot
+    [[nodiscard]] const QPointF &getVelocity() const;
+    void setVelocity(const QPointF &velocity);
 
-    bool m_isAttacking{};
+    [[nodiscard]] const QPointF &getAcceleration() const;
+    void setAcceleration(const QPointF &acceleration);
+
+    virtual void shoot(bool isFacingRight = true, QPointF velocity = {0, 0});
 };
 
 

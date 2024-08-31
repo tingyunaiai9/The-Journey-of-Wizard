@@ -224,7 +224,7 @@ void BattleScene::processPicking()
             pickupMountable(m_player1, mountable);
         }
 
-        auto weapon = findNearestWeapon(m_player1->pos(), 100.);
+        auto weapon = findNearestUnequipWeapon(m_player1->pos(), 100.);
         if (weapon != nullptr)
         {
             pickupWeapon(m_player1, weapon);
@@ -280,7 +280,7 @@ Mountable* BattleScene::pickupMountable(Character* player, Mountable* mountable)
     return previousMountable;
 }
 
-Weapon *BattleScene::findNearestWeapon(const QPointF &pos, qreal distance_threshold)
+Weapon *BattleScene::findNearestUnequipWeapon(const QPointF &pos, qreal distance_threshold)
 {
     Weapon *nearest = nullptr;
     qreal minDistance = distance_threshold;
@@ -492,6 +492,74 @@ void BattleScene::processAttacking()
 
         // TODO: RangedWeapons
     }
+}
+
+// shoot
+void BattleScene::addToShootingWeapons(Weapon *weapon)
+{
+    m_shootingWeapons.append(weapon);
+}
+
+void BattleScene::removeFromShootingWeapons(Weapon *weapon)
+{
+    m_shootingWeapons.removeOne(weapon);
+}
+
+void BattleScene::processShooting()
+{
+    Scene::processShooting();
+
+    if (m_player1->isShooting())
+    {
+
+        // TODO: currently abandon all the holding weapon: melee + ranged
+        Weapon *previousWeapon = m_player1->abandonWeapon();
+
+        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(previousWeapon);
+        if (meleeWeapon)
+        {
+            addToShootingWeapons(meleeWeapon);
+            meleeWeapon->shoot(m_player1->isFacingRight());
+        }
+
+        // Weapon *weapon = m_player1->getHoldingWeapon();
+
+        // // shoot melee weapon
+        // auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
+        // if (meleeWeapon)
+        // {
+        //     // remove the melee weapon from player1
+        //     m_player1->setHoldingWeapon(nullptr);
+        //     m_player1->setMeleeWeapon(nullptr);
+
+
+        //     meleeWeapon->setParentItem(m_player1->parentItem());
+        //     meleeWeapon->setPos(m_player1->pos());
+        //     meleeWeapon->setScale(4);
+        //     addToShootingWeapons(meleeWeapon);
+        //     meleeWeapon->shoot(m_player1->isFacingRight(), QPointF(10, 0));
+        // }
+    }
+
+    // TODO: move the move part to processMovement
+    for (auto weapon : m_shootingWeapons)
+    {
+        weapon->setPos(weapon->pos().x() + weapon->getVelocity().x() * (double) deltaTime,
+                       fmin(480, weapon->pos().y() + weapon->getVelocity().y() * (double) deltaTime));
+        weapon->setVelocity(weapon->getVelocity() + weapon->getAcceleration() * (double) deltaTime);
+
+        if (isOnGround(weapon))
+        {
+            weapon->setAcceleration(QPointF(weapon->getAcceleration().x(), 0));
+            weapon->setVelocity(QPointF(weapon->getVelocity().x(), 0));
+            weapon->setPos(weapon->pos().x(), findNearestMap(weapon->pos())->getFloorHeight());
+        }
+        else
+        {
+            weapon->setAcceleration(QPointF(weapon->getAcceleration().x(), Item::GRAVITY.y()));
+        }
+    }
+
 }
 
 // fps

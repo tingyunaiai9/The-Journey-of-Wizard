@@ -25,6 +25,10 @@ private:
     bool m_attackDown{};
     bool m_lastAttackDown{};
 
+    bool m_shootDown{};
+    bool m_lastShootDown{};
+    bool m_shooting{};
+
 protected:
     HeadEquipment *headEquipment{};
     LegEquipment *legEquipment{};
@@ -83,6 +87,15 @@ public:
     Weapon* getHoldingWeapon();
     MeleeWeapon* getMeleeWeapon();
     RangedWeapon* getRangedWeapon();
+    void setHoldingWeapon(Weapon* weapon);
+    void setMeleeWeapon(MeleeWeapon* meleeWeapon);
+    void setRangedWeapon(RangedWeapon* rangedWeapon);
+
+    // shoot
+    void setShootDown(bool shootDown);
+    [[nodiscard]] bool isShooting();
+
+    Weapon* abandonWeapon(); // abandon the holding weapon
 
     // be hit
     virtual void h_startHitting() override; // from IHero

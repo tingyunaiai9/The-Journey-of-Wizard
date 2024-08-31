@@ -149,6 +149,17 @@ void Character::processInput() {
     }
     m_lastAttackDown = m_attackDown;
 
+    // shoot
+    if (!m_lastShootDown && m_shootDown) // first time shootDown
+    {
+        m_shooting = true;
+    }
+    else
+    {
+        m_shooting = false;
+    }
+    m_lastShootDown = m_shootDown;
+
 }
 
 Armor *Character::pickupArmor(Armor *newArmor) {
@@ -298,9 +309,63 @@ RangedWeapon *Character::getRangedWeapon()
     return m_rangedWeapon;
 }
 
+void Character::setHoldingWeapon(Weapon *holdingWeapon)
+{
+    m_holdingWeapon = holdingWeapon;
+}
+
+void Character::setMeleeWeapon(MeleeWeapon *meleeWeapon)
+{
+    m_meleeWeapon = meleeWeapon;
+}
+
+void Character::setRangedWeapon(RangedWeapon *rangedWeapon)
+{
+    m_rangedWeapon = rangedWeapon;
+}
+
 bool Character::isFacingRight() const
 {
     return transform().m11() > 0;
+}
+
+// shoot
+void Character::setShootDown(bool shootDown)
+{
+    m_shootDown = shootDown;
+}
+
+bool Character::isShooting()
+{
+    return m_shooting;
+}
+
+Weapon *Character::abandonWeapon()
+{
+    if (m_holdingWeapon == nullptr) {
+        return nullptr;
+    }
+
+    Weapon *oldWeapon = m_holdingWeapon;
+    m_holdingWeapon = nullptr; // clear the holding weapon
+    if (oldWeapon == m_meleeWeapon)
+    {
+        m_meleeWeapon = nullptr;
+    }
+    else if (oldWeapon == m_rangedWeapon)
+    {
+        m_rangedWeapon = nullptr;
+    }
+
+    // unequip the weapon
+    // oldWeapon->unequip();
+    // TODO: not add to spareWeapons?
+
+    oldWeapon->setPos(pos());
+    oldWeapon->setParentItem(parentItem());
+    oldWeapon->setScale(4);
+
+    return oldWeapon;
 }
 
 // hit

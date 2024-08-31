@@ -20,6 +20,7 @@ public:
     virtual void processMovement();
     virtual void processPicking();
     virtual void processAttacking();
+    virtual void processShooting();
 
     virtual void processFps(qint64 deltaTime);
     virtual void processHp();
