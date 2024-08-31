@@ -204,6 +204,8 @@ LegEquipment *Character::pickupLegEquipment(LegEquipment *newLegEquipment) {
 MeleeWeapon *Character::pickupMeleeWeapon(MeleeWeapon *newMeleeWeapon)
 {
     // TODO: can not pick if already have one
+    // already complete in BattleScene::pickupWeapon
+
     auto oldMeleeWeapon = m_meleeWeapon;
 
     if (oldMeleeWeapon != nullptr) {
@@ -215,15 +217,28 @@ MeleeWeapon *Character::pickupMeleeWeapon(MeleeWeapon *newMeleeWeapon)
     newMeleeWeapon->setParentItem(this);
     newMeleeWeapon->equipToParent();
     m_meleeWeapon = newMeleeWeapon;
-    m_holdingWeapon = m_meleeWeapon;
+    m_holdingWeapon = m_meleeWeapon; // hold the new weapon
     return oldMeleeWeapon;
 }
 
 RangedWeapon *Character::pickupRangedWeapon(RangedWeapon *newRangedWeapon)
 {
-    // TODO: complete
+    // TODO: can not pick if already have one
+    // already complete in BattleScene::pickupWeapon
 
-    return nullptr;
+    auto oldRangedWeapon = m_rangedWeapon;
+
+    if (oldRangedWeapon != nullptr) {
+        oldRangedWeapon->unequip();
+        oldRangedWeapon->setPos(newRangedWeapon->pos());
+        oldRangedWeapon->setParentItem(parentItem());
+    }
+
+    newRangedWeapon->setParentItem(this);
+    newRangedWeapon->equipToParent();
+    m_rangedWeapon = newRangedWeapon;
+    m_holdingWeapon = m_rangedWeapon; // hold the new weapon
+    return oldRangedWeapon;
 }
 
 void Character::key_press(QKeyEvent *event)

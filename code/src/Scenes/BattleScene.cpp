@@ -348,10 +348,24 @@ Weapon *BattleScene::pickupWeapon(Character *player, Weapon *weapon)
 
     if (auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon))
     {
+        // can not pick if already have one
+        auto oldMeleeWeapon = player->getMeleeWeapon();
+        if (oldMeleeWeapon != nullptr)
+        {
+            return nullptr;
+        }
+
         previousWeapon = player->pickupMeleeWeapon(meleeWeapon);
     }
     else if (auto rangedWeapon = dynamic_cast<RangedWeapon *>(weapon))
     {
+        // can not pick if already have one
+        auto oldRangedWeapon = player->getRangedWeapon();
+        if (oldRangedWeapon != nullptr)
+        {
+            return nullptr;
+        }
+
         previousWeapon = player->pickupRangedWeapon(rangedWeapon);
     }
 
