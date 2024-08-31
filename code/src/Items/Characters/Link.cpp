@@ -29,7 +29,7 @@ Link::Link(QGraphicsItem *parent, const QString &pixmapPath) :
     // armor = new IcebreakerArmor(this);
     // armor = new ElectrobreakerArmor(this);
 
-    m_meleeWeapon = new ElectroSpear(this);
+    m_meleeWeapon = new ElectroMetalSpear(this);
     m_holdingWeapon = m_meleeWeapon;
 
     headEquipment->mountToParent();

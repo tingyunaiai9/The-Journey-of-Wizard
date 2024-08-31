@@ -22,31 +22,79 @@ public:
 class WoodenOneHandedSword : public OneHandedSword
 {
 public:
-    explicit WoodenOneHandedSword(QGraphicsItem *parent = nullptr);
+    explicit WoodenOneHandedSword(QGraphicsItem *parent, const QString &pixmapPath);
+
+    [[nodiscard]] virtual QString getMaterial() const override { return "Wooden"; }
+};
+
+class MetalOneHandedSword : public OneHandedSword
+{
+public:
+    explicit MetalOneHandedSword(QGraphicsItem *parent, const QString &pixmapPath);
+
+    [[nodiscard]] virtual QString getMaterial() const override { return "Metal"; }
+};
+
+class NormalWoodenOneHandedSword : public WoodenOneHandedSword
+{
+public:
+    explicit NormalWoodenOneHandedSword(QGraphicsItem *parent = nullptr);
 
     [[nodiscard]] virtual QString getElement() const override { return "Normal"; }
 };
 
-class FlameOneHandedSword : public OneHandedSword
+class FlameWoodenOneHandedSword : public WoodenOneHandedSword
 {
 public:
-    explicit FlameOneHandedSword(QGraphicsItem *parent = nullptr);
+    explicit FlameWoodenOneHandedSword(QGraphicsItem *parent = nullptr);
 
     [[nodiscard]] virtual QString getElement() const override { return "Flame"; }
 };
 
-class IceOneHandedSword : public OneHandedSword
+class IceWoodenOneHandedSword : public WoodenOneHandedSword
 {
 public:
-    explicit IceOneHandedSword(QGraphicsItem *parent = nullptr);
+    explicit IceWoodenOneHandedSword(QGraphicsItem *parent = nullptr);
 
     [[nodiscard]] virtual QString getElement() const override { return "Ice"; }
 };
 
-class ElectroOneHandedSword : public OneHandedSword
+class ElectroWoodenOneHandedSword : public WoodenOneHandedSword
 {
 public:
-    explicit ElectroOneHandedSword(QGraphicsItem *parent = nullptr);
+    explicit ElectroWoodenOneHandedSword(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Electro"; }
+};
+
+class NormalMetalOneHandedSword : public MetalOneHandedSword
+{
+public:
+    explicit NormalMetalOneHandedSword(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Normal"; }
+};
+
+class FlameMetalOneHandedSword : public MetalOneHandedSword
+{
+public:
+    explicit FlameMetalOneHandedSword(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Flame"; }
+};
+
+class IceMetalOneHandedSword : public MetalOneHandedSword
+{
+public:
+    explicit IceMetalOneHandedSword(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Ice"; }
+};
+
+class ElectroMetalOneHandedSword : public MetalOneHandedSword
+{
+public:
+    explicit ElectroMetalOneHandedSword(QGraphicsItem *parent = nullptr);
 
     [[nodiscard]] virtual QString getElement() const override { return "Electro"; }
 };

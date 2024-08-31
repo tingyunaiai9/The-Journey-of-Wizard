@@ -153,6 +153,7 @@ void Character::processInput() {
     if (!m_lastShootDown && m_shootDown) // first time shootDown
     {
         m_shooting = true;
+        // TODO: change the state to attack
     }
     else
     {

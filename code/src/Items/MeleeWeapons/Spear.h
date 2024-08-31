@@ -22,31 +22,79 @@ public:
 class WoodenSpear : public Spear
 {
 public:
-    explicit WoodenSpear(QGraphicsItem *parent = nullptr);
+    explicit WoodenSpear(QGraphicsItem *parent, const QString &pixmapPath);
+
+    [[nodiscard]] virtual QString getMaterial() const override { return "Wooden"; }
+};
+
+class MetalSpear : public Spear
+{
+public:
+    explicit MetalSpear(QGraphicsItem *parent, const QString &pixmapPath);
+
+    [[nodiscard]] virtual QString getMaterial() const override { return "Metal"; }
+};
+
+class NormalWoodenSpear : public WoodenSpear
+{
+public:
+    explicit NormalWoodenSpear(QGraphicsItem *parent = nullptr);
 
     [[nodiscard]] virtual QString getElement() const override { return "Normal"; }
 };
 
-class FlameSpear : public Spear
+class FlameWoodenSpear : public WoodenSpear
 {
 public:
-    explicit FlameSpear(QGraphicsItem *parent = nullptr);
+    explicit FlameWoodenSpear(QGraphicsItem *parent = nullptr);
 
     [[nodiscard]] virtual QString getElement() const override { return "Flame"; }
 };
 
-class IceSpear : public Spear
+class IceWoodenSpear : public WoodenSpear
 {
 public:
-    explicit IceSpear(QGraphicsItem *parent = nullptr);
+    explicit IceWoodenSpear(QGraphicsItem *parent = nullptr);
 
     [[nodiscard]] virtual QString getElement() const override { return "Ice"; }
 };
 
-class ElectroSpear : public Spear
+class ElectroWoodenSpear : public WoodenSpear
 {
 public:
-    explicit ElectroSpear(QGraphicsItem *parent = nullptr);
+    explicit ElectroWoodenSpear(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Electro"; }
+};
+
+class NormalMetalSpear : public MetalSpear
+{
+public:
+    explicit NormalMetalSpear(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Normal"; }
+};
+
+class FlameMetalSpear : public MetalSpear
+{
+public:
+    explicit FlameMetalSpear(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Flame"; }
+};
+
+class IceMetalSpear : public MetalSpear
+{
+public:
+    explicit IceMetalSpear(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Ice"; }
+};
+
+class ElectroMetalSpear : public MetalSpear
+{
+public:
+    explicit ElectroMetalSpear(QGraphicsItem *parent = nullptr);
 
     [[nodiscard]] virtual QString getElement() const override { return "Electro"; }
 };

@@ -42,22 +42,52 @@ void TwoHandedSword::stopAttack() {
     }
 }
 
-WoodenTwoHandedSword::WoodenTwoHandedSword(QGraphicsItem *parent) :
-    TwoHandedSword(parent, ":/Items/MeleeWeapons/TwoHandedSword/two_handed_sword_wooden.png")
+WoodenTwoHandedSword::WoodenTwoHandedSword(QGraphicsItem *parent, const QString &pixmapPath) :
+    TwoHandedSword(parent, pixmapPath)
 {
 }
 
-FlameTwoHandedSword::FlameTwoHandedSword(QGraphicsItem *parent) :
-    TwoHandedSword(parent, ":/Items/MeleeWeapons/TwoHandedSword/two_handed_sword_flame.png")
+MetalTwoHandedSword::MetalTwoHandedSword(QGraphicsItem *parent, const QString &pixmapPath) :
+    TwoHandedSword(parent, pixmapPath)
 {
 }
 
-IceTwoHandedSword::IceTwoHandedSword(QGraphicsItem *parent) :
-    TwoHandedSword(parent, ":/Items/MeleeWeapons/TwoHandedSword/two_handed_sword_ice.png")
+NormalWoodenTwoHandedSword::NormalWoodenTwoHandedSword(QGraphicsItem *parent) :
+    WoodenTwoHandedSword(parent, ":/Items/MeleeWeapons/TwoHandedSword/two_handed_sword_wooden_normal.png")
 {
 }
 
-ElectroTwoHandedSword::ElectroTwoHandedSword(QGraphicsItem *parent) :
-    TwoHandedSword(parent, ":/Items/MeleeWeapons/TwoHandedSword/two_handed_sword_electro.png")
+FlameWoodenTwoHandedSword::FlameWoodenTwoHandedSword(QGraphicsItem *parent) :
+    WoodenTwoHandedSword(parent, ":/Items/MeleeWeapons/TwoHandedSword/two_handed_sword_wooden_flame.png")
+{
+}
+
+IceWoodenTwoHandedSword::IceWoodenTwoHandedSword(QGraphicsItem *parent) :
+    WoodenTwoHandedSword(parent, ":/Items/MeleeWeapons/TwoHandedSword/two_handed_sword_wooden_ice.png")
+{
+}
+
+ElectroWoodenTwoHandedSword::ElectroWoodenTwoHandedSword(QGraphicsItem *parent) :
+    WoodenTwoHandedSword(parent, ":/Items/MeleeWeapons/TwoHandedSword/two_handed_sword_wooden_electro.png")
+{
+}
+
+NormalMetalTwoHandedSword::NormalMetalTwoHandedSword(QGraphicsItem *parent) :
+    MetalTwoHandedSword(parent, ":/Items/MeleeWeapons/TwoHandedSword/two_handed_sword_metal_normal.png")
+{
+}
+
+FlameMetalTwoHandedSword::FlameMetalTwoHandedSword(QGraphicsItem *parent) :
+    MetalTwoHandedSword(parent, ":/Items/MeleeWeapons/TwoHandedSword/two_handed_sword_metal_flame.png")
+{
+}
+
+IceMetalTwoHandedSword::IceMetalTwoHandedSword(QGraphicsItem *parent) :
+    MetalTwoHandedSword(parent, ":/Items/MeleeWeapons/TwoHandedSword/two_handed_sword_metal_ice.png")
+{
+}
+
+ElectroMetalTwoHandedSword::ElectroMetalTwoHandedSword(QGraphicsItem *parent) :
+    MetalTwoHandedSword(parent, ":/Items/MeleeWeapons/TwoHandedSword/two_handed_sword_metal_electro.png")
 {
 }

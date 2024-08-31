@@ -16,6 +16,8 @@ private:
 public:
     Weapon(QGraphicsItem *parent, const QString &pixmapPath);
 
+    [[nodiscard]] virtual QString getMaterial() const = 0;
+
     virtual void equipToParent();
     virtual void unequip();
     [[nodiscard]] bool isEquipped() const;

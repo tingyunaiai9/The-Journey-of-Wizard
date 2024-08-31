@@ -83,7 +83,7 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     connect(equipmentDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomEquipment);
     equipmentDropTimer->start(10000); // 10s
 
-    m_spareWeapon = new WoodenOneHandedSword();
+    m_spareWeapon = new NormalWoodenOneHandedSword();
     addItem(m_spareWeapon);
     m_spareWeapon->unequip();
     m_spareWeapon->setPos(m_battlefield->getSpawnPos(0.5));
@@ -507,7 +507,7 @@ void BattleScene::processAttacking()
             }
             else
             {
-                attackRange = QRectF(m_player1->pos().x() - meleeWeapon->getAttackForwardDistance() - meleeWeapon->getAttackBackwardDistance(),
+                attackRange = QRectF(m_player1->pos().x() - meleeWeapon->getAttackForwardDistance(),
                                      m_player1->pos().y() - 24,
                                      meleeWeapon->getAttackForwardDistance() + meleeWeapon->getAttackBackwardDistance(),
                                      48);

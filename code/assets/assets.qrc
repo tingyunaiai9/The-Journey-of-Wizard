@@ -18,17 +18,29 @@
         <file>Items/Maps/WoodPlatform/platform_wood.png</file>
         <file>Items/Maps/RockPlatform/platform_rock.png</file>
         <file>Items/Maps/MetalPlatform/platform_metal.png</file>
-        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_wooden.png</file>
-        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_electro.png</file>
-        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_flame.png</file>
-        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_ice.png</file>
-        <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_electro.png</file>
-        <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_flame.png</file>
-        <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_ice.png</file>
-        <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_wooden.png</file>
-        <file>Items/MeleeWeapons/Spear/spear_electro.png</file>
-        <file>Items/MeleeWeapons/Spear/spear_flame.png</file>
-        <file>Items/MeleeWeapons/Spear/spear_ice.png</file>
-        <file>Items/MeleeWeapons/Spear/spear_wooden.png</file>
+        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_metal_electro.png</file>
+        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_metal_flame.png</file>
+        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_metal_ice.png</file>
+        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_metal_normal.png</file>
+        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_wooden_electro.png</file>
+        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_wooden_flame.png</file>
+        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_wooden_ice.png</file>
+        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_wooden_normal.png</file>
+        <file>Items/MeleeWeapons/Spear/spear_metal_electro.png</file>
+        <file>Items/MeleeWeapons/Spear/spear_metal_flame.png</file>
+        <file>Items/MeleeWeapons/Spear/spear_metal_ice.png</file>
+        <file>Items/MeleeWeapons/Spear/spear_metal_normal.png</file>
+        <file>Items/MeleeWeapons/Spear/spear_wooden_electro.png</file>
+        <file>Items/MeleeWeapons/Spear/spear_wooden_flame.png</file>
+        <file>Items/MeleeWeapons/Spear/spear_wooden_ice.png</file>
+        <file>Items/MeleeWeapons/Spear/spear_wooden_normal.png</file>
+        <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_metal_electro.png</file>
+        <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_metal_flame.png</file>
+        <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_metal_ice.png</file>
+        <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_metal_normal.png</file>
+        <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_wooden_electro.png</file>
+        <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_wooden_flame.png</file>
+        <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_wooden_ice.png</file>
+        <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_wooden_normal.png</file>
     </qresource>
 </RCC>

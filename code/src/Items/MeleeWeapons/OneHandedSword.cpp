@@ -42,22 +42,52 @@ void OneHandedSword::stopAttack() {
     }
 }
 
-WoodenOneHandedSword::WoodenOneHandedSword(QGraphicsItem *parent) :
-    OneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_wooden.png")
+WoodenOneHandedSword::WoodenOneHandedSword(QGraphicsItem *parent, const QString &pixmapPath) :
+    OneHandedSword(parent, pixmapPath)
 {
 }
 
-FlameOneHandedSword::FlameOneHandedSword(QGraphicsItem *parent) :
-    OneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_flame.png")
+MetalOneHandedSword::MetalOneHandedSword(QGraphicsItem *parent, const QString &pixmapPath) :
+    OneHandedSword(parent, pixmapPath)
 {
 }
 
-IceOneHandedSword::IceOneHandedSword(QGraphicsItem *parent) :
-    OneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_ice.png")
+NormalWoodenOneHandedSword::NormalWoodenOneHandedSword(QGraphicsItem *parent) :
+    WoodenOneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_wooden_normal.png")
 {
 }
 
-ElectroOneHandedSword::ElectroOneHandedSword(QGraphicsItem *parent) :
-    OneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_electro.png")
+FlameWoodenOneHandedSword::FlameWoodenOneHandedSword(QGraphicsItem *parent) :
+    WoodenOneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_wooden_flame.png")
+{
+}
+
+IceWoodenOneHandedSword::IceWoodenOneHandedSword(QGraphicsItem *parent) :
+    WoodenOneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_wooden_ice.png")
+{
+}
+
+ElectroWoodenOneHandedSword::ElectroWoodenOneHandedSword(QGraphicsItem *parent) :
+    WoodenOneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_wooden_electro.png")
+{
+}
+
+NormalMetalOneHandedSword::NormalMetalOneHandedSword(QGraphicsItem *parent) :
+    MetalOneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_metal_normal.png")
+{
+}
+
+FlameMetalOneHandedSword::FlameMetalOneHandedSword(QGraphicsItem *parent) :
+    MetalOneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_metal_flame.png")
+{
+}
+
+IceMetalOneHandedSword::IceMetalOneHandedSword(QGraphicsItem *parent) :
+    MetalOneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_metal_ice.png")
+{
+}
+
+ElectroMetalOneHandedSword::ElectroMetalOneHandedSword(QGraphicsItem *parent) :
+    MetalOneHandedSword(parent, ":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_metal_electro.png")
 {
 }

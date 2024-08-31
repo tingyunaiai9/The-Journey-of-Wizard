@@ -42,22 +42,52 @@ void Spear::stopAttack() {
     }
 }
 
-WoodenSpear::WoodenSpear(QGraphicsItem *parent) :
-    Spear(parent, ":/Items/MeleeWeapons/Spear/spear_wooden.png")
+WoodenSpear::WoodenSpear(QGraphicsItem *parent, const QString &pixmapPath) :
+    Spear(parent, pixmapPath)
 {
 }
 
-FlameSpear::FlameSpear(QGraphicsItem *parent) :
-    Spear(parent, ":/Items/MeleeWeapons/Spear/spear_flame.png")
+MetalSpear::MetalSpear(QGraphicsItem *parent, const QString &pixmapPath) :
+    Spear(parent, pixmapPath)
 {
 }
 
-IceSpear::IceSpear(QGraphicsItem *parent) :
-    Spear(parent, ":/Items/MeleeWeapons/Spear/spear_ice.png")
+NormalWoodenSpear::NormalWoodenSpear(QGraphicsItem *parent) :
+    WoodenSpear(parent, ":/Items/MeleeWeapons/Spear/spear_wooden_normal.png")
 {
 }
 
-ElectroSpear::ElectroSpear(QGraphicsItem *parent) :
-    Spear(parent, ":/Items/MeleeWeapons/Spear/spear_electro.png")
+FlameWoodenSpear::FlameWoodenSpear(QGraphicsItem *parent) :
+    WoodenSpear(parent, ":/Items/MeleeWeapons/Spear/spear_wooden_flame.png")
+{
+}
+
+IceWoodenSpear::IceWoodenSpear(QGraphicsItem *parent) :
+    WoodenSpear(parent, ":/Items/MeleeWeapons/Spear/spear_wooden_ice.png")
+{
+}
+
+ElectroWoodenSpear::ElectroWoodenSpear(QGraphicsItem *parent) :
+    WoodenSpear(parent, ":/Items/MeleeWeapons/Spear/spear_wooden_electro.png")
+{
+}
+
+NormalMetalSpear::NormalMetalSpear(QGraphicsItem *parent) :
+    MetalSpear(parent, ":/Items/MeleeWeapons/Spear/spear_metal_normal.png")
+{
+}
+
+FlameMetalSpear::FlameMetalSpear(QGraphicsItem *parent) :
+    MetalSpear(parent, ":/Items/MeleeWeapons/Spear/spear_metal_flame.png")
+{
+}
+
+IceMetalSpear::IceMetalSpear(QGraphicsItem *parent) :
+    MetalSpear(parent, ":/Items/MeleeWeapons/Spear/spear_metal_ice.png")
+{
+}
+
+ElectroMetalSpear::ElectroMetalSpear(QGraphicsItem *parent) :
+    MetalSpear(parent, ":/Items/MeleeWeapons/Spear/spear_metal_electro.png")
 {
 }
