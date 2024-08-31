@@ -113,6 +113,12 @@ void CPlayer2::key_press(QKeyEvent *event)
         case Qt::Key_Up:
             setJumpDown(true);
             break;
+        case Qt::Key_Comma:
+            setPickDown(true);
+            break;
+        case Qt::Key_Period:
+            setAttackDown(true);
+            break;
         default:
             break;
     }
@@ -129,6 +135,12 @@ void CPlayer2::key_release(QKeyEvent *event)
             break;
         case Qt::Key_Up:
             setJumpDown(false);
+            break;
+        case Qt::Key_Comma:
+            setPickDown(false);
+            break;
+        case Qt::Key_Period: // release attack
+            setAttackDown(false);
             break;
         default:
             break;

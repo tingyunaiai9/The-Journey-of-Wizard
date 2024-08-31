@@ -91,7 +91,6 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
 }
 
 void BattleScene::processInput() {
-    Scene::processInput();
     if (m_player1 != nullptr) {
         m_player1->processInput();
     }
@@ -125,12 +124,21 @@ void BattleScene::keyReleaseEvent(QKeyEvent *event) {
 
 void BattleScene::update() {
     Scene::update();
+
+    processInput();
+    processMovement();
+    processPicking();
+    processAttacking();
+    processShooting();
+    // add for hero handle fps by self
+    processFps(deltaTime);
+
+    processHp();
 }
 
 
 // move
 void BattleScene::processMovement() {
-    Scene::processMovement();
 
     if (m_player1 != nullptr)
     {
@@ -154,6 +162,28 @@ void BattleScene::processMovement() {
         {
             m_player1->setAcceleration(QPointF(m_player1->getAcceleration().x(), Item::GRAVITY.y()));
             m_player1->setOnGround(false);
+        }
+    }
+
+    if (m_player2 != nullptr)
+    {
+        m_player2->setPos(m_player2->pos().x() + m_player2->getVelocity().x() * (double) deltaTime,
+                          fmin(480, m_player2->pos().y() + m_player2->getVelocity().y() * (double) deltaTime));
+        m_player2->setVelocity(m_player2->getVelocity() +
+                               m_player2->getAcceleration() * (double) deltaTime);
+
+        // onground and not jumping
+        if (isOnGround(m_player2) && m_player2->getVelocity().y() >= 0)
+        {
+            m_player2->setAcceleration(QPointF(m_player2->getAcceleration().x(), 0));
+            m_player2->setVelocity(QPointF(m_player2->getVelocity().x(), 0));
+            m_player2->setPos(m_player2->pos().x(), findNearestMap(m_player2->pos())->getFloorHeight());
+            m_player2->setOnGround(true);
+        }
+        else
+        {
+            m_player2->setAcceleration(QPointF(m_player2->getAcceleration().x(), Item::GRAVITY.y()));
+            m_player2->setOnGround(false);
         }
     }
 
@@ -215,7 +245,6 @@ bool BattleScene::isOnGround(Item *item)
 // pick
 void BattleScene::processPicking()
 {
-    Scene::processPicking();
     if (m_player1->isPicking())
     {
         auto mountable = findNearestUnmountedMountable(m_player1->pos(), 100.);
@@ -228,6 +257,21 @@ void BattleScene::processPicking()
         if (weapon != nullptr)
         {
             pickupWeapon(m_player1, weapon);
+        }
+    }
+
+    if (m_player2->isPicking())
+    {
+        auto mountable = findNearestUnmountedMountable(m_player2->pos(), 100.);
+        if (mountable != nullptr)
+        {
+            pickupMountable(m_player2, mountable);
+        }
+
+        auto weapon = findNearestUnequipWeapon(m_player2->pos(), 100.);
+        if (weapon != nullptr)
+        {
+            pickupWeapon(m_player2, weapon);
         }
     }
 }
@@ -429,8 +473,6 @@ void BattleScene::removeFromSpareWeapons(Weapon *weapon)
 // attack
 void BattleScene::processAttacking()
 {
-    Scene::processAttacking();
-
     if (m_player1->isAttacking())
     {
         Weapon* weapon = m_player1->getHoldingWeapon();
@@ -489,7 +531,67 @@ void BattleScene::processAttacking()
                 delete player2Point;
             });
         }
+        // TODO: RangedWeapons
+    }
 
+    if (m_player2->isAttacking())
+    {
+        Weapon* weapon = m_player2->getHoldingWeapon();
+        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
+
+        if (meleeWeapon)
+        {
+            bool facingRight = m_player2->isFacingRight();
+
+            // calculate the attack rectangle
+            QRectF attackRange;
+            if (facingRight)
+            {
+                attackRange = QRectF(m_player2->pos().x() - meleeWeapon->getAttackBackwardDistance(),
+                                     m_player2->pos().y() - 24,
+                                     meleeWeapon->getAttackForwardDistance() + meleeWeapon->getAttackBackwardDistance(),
+                                     48);
+            }
+            else
+            {
+                attackRange = QRectF(m_player2->pos().x() - meleeWeapon->getAttackForwardDistance() - meleeWeapon->getAttackBackwardDistance(),
+                                     m_player2->pos().y() - 24,
+                                     meleeWeapon->getAttackForwardDistance() + meleeWeapon->getAttackBackwardDistance(),
+                                     48);
+            }
+
+            QPointF player2Pos = m_player1->pos();
+
+            // 打印矩形的详细信息
+            qDebug() << "Attack Range:" << attackRange;
+            qDebug() << "Player2 Position:" << player2Pos;
+
+            // the rectangle contains the point?
+            if (attackRange.contains(player2Pos))
+            {
+                m_player1->beHit(meleeWeapon->getDamage(), meleeWeapon->getElement());
+            }
+
+            // 绘制攻击范围矩形
+            QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);
+            attackRangeRect->setPen(QPen(Qt::red));
+            attackRangeRect->setBrush(Qt::NoBrush);
+            addItem(attackRangeRect);
+
+            // 绘制 Player2 的位置点
+            QGraphicsEllipseItem* player2Point = new QGraphicsEllipseItem(player2Pos.x() - 2, player2Pos.y() - 2, 4, 4);
+            player2Point->setPen(QPen(Qt::blue));
+            player2Point->setBrush(Qt::blue);
+            addItem(player2Point);
+
+            // 可选：在一段时间后自动移除这些绘制内容
+            QTimer::singleShot(100, this, [this, attackRangeRect, player2Point]() {
+                removeItem(attackRangeRect);
+                removeItem(player2Point);
+                delete attackRangeRect;
+                delete player2Point;
+            });
+        }
         // TODO: RangedWeapons
     }
 }
@@ -507,8 +609,6 @@ void BattleScene::removeFromShootingWeapons(Weapon *weapon)
 
 void BattleScene::processShooting()
 {
-    Scene::processShooting();
-
     if (m_player1->isShooting())
     {
 

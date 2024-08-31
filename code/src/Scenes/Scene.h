@@ -16,15 +16,6 @@ public:
 
     void startLoop();
 
-    virtual void processInput();
-    virtual void processMovement();
-    virtual void processPicking();
-    virtual void processAttacking();
-    virtual void processShooting();
-
-    virtual void processFps(qint64 deltaTime);
-    virtual void processHp();
-
 protected slots:
 
     virtual void update();

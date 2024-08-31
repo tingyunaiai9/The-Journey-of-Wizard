@@ -47,14 +47,14 @@ private slots:
 public:
     explicit BattleScene(QObject *parent);
 
-    void processInput() override;
-    void processMovement() override;
-    void processPicking() override;
-    void processAttacking() override;
-    void processShooting() override;
+    void processInput();
+    void processMovement();
+    void processPicking();
+    void processAttacking();
+    void processShooting();
 
-    void processFps(qint64 deltaTime) override;
-    void processHp() override;
+    void processFps(qint64 deltaTime);
+    void processHp();
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
