@@ -10,7 +10,14 @@ void MeleeWeapon::shoot(bool isFacingRight, QPointF velocity)
     Weapon::shoot(isFacingRight, velocity);
 
     pixmapItem->setRotation(45);
-    setPos(pos().x(), pos().y() - 60); // above ground
+    if (isFacingRight)
+    {
+        setPos(pos().x() + 60, pos().y() - 60); // above ground
+    }
+    else
+    {
+        setPos(pos().x() - 60, pos().y() - 60);
+    }
 
-    pixmapItem->setPos(25, 5); // drop into ground
+    pixmapItem->setPos(0, 5); // drop into ground
 }

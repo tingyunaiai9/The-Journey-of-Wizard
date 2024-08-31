@@ -580,8 +580,8 @@ void BattleScene::processAttacking()
             QPointF player2Pos = m_player1->pos();
 
             // 打印矩形的详细信息
-            qDebug() << "Attack Range:" << attackRange;
-            qDebug() << "Player2 Position:" << player2Pos;
+            // qDebug() << "Attack Range:" << attackRange;
+            // qDebug() << "Player2 Position:" << player2Pos;
 
             // the rectangle contains the point?
             if (attackRange.contains(player2Pos))
@@ -640,6 +640,35 @@ void BattleScene::processShooting()
         }
     }
 
+    // 绘制玩家位置标记
+    // if (m_player1 != nullptr)
+    // {
+    //     QGraphicsEllipseItem *player1PositionMarker = new QGraphicsEllipseItem(m_player1->pos().x() - 5, m_player1->pos().y() - 5, 10, 10);
+    //     player1PositionMarker->setPen(QPen(Qt::blue));
+    //     player1PositionMarker->setBrush(Qt::blue);
+    //     addItem(player1PositionMarker);
+
+    //     // 可选：在短时间后自动移除这些标记
+    //     QTimer::singleShot(10000, this, [this, player1PositionMarker]() {
+    //         removeItem(player1PositionMarker);
+    //         delete player1PositionMarker;
+    //     });
+    // }
+
+    // if (m_player2 != nullptr)
+    // {
+    //     QGraphicsEllipseItem *player2PositionMarker = new QGraphicsEllipseItem(m_player2->pos().x() - 5, m_player2->pos().y() - 5, 10, 10);
+    //     player2PositionMarker->setPen(QPen(Qt::red));
+    //     player2PositionMarker->setBrush(Qt::red);
+    //     addItem(player2PositionMarker);
+
+    //     // 可选：在短时间后自动移除这些标记
+    //     QTimer::singleShot(10000, this, [this, player2PositionMarker]() {
+    //         removeItem(player2PositionMarker);
+    //         delete player2PositionMarker;
+    //     });
+    // }
+
     // TODO: move the move part to processMovement
     for (auto weapon : m_shootingWeapons)
     {
@@ -647,16 +676,70 @@ void BattleScene::processShooting()
                        fmin(480, weapon->pos().y() + weapon->getVelocity().y() * (double) deltaTime));
         weapon->setVelocity(weapon->getVelocity() + weapon->getAcceleration() * (double) deltaTime);
 
+        // detect if attack the player
+        QRectF attackRange; // only attack forward
+        if (m_player1->isFacingRight())
+        {
+            attackRange = QRectF(weapon->pos().x() - 55,
+                                 weapon->pos().y() - 24 + 50,
+                                 weapon->getAttackForwardDistance(),
+                                 48 + 50);
+        }
+        else
+        {
+            attackRange = QRectF(weapon->pos().x() - weapon->getAttackForwardDistance() + 55,
+                                 weapon->pos().y() - 24 + 50,
+                                 weapon->getAttackForwardDistance(),
+                                 48 + 50);
+        }
+
+        // 绘制攻击范围矩形
+        // QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);
+        // attackRangeRect->setPen(QPen(Qt::red));
+        // attackRangeRect->setBrush(Qt::NoBrush);
+        // addItem(attackRangeRect);
+
+        QPointF player2Pos = m_player2->pos();
+        if (attackRange.contains(player2Pos))
+        {
+            m_player2->beHit(weapon->getDamage(), weapon->getElement());
+            // remove after attack
+            removeItem(weapon);
+            removeFromShootingWeapons(weapon);
+            delete weapon;
+
+            continue;
+        }
+
         if (isOnGround(weapon))
         {
-            weapon->setAcceleration(QPointF(weapon->getAcceleration().x(), 0));
-            weapon->setVelocity(QPointF(weapon->getVelocity().x(), 0));
-            weapon->setPos(weapon->pos().x(), findNearestMap(weapon->pos())->getFloorHeight());
+            // weapon->setAcceleration(QPointF(weapon->getAcceleration().x(), 0));
+            // weapon->setVelocity(QPointF(weapon->getVelocity().x(), 0));
+            // weapon->setPos(weapon->pos().x(), findNearestMap(weapon->pos())->getFloorHeight());
+
+            // TODO: attack the map
+            // attack and disappear
+            removeItem(weapon);
+            removeFromShootingWeapons(weapon);
+            delete weapon;
         }
         else
         {
             weapon->setAcceleration(QPointF(weapon->getAcceleration().x(), Item::GRAVITY.y()));
         }
+
+
+        // 调试：绘制射击武器的位置
+        // QGraphicsEllipseItem *weaponPositionMarker = new QGraphicsEllipseItem(weapon->pos().x() - 5, weapon->pos().y() - 5, 10, 10);
+        // weaponPositionMarker->setPen(QPen(Qt::green));
+        // weaponPositionMarker->setBrush(Qt::green);
+        // addItem(weaponPositionMarker);
+
+        // 可选：在短时间后自动移除这些标记
+        // QTimer::singleShot(100, this, [this, weaponPositionMarker]() {
+        //     removeItem(weaponPositionMarker);
+        //     delete weaponPositionMarker;
+        // });
     }
 
 }

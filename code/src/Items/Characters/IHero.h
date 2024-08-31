@@ -31,6 +31,7 @@ public:
 protected:
     IHero* m_HeroObj;
 
+    // TODO: change the time of attack and hit
     qint64 m_500Ms = 500; // the duration of hitting
     qint64 m_2kMs = 2000; // the duration of ice
     qint64 m_5kMs = 5000; // the duration of flame
