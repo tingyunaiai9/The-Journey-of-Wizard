@@ -21,3 +21,17 @@ void HeadEquipment::unmount() {
         pixmapItem->setPos(0, 20);
     }
 }
+
+void HeadEquipment::startHitting()
+{
+    if (pixmapItem != nullptr) {
+        pixmapItem->setRotation(-1);
+    }
+}
+
+void HeadEquipment::stopHitting()
+{
+    if (pixmapItem != nullptr) {
+        pixmapItem->setRotation(0);
+    }
+}

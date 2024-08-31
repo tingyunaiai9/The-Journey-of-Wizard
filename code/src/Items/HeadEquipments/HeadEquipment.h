@@ -13,6 +13,9 @@ public:
     void mountToParent() override;
 
     void unmount() override;
+
+    virtual void startHitting();
+    virtual void stopHitting();
 };
 
 

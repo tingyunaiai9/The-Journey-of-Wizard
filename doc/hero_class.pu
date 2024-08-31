@@ -1,0 +1,36 @@
+@startuml
+
+skinparam shadowing true
+
+class IState {
+    # IHero* m_HeroObj
+    # int m_elapsedTime
+    + {abstract} QString getName()
+    + {abstract} bool isAttacking()
+    + {abstract} bool isHitting()
+    + {abstract} void setAttack()
+    + {abstract} void beHit(int damage, QString element)
+    + {abstract} void processFps(qint64 deltaTime)
+}
+
+QObject <|-- IState
+IState <|-- IHold
+IState <|-- IAttacking
+IState <|-- IHitting
+
+IHold <|-- CNormalHold
+IHold <|-- CFlameHold
+IHold <|-- CIceHold
+IHold <|-- CElectroHold
+
+IAttacking <|-- CNormalAttacking
+IAttacking <|-- CFlameAttacking
+IAttacking <|-- CIceAttacking
+IAttacking <|-- CElectroAttacking
+
+IHitting <|-- CNormalHitting
+IHitting <|-- CFlameHitting
+IHitting <|-- CIceHitting
+IHitting <|-- CElectroHitting
+
+@enduml

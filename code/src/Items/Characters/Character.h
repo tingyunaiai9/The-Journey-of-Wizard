@@ -84,6 +84,10 @@ public:
     MeleeWeapon* getMeleeWeapon();
     RangedWeapon* getRangedWeapon();
 
+    // be hit
+    virtual void h_startHitting() override; // from IHero
+    virtual void h_stopHitting() override;
+
     bool isFacingRight() const; // direction of the character
 
     void processInput();

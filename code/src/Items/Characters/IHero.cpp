@@ -5,33 +5,6 @@ IState::IState(IHero* heroObj)
     m_HeroObj = heroObj;
 }
 
-QString IState::getName()
-{
-    return "";
-}
-
-bool IState::isAttacking()
-{
-    return false;
-}
-
-bool IState::isHitting()
-{
-    return false;
-}
-
-void IState::setAttack()
-{
-}
-
-void IState::beHit(int damage, QString element)
-{
-}
-
-void IState::processFps(qint64 deltaTime)
-{
-}
-
 //
 IState* IHero::getStateObj()
 {
@@ -58,18 +31,6 @@ void IHero::clearStateMap()
     m_StateMap.clear();
 }
 
-void IHero::h_startAttack()
-{
-}
-
-void IHero::h_stopAttack()
-{
-}
-
-void IHero::h_reduceHp(int damage)
-{
-}
-
 // IHode, IAttacking, IHitting
 IHold::IHold(IHero* heroObj):
     IState(heroObj)
@@ -84,6 +45,7 @@ void IHold::setAttack()
 
 void IHold::beHit(int damage, QString element)
 {
+    m_HeroObj->h_startHitting();
     m_HeroObj->h_reduceHp(damage);
     // TODO: override the function in the derived class to change element
 
@@ -105,7 +67,7 @@ void IAttacking::processFps(qint64 deltaTime)
     m_elapsedTime += deltaTime;
 
     // TODO: 时间到了切换武器状态回
-    if (m_elapsedTime > m_lastingTime)
+    if (m_elapsedTime > m_500Ms)
     {
         m_HeroObj->h_stopAttack();
     }
@@ -124,6 +86,12 @@ bool IHitting::isHitting()
 void IHitting::processFps(qint64 deltaTime)
 {
     m_elapsedTime += deltaTime;
+
+    // TODO: 时间到了切换打击状态回
+    if (m_elapsedTime > m_500Ms)
+    {
+        m_HeroObj->h_stopHitting();
+    }
 }
 
 // hold
@@ -195,7 +163,7 @@ QString CNormalAttacking::getName()
 void CNormalAttacking::processFps(qint64 deltaTime)
 {
     IAttacking::processFps(deltaTime);
-    if (m_elapsedTime > m_lastingTime)
+    if (m_elapsedTime > m_500Ms)
     {
         m_HeroObj->setState(HEROSTATE::NORMAL_HOLD);
         m_elapsedTime = 0;
@@ -215,7 +183,7 @@ QString CFlameAttacking::getName()
 void CFlameAttacking::processFps(qint64 deltaTime)
 {
     IAttacking::processFps(deltaTime);
-    if (m_elapsedTime > m_lastingTime)
+    if (m_elapsedTime > m_500Ms)
     {
         m_HeroObj->setState(HEROSTATE::FLAME_HOLD);
         m_elapsedTime = 0;
@@ -235,7 +203,7 @@ QString CIceAttacking::getName()
 void CIceAttacking::processFps(qint64 deltaTime)
 {
     IAttacking::processFps(deltaTime);
-    if (m_elapsedTime > m_lastingTime)
+    if (m_elapsedTime > m_500Ms)
     {
         m_HeroObj->setState(HEROSTATE::ICE_HOLD);
         m_elapsedTime = 0;
@@ -255,7 +223,7 @@ QString CElectroAttacking::getName()
 void CElectroAttacking::processFps(qint64 deltaTime)
 {
     IAttacking::processFps(deltaTime);
-    if (m_elapsedTime > m_lastingTime)
+    if (m_elapsedTime > m_500Ms)
     {
         m_HeroObj->setState(HEROSTATE::ELECTRO_HOLD);
         m_elapsedTime = 0;
@@ -276,7 +244,7 @@ QString CNormalHitting::getName()
 void CNormalHitting::processFps(qint64 deltaTime)
 {
     IHitting::processFps(deltaTime);
-    if (m_elapsedTime > m_lastingTime)
+    if (m_elapsedTime > m_500Ms)
     {
         m_HeroObj->setState(HEROSTATE::NORMAL_HOLD);
         m_elapsedTime = 0;
@@ -296,7 +264,7 @@ QString CFlameHitting::getName()
 void CFlameHitting::processFps(qint64 deltaTime)
 {
     IHitting::processFps(deltaTime);
-    if (m_elapsedTime > m_lastingTime)
+    if (m_elapsedTime > m_500Ms)
     {
         m_HeroObj->setState(HEROSTATE::FLAME_HOLD);
         m_elapsedTime = 0;
@@ -316,7 +284,7 @@ QString CIceHitting::getName()
 void CIceHitting::processFps(qint64 deltaTime)
 {
     IHitting::processFps(deltaTime);
-    if (m_elapsedTime > m_lastingTime)
+    if (m_elapsedTime > m_500Ms)
     {
         m_HeroObj->setState(HEROSTATE::ICE_HOLD);
         m_elapsedTime = 0;
@@ -336,7 +304,7 @@ QString CElectroHitting::getName()
 void CElectroHitting::processFps(qint64 deltaTime)
 {
     IHitting::processFps(deltaTime);
-    if (m_elapsedTime > m_lastingTime)
+    if (m_elapsedTime > m_500Ms)
     {
         m_HeroObj->setState(HEROSTATE::ELECTRO_HOLD);
         m_elapsedTime = 0;

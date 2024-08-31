@@ -2,19 +2,27 @@
 
 skinparam shadowing true
 
-[*] --> NORMAL
+[*] --> NORMAL_HOLD
 
-NORMAL --> FIREING : Fire Attack
-FIREING --> NORMAL : Timeout
-NORMAL --> ICEING : Ice Attack
-ICEING --> NORMAL : Timeout
-NORMAL --> LIGHTNING : Lightning Attack
-LIGHTNING --> NORMAL : Timeout
+NORMAL_HOLD --> NORMAL_ATTACKING : setStack
+NORMAL_ATTACKING --> NORMAL_HOLD : timeout 500
+NORMAL_HOLD --> NORMAL_HITTING : bePhysicalHit
+NORMAL_HITTING --> NORMAL_HOLD : timeout 500
 
-[*] --> HOLD
-HOLD --> ATTACKING : AttackDown
-ATTACKING --> HOLD : Timeout
-HOLD --> HITTING : Be Attack
-HITTING --> HOLD : Timeout
+FLAME_HOLD --> FLAME_ATTACKING : setStack
+FLAME_ATTACKING --> FLAME_HOLD : timeout 500
+FLAME_HOLD --> FLAME_HITTING : bePhysicalHit
+FLAME_HITTING --> FLAME_HOLD : timeout 500
+
+NORMAL_HOLD --> ICE_HITTING : beIceHit
+ICE_HITTING --> NORMAL_HOLD : bePhysicalHit
+ICE_HITTING --> NORMAL_HOLD : beIceHit
+ICE_HITTING --> NORMAL_HOLD : beElectroHit
+ICE_HITTING --> NORMAL_HOLD : timeout 2k
+
+ELECTRO_HOLD --> ELECTRO_ATTACKING : setStack
+ELECTRO_ATTACKING --> ELECTRO_HOLD : timeout 500
+ELECTRO_HOLD --> ELECTRO_HITTING : bePhysicalHit
+ELECTRO_HITTING --> ELECTRO_HOLD : timeout 500
 
 @enduml

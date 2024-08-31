@@ -31,16 +31,21 @@ public:
 protected:
     IHero* m_HeroObj;
 
+    qint64 m_500Ms = 500; // the duration of hitting
+    qint64 m_2kMs = 2000; // the duration of ice
+    qint64 m_5kMs = 5000; // the duration of flame
+    qint64 m_elapsedTime = 0; // the time elapsed since the start of hitting
+
 public:
-    virtual QString getName();
+    virtual QString getName() {return "";};
 
-    virtual bool isAttacking();
-    virtual bool isHitting();
+    virtual bool isAttacking() {return false;};
+    virtual bool isHitting() {return false;};
 
-    virtual void setAttack();
-    virtual void beHit(int damage, QString element);
+    virtual void setAttack() {};
+    virtual void beHit(int damage, QString element) {};
 
-    virtual void processFps(qint64 deltaTime);
+    virtual void processFps(qint64 deltaTime) {};
 };
 
 // only beHit while holding
@@ -56,10 +61,6 @@ public:
 
 class IAttacking : public IState
 {
-protected:
-    qint64 m_lastingTime = 500; // the duration of attacking
-    qint64 m_elapsedTime = 0; // the time elapsed since the start of attacking
-
 public:
     explicit IAttacking(IHero* heroObj);
 
@@ -70,9 +71,6 @@ public:
 
 class IHitting : public IState
 {
-protected:
-    qint64 m_lastingTime = 500; // the duration of hitting
-    qint64 m_elapsedTime = 0; // the time elapsed since the start of hitting
 
 public:
     explicit IHitting(IHero* heroObj);
@@ -97,10 +95,11 @@ protected:
 public:
     void setState(HEROSTATE stateType);
 
-    virtual void h_startAttack(); // implement in Character
-    virtual void h_stopAttack();
-
-    virtual void h_reduceHp(int damage);
+    virtual void h_startAttack() {}; // implement in Character
+    virtual void h_stopAttack() {};
+    virtual void h_startHitting() {}; // implement in Character
+    virtual void h_stopHitting() {};
+    virtual void h_reduceHp(int damage) {};
 };
 
 

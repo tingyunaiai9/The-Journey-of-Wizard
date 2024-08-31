@@ -9,6 +9,8 @@
 #include "../MeleeWeapons/TwoHandedSword.h"
 #include "../MeleeWeapons/Spear.h"
 
+#include <QKeyEvent>
+
 Link::Link(QGraphicsItem *parent, const QString &pixmapPath) :
     Character(parent, pixmapPath)
 {
@@ -49,11 +51,80 @@ CPlayer2::CPlayer2(QGraphicsItem *parent) :
 }
 
 void CPlayer1::key_press(QKeyEvent *event)
-{}
+{
+    switch (event->key()) {
+        case Qt::Key_A:
+            setLeftDown(true);
+            break;
+        case Qt::Key_D:
+            setRightDown(true);
+            break;
+        case Qt::Key_W:
+            setJumpDown(true);
+            break;
+        case Qt::Key_J:
+            setPickDown(true);
+            break;
+        case Qt::Key_K: // attack
+            setAttackDown(true);
+            break;
+        default:
+            break;
+    }
+}
+
 void CPlayer1::key_release(QKeyEvent *event)
-{}
+{
+    switch (event->key()) {
+        case Qt::Key_A:
+            setLeftDown(false);
+            break;
+        case Qt::Key_D:
+            setRightDown(false);
+            break;
+        case Qt::Key_W:
+            setJumpDown(false);
+            break;
+        case Qt::Key_J:
+            setPickDown(false);
+            break;
+        case Qt::Key_K: // release attack
+            setAttackDown(false);
+            break;
+        default:
+            break;
+    }
+}
 
 void CPlayer2::key_press(QKeyEvent *event)
-{}
+{    switch (event->key()) {
+        case Qt::Key_Left:
+            setLeftDown(true);
+            break;
+        case Qt::Key_Right:
+            setRightDown(true);
+            break;
+        case Qt::Key_Up:
+            setJumpDown(true);
+            break;
+        default:
+            break;
+    }
+}
+
 void CPlayer2::key_release(QKeyEvent *event)
-{}
+{
+    switch (event->key()) {
+        case Qt::Key_Left:
+            setLeftDown(false);
+            break;
+        case Qt::Key_Right:
+            setRightDown(false);
+            break;
+        case Qt::Key_Up:
+            setJumpDown(false);
+            break;
+        default:
+            break;
+    }
+}

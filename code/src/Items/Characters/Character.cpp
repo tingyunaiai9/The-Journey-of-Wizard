@@ -269,6 +269,20 @@ void Character::h_stopAttack()
     m_holdingWeapon->stopAttack();
 }
 
+void Character::h_startHitting()
+{
+    if (headEquipment != nullptr) {
+        headEquipment->startHitting();
+    }
+}
+
+void Character::h_stopHitting()
+{
+    if (headEquipment != nullptr) {
+        headEquipment->stopHitting();
+    }
+}
+
 Weapon *Character::getHoldingWeapon()
 {
     return m_holdingWeapon;

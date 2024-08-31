@@ -45,7 +45,6 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     m_bar1 = new QProgressBar();
     m_bar1->setTextVisible(false);
     m_bar1->setRange(0, 100);
-    m_bar1->setValue(50);
     m_bar1->setStyleSheet(
         "QProgressBar {"
         "    background-color: transparent;"
@@ -54,12 +53,12 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
         "}"
         "QProgressBar::chunk {"
         "    background-color: red;"
-        "}");
+        "}"
+        );
 
     m_bar2 = new QProgressBar();
     m_bar2->setTextVisible(false);
     m_bar2->setRange(0, 100);
-    m_bar2->setValue(80);
     m_bar2->setInvertedAppearance(true);
     // m_bar2->setAttribute(Qt::WA_StaticContents, true);
     m_bar2->setStyleSheet(
@@ -70,13 +69,14 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
         "}"
         "QProgressBar::chunk {"
         "    background-color: red;"
-        "}");
+        "}"
+    );
 
     QGraphicsProxyWidget *proxy = nullptr;
     proxy = addWidget(m_bar1);
     proxy->setPos(100, 100);
     proxy = addWidget(m_bar2);
-    proxy->setPos(980, 100); // 设置位置
+    proxy->setPos(980, 100); // position
 
     // generate equipment
     equipmentDropTimer = new QTimer(this);
@@ -95,39 +95,13 @@ void BattleScene::processInput() {
     if (m_player1 != nullptr) {
         m_player1->processInput();
     }
+
+    if (m_player2 != nullptr) {
+        m_player2->processInput();
+    }
 }
 
 void BattleScene::keyPressEvent(QKeyEvent *event) {
-    switch (event->key()) {
-        case Qt::Key_A:
-            if (m_player1 != nullptr) {
-                m_player1->setLeftDown(true);
-            }
-            break;
-        case Qt::Key_D:
-            if (m_player1 != nullptr) {
-                m_player1->setRightDown(true);
-            }
-            break;
-        case Qt::Key_W:
-            if (m_player1 != nullptr) {
-                m_player1->setJumpDown(true);
-            }
-            break;
-        case Qt::Key_J:
-            if (m_player1 != nullptr) {
-                m_player1->setPickDown(true);
-            }
-            break;
-        case Qt::Key_K: // attack
-            if (m_player1 != nullptr) {
-                m_player1->setAttackDown(true);
-            }
-            break;
-        default:
-            Scene::keyPressEvent(event);
-    }
-
     //
     if (m_player1 != nullptr) {
         m_player1->key_press(event);
@@ -139,37 +113,6 @@ void BattleScene::keyPressEvent(QKeyEvent *event) {
 }
 
 void BattleScene::keyReleaseEvent(QKeyEvent *event) {
-    switch (event->key()) {
-        case Qt::Key_A:
-            if (m_player1 != nullptr) {
-                m_player1->setLeftDown(false);
-            }
-            break;
-        case Qt::Key_D:
-            if (m_player1 != nullptr) {
-                m_player1->setRightDown(false);
-            }
-            break;
-        case Qt::Key_W:
-            if (m_player1 != nullptr) {
-                m_player1->setJumpDown(false);
-            }
-            break;
-        case Qt::Key_J:
-            if (m_player1 != nullptr) {
-                m_player1->setPickDown(false);
-            }
-            break;
-        case Qt::Key_K: // release attack
-            if (m_player1 != nullptr)
-            {
-                m_player1->setAttackDown(false);
-            }
-            break;
-        default:
-            Scene::keyReleaseEvent(event);
-    }
-
     //
     if (m_player1 != nullptr) {
         m_player1->key_release(event);
