@@ -80,7 +80,11 @@ public:
     // attack
     void setAttackDown(bool attackDown);
     void setAttack();
+    // state
+    [[nodiscard]] bool isHolding();
     [[nodiscard]] bool isAttacking();
+    [[nodiscard]] bool isHitting();
+
     virtual void h_startAttack() override; // from IHero
     virtual void h_stopAttack() override;
 

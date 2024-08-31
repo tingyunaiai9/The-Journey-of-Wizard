@@ -128,8 +128,11 @@ void BattleScene::update() {
     processInput();
     processMovement();
     processPicking();
+
+    processShooting(); // shoot before attack
+
     processAttacking();
-    processShooting();
+
     // add for hero handle fps by self
     processFps(deltaTime);
 
@@ -635,24 +638,6 @@ void BattleScene::processShooting()
             addToShootingWeapons(meleeWeapon);
             meleeWeapon->shoot(m_player1->isFacingRight());
         }
-
-        // Weapon *weapon = m_player1->getHoldingWeapon();
-
-        // // shoot melee weapon
-        // auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
-        // if (meleeWeapon)
-        // {
-        //     // remove the melee weapon from player1
-        //     m_player1->setHoldingWeapon(nullptr);
-        //     m_player1->setMeleeWeapon(nullptr);
-
-
-        //     meleeWeapon->setParentItem(m_player1->parentItem());
-        //     meleeWeapon->setPos(m_player1->pos());
-        //     meleeWeapon->setScale(4);
-        //     addToShootingWeapons(meleeWeapon);
-        //     meleeWeapon->shoot(m_player1->isFacingRight(), QPointF(10, 0));
-        // }
     }
 
     // TODO: move the move part to processMovement

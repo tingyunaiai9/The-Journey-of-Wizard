@@ -39,6 +39,7 @@ protected:
 public:
     virtual QString getName() {return "";};
 
+    virtual bool isHolding() {return false;};
     virtual bool isAttacking() {return false;};
     virtual bool isHitting() {return false;};
 
@@ -55,6 +56,8 @@ class IHold : public IState
 public:
     explicit IHold(IHero* heroObj);
 
+    bool isHolding() override {return true;}
+
     void setAttack() override;
     void beHit(int damage, QString element) override;
 };
@@ -64,7 +67,7 @@ class IAttacking : public IState
 public:
     explicit IAttacking(IHero* heroObj);
 
-    bool isAttacking() override;
+    bool isAttacking() override {return true;}
 
     virtual void processFps(qint64 deltaTime) override;
 };
@@ -75,7 +78,7 @@ class IHitting : public IState
 public:
     explicit IHitting(IHero* heroObj);
 
-    bool isHitting() override;
+    bool isHitting() override {return true;}
 
     virtual void processFps(qint64 deltaTime) override;
 };

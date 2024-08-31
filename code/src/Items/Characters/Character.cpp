@@ -152,8 +152,15 @@ void Character::processInput() {
     // shoot
     if (!m_lastShootDown && m_shootDown) // first time shootDown
     {
-        m_shooting = true;
-        // TODO: change the state to attack
+        if(isHolding()) // only shoot while holding
+        {
+            m_shooting = true;
+            setAttack();
+        }
+        else
+        {
+            m_shooting = false;
+        }
     }
     else
     {
@@ -277,6 +284,14 @@ void Character::setAttack()
     state_obj->setAttack();
 }
 
+bool Character::isHolding()
+{
+    IState* state_obj = nullptr;
+    state_obj = getStateObj();
+
+    return state_obj->isHolding();
+}
+
 bool Character::isAttacking()
 {
     IState* state_obj = nullptr;
@@ -285,15 +300,28 @@ bool Character::isAttacking()
     return state_obj->isAttacking();
 }
 
+bool Character::isHitting()
+{
+    IState* state_obj = nullptr;
+    state_obj = getStateObj();
+
+    return state_obj->isHitting();
+}
+
 void Character::h_startAttack()
 {
-    // TODO: check m_holdingWeapon?
-    m_holdingWeapon->startAttack();
+    if (m_holdingWeapon)
+    {
+        m_holdingWeapon->startAttack();
+    }
 }
 
 void Character::h_stopAttack()
 {
-    m_holdingWeapon->stopAttack();
+    if (m_holdingWeapon)
+    {
+        m_holdingWeapon->stopAttack();
+    }
 }
 
 void Character::h_startHitting()

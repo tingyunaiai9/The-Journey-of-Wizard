@@ -57,11 +57,6 @@ IAttacking::IAttacking(IHero* heroObj):
 {
 }
 
-bool IAttacking::isAttacking()
-{
-    return true;
-}
-
 void IAttacking::processFps(qint64 deltaTime)
 {
     m_elapsedTime += deltaTime;
@@ -76,11 +71,6 @@ void IAttacking::processFps(qint64 deltaTime)
 IHitting::IHitting(IHero* heroObj):
     IState(heroObj)
 {
-}
-
-bool IHitting::isHitting()
-{
-    return true;
 }
 
 void IHitting::processFps(qint64 deltaTime)
