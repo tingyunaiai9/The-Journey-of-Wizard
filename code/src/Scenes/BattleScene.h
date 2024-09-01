@@ -43,6 +43,7 @@ protected slots:
 
 private slots:
     void generateRandomEquipment();
+    void generateItem(QString itemCode);
 
 public:
     explicit BattleScene(QObject *parent);

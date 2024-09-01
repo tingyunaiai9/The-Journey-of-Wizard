@@ -15,6 +15,7 @@
 #include "./LegEquipments/IcebreakerShoes.h"
 #include "./LegEquipments/ElectrobreakerShoes.h"
 
+#include "./MeleeWeapons/Spear.h"
 
 
 Item* CItemFactory::NewItem(const QString& category, const QString& type, const QString& element)
@@ -31,6 +32,24 @@ Item* CItemFactory::NewItem(const QString& category, const QString& type, const 
     {
         return nullptr;
     }
+}
+
+Item* CItemFactory::NewItem(const QString& itemCode)
+{
+    // S - Spear
+    // 1 - Wooden
+    // I - Ice,
+
+    QString item_code = itemCode.toUpper();
+    if (item_code == "I1S")
+    {
+        return new IceWoodenSpear();
+    }
+    else
+    {
+        return nullptr;
+    }
+    return nullptr;
 }
 
 Mountable* CEquipmentFactory::NewEquipment(const QString& type, const QString& element)

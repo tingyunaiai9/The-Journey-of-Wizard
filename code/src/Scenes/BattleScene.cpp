@@ -153,10 +153,10 @@ void BattleScene::keyPressEvent(QKeyEvent *event) {
     QString text;
     switch (event->key()) {
         case Qt::Key_Return:
-            text = QInputDialog::getText(nullptr, "输入对话框", "cheat code: ", QLineEdit::Normal, "", &ok);
+            text = QInputDialog::getText(nullptr, "message dialog", "cheat code: ", QLineEdit::Normal, "", &ok);
             if (ok && !text.isEmpty()) {
                 // 处理用户输入的文本
-                qDebug() << "用户输入的文本:" << text;
+                generateItem(text);
             }
             break;
         default:
@@ -269,6 +269,25 @@ void BattleScene::processMovement() {
         else
         {
             equipment->setAcceleration(QPointF(equipment->getAcceleration().x(), Item::GRAVITY.y()));
+        }
+    }
+
+    for(auto weapon : m_spareWeapons)
+    {
+        // equipment->setPos(equipment->pos() + equipment->getVelocity() * (double) deltaTime);
+        weapon->setPos(weapon->pos().x() + weapon->getVelocity().x() * (double) deltaTime,
+                          fmin(480, weapon->pos().y() + weapon->getVelocity().y() * (double) deltaTime));
+        weapon->setVelocity(weapon->getVelocity() + weapon->getAcceleration() * (double) deltaTime);
+
+        if (isOnGround(weapon))
+        {
+            weapon->setAcceleration(QPointF(weapon->getAcceleration().x(), 0));
+            weapon->setVelocity(QPointF(weapon->getVelocity().x(), 0));
+            weapon->setPos(weapon->pos().x(), findNearestMap(weapon->pos())->getFloorHeight());
+        }
+        else
+        {
+            weapon->setAcceleration(QPointF(weapon->getAcceleration().x(), Item::GRAVITY.y()));
         }
     }
 }
@@ -464,6 +483,26 @@ void BattleScene::generateRandomEquipment() {
         addItem(newEquipment);
 
         addToSpareEquipments(newEquipment); // store the equipment
+    }
+}
+
+void BattleScene::generateItem(QString itemCode)
+{
+    Item *newItem = CItemFactory::NewItem(itemCode);
+
+    if (newItem)
+    {
+        qreal randomX = static_cast<qreal>(rand() % static_cast<int>(this->sceneRect().width()));
+
+        newItem->setPos(randomX, 0);  // top: y=0
+        addItem(newItem);
+
+        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(newItem);
+        if (meleeWeapon)
+        {
+            meleeWeapon->unequip();
+            addToSpareWeapons(meleeWeapon);
+        }
     }
 }
 

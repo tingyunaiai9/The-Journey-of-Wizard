@@ -11,6 +11,7 @@ class CItemFactory
 {
 public:
     static Item* NewItem(const QString& category, const QString& type, const QString& element);
+    static Item* NewItem(const QString& itemCode);
 };
 
 class CEquipmentFactory
