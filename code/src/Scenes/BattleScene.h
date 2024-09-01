@@ -88,6 +88,9 @@ private:
 
     void addToShootingWeapons(Weapon* weapon);
     void removeFromShootingWeapons(Weapon* weapon);
+
+public:
+    void debugItem(bool bDebug);
 };
 
 

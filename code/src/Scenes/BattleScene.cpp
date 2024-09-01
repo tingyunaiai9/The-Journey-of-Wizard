@@ -29,13 +29,13 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     m_maps.append(new RockPlatform());
     m_maps.append(new MetalPlatform());
 
-    // init players
-    m_player1 = new CPlayer1();
-    m_player2 = new CPlayer2();
-
     for (Map* map : m_maps) {
         addItem(map);
     }
+
+    // init players
+    m_player1 = new CPlayer1();
+    m_player2 = new CPlayer2();
 
     addItem(m_player1);
     addItem(m_player2);
@@ -163,7 +163,13 @@ void BattleScene::keyPressEvent(QKeyEvent *event) {
                 // 处理用户输入的文本
                 generateItem(text);
             }
-            break;
+            return Scene::keyPressEvent(event);
+        case Qt::Key_BracketLeft:
+            debugItem(true);
+            return Scene::keyPressEvent(event);
+        case Qt::Key_BracketRight:
+            debugItem(false);
+            return Scene::keyPressEvent(event);
         default:
             Scene::keyPressEvent(event);
             break;
@@ -280,9 +286,7 @@ void BattleScene::processMovement() {
     for(auto weapon : m_spareWeapons)
     {
         // equipment->setPos(equipment->pos() + equipment->getVelocity() * (double) deltaTime);
-        weapon->setPos(weapon->pos().x() + weapon->getVelocity().x() * (double) deltaTime,
-                          fmin(480, weapon->pos().y() + weapon->getVelocity().y() * (double) deltaTime));
-        weapon->setVelocity(weapon->getVelocity() + weapon->getAcceleration() * (double) deltaTime);
+        weapon->move(deltaTime);
 
         if (isOnGround(weapon))
         {
@@ -521,7 +525,7 @@ void BattleScene::generateItem(QString itemCode)
     if (newItem)
     {
         qreal randomX = static_cast<qreal>(rand() % static_cast<int>(this->sceneRect().width()));
-
+        randomX = 727; // for debug
         newItem->setPos(randomX, 0);  // top: y=0
         addItem(newItem);
 
@@ -871,4 +875,23 @@ void BattleScene::processHp()
     {
         m_bar2->setValue(m_player2->getHp());
     }
+}
+
+void BattleScene::debugItem(bool bDebug)
+{
+    for (Item *item : m_maps)
+    {
+        item->showAreaRect(this, bDebug);
+    }
+    for (Item *item : m_spareEquipments)
+    {
+        item->showAreaRect(this, bDebug);
+    }
+    for (Item *item : m_spareWeapons)
+    {
+        item->showAreaRect(this, bDebug);
+    }
+
+    m_player1->showAreaRect(this, bDebug);
+    m_player2->showAreaRect(this, bDebug);
 }

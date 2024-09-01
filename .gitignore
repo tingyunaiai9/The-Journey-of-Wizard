@@ -113,6 +113,7 @@ fabric.properties
 *.docx
 *.pdf
 *.zip
+*.patch
 
 /素材/
 

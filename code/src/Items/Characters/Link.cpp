@@ -50,7 +50,7 @@ CPlayer1::CPlayer1(QGraphicsItem *parent) :
 CPlayer2::CPlayer2(QGraphicsItem *parent) :
     Link(parent, ":/Items/Characters/character_body.png")
 {
-    setTransform(QTransform().scale(-1, 1));
+    turnLeft();
 }
 
 void CPlayer1::key_press(QKeyEvent *event)

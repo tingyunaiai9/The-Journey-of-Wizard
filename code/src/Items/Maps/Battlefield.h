@@ -10,6 +10,9 @@ public:
     explicit Battlefield(QGraphicsItem *parent= nullptr);
 
     qreal getFloorHeight() override;
+
+    virtual const QString getName() override {return "Battlefield";};
+    // virtual QRectF getAreaRect() override;
 };
 
 

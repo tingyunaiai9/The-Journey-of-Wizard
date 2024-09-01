@@ -1,0 +1,28 @@
+@startuml
+
+skinparam shadowing true
+
+class Item {
+}
+
+Item <|-- Map
+Item <|-- Character
+Item <|-- Mountable
+Item <|-- Weapon
+
+Map <|-- Platform
+Map <|-- Battlefield
+
+Mountable <|-- HeadEquipment
+Mountable <|-- Armor
+Mountable <|-- LegEquipment
+
+Weapon <|-- MeleeWeapon
+Weapon <|-- RangedWeapon
+
+Armor <|-- BlackWizardRobe
+Armor <|-- ElectrobreakerArmor
+Armor <|-- FlamebreakerArmor
+Armor <|-- IcebreakerArmor
+
+@enduml

@@ -10,9 +10,6 @@ private:
 
     bool m_isAttacking{};
 
-    QPointF m_velocity{};
-    QPointF m_acceleration{};
-
 public:
     Weapon(QGraphicsItem *parent, const QString &pixmapPath);
 
@@ -31,13 +28,6 @@ public:
     [[nodiscard]] virtual int getDamage() const {return 0;}
 
     [[nodiscard]] virtual QString getElement() const {return "";}
-
-    // shoot
-    [[nodiscard]] const QPointF &getVelocity() const;
-    void setVelocity(const QPointF &velocity);
-
-    [[nodiscard]] const QPointF &getAcceleration() const;
-    void setAcceleration(const QPointF &acceleration);
 
     virtual void shoot(bool isFacingRight = true, QPointF velocity = {0, 0});
 };

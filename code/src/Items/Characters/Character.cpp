@@ -13,9 +13,11 @@ Character::Character(QGraphicsItem *parent, const QString &pixmapPath) :
 //    ellipseItem->setZValue(1);
 
     // modify the scale of the character
-    setScale(4);
+    m_imgScale = 4;
+    m_imgOffset = -16;
+    setScale(m_imgScale);
     if (pixmapItem != nullptr) {
-        pixmapItem->setPos(-16, 0);
+        pixmapItem->setPos(m_imgOffset, 0);
     }
 
     // init 12 states
@@ -72,18 +74,6 @@ void Character::setOnGround(bool isOnGround)
     m_onGround = isOnGround;
 }
 
-const QPointF &Character::getVelocity() const {
-    return m_velocity;
-}
-
-void Character::setVelocity(const QPointF &velocity) {
-    m_velocity = velocity;
-}
-
-const QPointF &Character::getAcceleration() const {
-    return m_acceleration;
-}
-
 bool Character::isPickDown() const {
     return m_pickDown;
 }
@@ -96,10 +86,6 @@ bool Character::isPicking() const {
     return m_picking;
 }
 
-void Character::setAcceleration(const QPointF &acceleration) {
-    m_acceleration = acceleration;
-}
-
 void Character::processInput() {
     // y: maintain jump speed
     auto velocity = QPointF(0, getVelocity().y());
@@ -109,11 +95,11 @@ void Character::processInput() {
 
     if (isLeftDown()) {
         velocity.setX(velocity.x() - moveSpeed);
-        setTransform(QTransform().scale(-1, 1));
+        turnLeft();
     }
     if (isRightDown()) {
         velocity.setX(velocity.x() + moveSpeed);
-        setTransform(QTransform().scale(1, 1));
+        turnRight();
     }
     if (isJumpDown() && isOnGround())
     {
@@ -470,12 +456,6 @@ void Character::setSwitchDown(bool switchDown)
     m_switchDown = switchDown;
 }
 
-// direction
-bool Character::isFacingRight() const
-{
-    return transform().m11() > 0;
-}
-
 // shoot
 void Character::setShootDown(bool shootDown)
 {
@@ -533,4 +513,51 @@ void Character::beHit(int damage, QString element)
     state_obj = getStateObj();
 
     state_obj->beHit(damage, element);
+}
+
+QRectF Character::getAreaRect()
+{
+    QRectF itemRect = sceneBoundingRect();
+    qreal x = itemRect.x();
+    qreal width = itemRect.width();
+
+    if (isFacingRight())
+    {
+        itemRect.setX(x + m_imgScale * m_imgOffset);
+    }
+    else
+    {
+        itemRect.setX(x - m_imgScale * m_imgOffset);
+    }
+
+    itemRect.setWidth(width);
+
+    return itemRect;
+}
+
+// direction
+bool Character::isFacingRight() const
+{
+    return transform().m11() > 0;
+}
+
+void Character::turnLeft()
+{
+    setTransform(QTransform().scale(-1, 1));
+}
+
+void Character::turnRight()
+{
+    setTransform(QTransform().scale(1, 1));
+}
+
+
+void Character::showAreaRect(Scene* scene, bool bDebug)
+{
+    Item::showAreaRect(scene, bDebug);
+
+    if (m_meleeWeapon)
+    {
+        m_meleeWeapon->showAreaRect(scene, bDebug);
+    }
 }

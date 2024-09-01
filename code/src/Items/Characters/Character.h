@@ -15,6 +15,9 @@
 class Character : public Item, public IHero
 {
 private:
+    int m_imgScale;
+    int m_imgOffset;
+
     bool m_leftDown{}, m_rightDown{};
     bool m_jumpDown{};
     qreal m_floorHeight{};
@@ -45,9 +48,6 @@ protected:
     Weapon *m_holdingWeapon{}; // the weapon character holding
     QMap<QString, QList<Arrow*>> m_arrows; // arrows the character has
 
-    QPointF m_velocity{};
-    QPointF m_acceleration{};
-
     int m_hp = 100;
 
 public:
@@ -61,12 +61,6 @@ public:
 
     [[nodiscard]] bool isJumpDown() const;
     void setJumpDown(bool jumpDown);
-
-    [[nodiscard]] const QPointF &getVelocity() const;
-    void setVelocity(const QPointF &velocity);
-
-    [[nodiscard]] const QPointF &getAcceleration() const;
-    void setAcceleration(const QPointF &acceleration);
 
     bool isOnGround() const;
     void setOnGround(bool isOnGround);
@@ -119,7 +113,6 @@ public:
     virtual void h_startHitting() override; // from IHero
     virtual void h_stopHitting() override;
 
-    bool isFacingRight() const; // direction of the character
 
     void processInput();
 
@@ -132,6 +125,14 @@ public:
     virtual void key_press(QKeyEvent *event);
     virtual void key_release(QKeyEvent *event);
     void processFps(qint64 deltaTime);
+
+    virtual const QString getName() override {return "Character";};
+    virtual QRectF getAreaRect() override;
+    virtual void showAreaRect(Scene* scene, bool bDebug) override;
+
+    bool isFacingRight() const; // direction of the character
+    void turnLeft();
+    void turnRight();
 };
 
 
