@@ -12,6 +12,8 @@
 #include "../Items/MeleeWeapons/OneHandedSword.h"
 
 #include <QDebug>
+#include <QPushButton>
+#include <QInputDialog>
 
 BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     // This is useful if you want the scene to have the exact same dimensions as the view
@@ -78,6 +80,30 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     proxy = addWidget(m_bar2);
     proxy->setPos(980, 100); // position
 
+    // TODO: buttons
+    // QPushButton *singlePlayerButton = new QPushButton("单人游戏");
+    // QPushButton *twoPlayerButton = new QPushButton("双人对战");
+    // QPushButton *onlineButton = new QPushButton("联网对战");
+    // QPushButton *exitButton = new QPushButton("结束游戏");
+
+    // proxy = addWidget(singlePlayerButton);
+    // proxy->setPos(100,50);
+    // proxy = addWidget(twoPlayerButton);
+    // proxy->setPos(400,50);
+    // proxy = addWidget(onlineButton);
+    // proxy->setPos(700,50);
+    // proxy = addWidget(exitButton);
+    // proxy->setPos(1000,50);
+    // singlePlayerButton->setFixedSize(200,50);
+    // twoPlayerButton->setFixedSize(200,50);
+    // onlineButton->setFixedSize(200,50);
+    // exitButton->setFixedSize(200,50);
+
+    // connect(singlePlayerButton, &QPushButton::clicked, this, &BattleScene::startSinglePlayerGame);
+    // connect(twoPlayerButton, &QPushButton::clicked, this, &BattleScene::startTwoPlayerGame);
+    // connect(onlineButton, &QPushButton::clicked, this, &BattleScene::startOnlineGame);
+    // connect(exitButton, &QPushButton::clicked, this, &BattleScene::closeGame);
+
     // generate equipment
     equipmentDropTimer = new QTimer(this);
     connect(equipmentDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomEquipment);
@@ -88,6 +114,26 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     m_spareWeapon->unequip();
     m_spareWeapon->setPos(m_battlefield->getSpawnPos(0.5));
     addToSpareWeapons(m_spareWeapon);
+}
+
+void BattleScene::startSinglePlayerGame() {
+    // 在这里添加单人游戏的逻辑
+    qDebug() << "开始单人游戏";
+}
+
+void BattleScene::startTwoPlayerGame() {
+    // 在这里添加双人对战的逻辑
+    qDebug() << "开始双人对战";
+}
+
+void BattleScene::startOnlineGame() {
+    // 在这里添加联网对战的逻辑
+    qDebug() << "开始联网对战";
+}
+
+void BattleScene::closeGame() {
+    // 在这里添加联网对战的逻辑
+    qDebug() << "结束对战";
 }
 
 void BattleScene::processInput() {
@@ -101,6 +147,21 @@ void BattleScene::processInput() {
 }
 
 void BattleScene::keyPressEvent(QKeyEvent *event) {
+    bool ok;
+    QString text;
+    switch (event->key()) {
+        case Qt::Key_Return:
+            text = QInputDialog::getText(nullptr, "输入对话框", "cheat code: ", QLineEdit::Normal, "", &ok);
+            if (ok && !text.isEmpty()) {
+                // 处理用户输入的文本
+                qDebug() << "用户输入的文本:" << text;
+            }
+            break;
+        default:
+            Scene::keyPressEvent(event);
+            break;
+    }
+
     //
     if (m_player1 != nullptr) {
         m_player1->key_press(event);
@@ -640,35 +701,6 @@ void BattleScene::processShooting()
         }
     }
 
-    // 绘制玩家位置标记
-    // if (m_player1 != nullptr)
-    // {
-    //     QGraphicsEllipseItem *player1PositionMarker = new QGraphicsEllipseItem(m_player1->pos().x() - 5, m_player1->pos().y() - 5, 10, 10);
-    //     player1PositionMarker->setPen(QPen(Qt::blue));
-    //     player1PositionMarker->setBrush(Qt::blue);
-    //     addItem(player1PositionMarker);
-
-    //     // 可选：在短时间后自动移除这些标记
-    //     QTimer::singleShot(10000, this, [this, player1PositionMarker]() {
-    //         removeItem(player1PositionMarker);
-    //         delete player1PositionMarker;
-    //     });
-    // }
-
-    // if (m_player2 != nullptr)
-    // {
-    //     QGraphicsEllipseItem *player2PositionMarker = new QGraphicsEllipseItem(m_player2->pos().x() - 5, m_player2->pos().y() - 5, 10, 10);
-    //     player2PositionMarker->setPen(QPen(Qt::red));
-    //     player2PositionMarker->setBrush(Qt::red);
-    //     addItem(player2PositionMarker);
-
-    //     // 可选：在短时间后自动移除这些标记
-    //     QTimer::singleShot(10000, this, [this, player2PositionMarker]() {
-    //         removeItem(player2PositionMarker);
-    //         delete player2PositionMarker;
-    //     });
-    // }
-
     // TODO: move the move part to processMovement
     for (auto weapon : m_shootingWeapons)
     {
@@ -678,17 +710,19 @@ void BattleScene::processShooting()
 
         // detect if attack the player
         QRectF attackRange; // only attack forward
+
+        // TODO: only the shoot weapon player1 shoot
         if (m_player1->isFacingRight())
         {
             attackRange = QRectF(weapon->pos().x() - 55,
-                                 weapon->pos().y() - 24 + 50,
+                                 weapon->pos().y() - 24 + 60,
                                  weapon->getAttackForwardDistance(),
                                  48 + 50);
         }
         else
         {
             attackRange = QRectF(weapon->pos().x() - weapon->getAttackForwardDistance() + 55,
-                                 weapon->pos().y() - 24 + 50,
+                                 weapon->pos().y() - 24 + 60,
                                  weapon->getAttackForwardDistance(),
                                  48 + 50);
         }
@@ -699,6 +733,8 @@ void BattleScene::processShooting()
         // attackRangeRect->setBrush(Qt::NoBrush);
         // addItem(attackRangeRect);
 
+
+        // TODO: only attack player2 now
         QPointF player2Pos = m_player2->pos();
         if (attackRange.contains(player2Pos))
         {
@@ -713,10 +749,6 @@ void BattleScene::processShooting()
 
         if (isOnGround(weapon))
         {
-            // weapon->setAcceleration(QPointF(weapon->getAcceleration().x(), 0));
-            // weapon->setVelocity(QPointF(weapon->getVelocity().x(), 0));
-            // weapon->setPos(weapon->pos().x(), findNearestMap(weapon->pos())->getFloorHeight());
-
             // TODO: attack the map
             // attack and disappear
             removeItem(weapon);

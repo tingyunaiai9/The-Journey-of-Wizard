@@ -56,6 +56,11 @@ public:
     void processFps(qint64 deltaTime);
     void processHp();
 
+    void startSinglePlayerGame();
+    void startTwoPlayerGame();
+    void startOnlineGame();
+    void closeGame();
+
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 
