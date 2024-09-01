@@ -180,6 +180,16 @@ void Character::processInput() {
     }
     m_lastShootDown = m_shootDown;
 
+    // switch weapon button
+    if (!m_lastSwitchDown && m_switchDown) // first time switchDown
+    {
+        if(isHolding())
+        {
+            switchWeapon();
+        }
+    }
+    m_lastSwitchDown = m_switchDown;
+
 }
 
 Armor *Character::pickupArmor(Armor *newArmor) {
@@ -237,7 +247,7 @@ MeleeWeapon *Character::pickupMeleeWeapon(MeleeWeapon *newMeleeWeapon)
     newMeleeWeapon->setParentItem(this);
     newMeleeWeapon->equipToParent();
     m_meleeWeapon = newMeleeWeapon;
-    m_holdingWeapon = m_meleeWeapon; // hold the new weapon
+    setHoldingWeapon(m_meleeWeapon); // hold the new weapon
     return oldMeleeWeapon;
 }
 
@@ -258,7 +268,7 @@ RangedWeapon *Character::pickupRangedWeapon(RangedWeapon *newRangedWeapon)
         newBow->setParentItem(this);
         newBow->equipToParent();
         m_bow = newBow;
-        m_holdingWeapon = m_bow; // hold the new weapon
+        setHoldingWeapon(m_bow); // hold the new weapon
         return oldBow;
     }
 
@@ -379,7 +389,17 @@ Bow *Character::getBow()
 
 void Character::setHoldingWeapon(Weapon *holdingWeapon)
 {
+    // hide original weapon
+    if (m_holdingWeapon != nullptr)
+    {
+        m_holdingWeapon->setVisible(false);
+    }
+
     m_holdingWeapon = holdingWeapon;
+    if (m_holdingWeapon != nullptr)
+    {
+        m_holdingWeapon->setVisible(true); // show the new weapon
+    }
 }
 
 void Character::setMeleeWeapon(MeleeWeapon *meleeWeapon)
@@ -417,6 +437,28 @@ void Character::removeArrow(Arrow* arrow)
     }
 }
 
+// switch weapon
+void Character::switchWeapon()
+{
+    // switch between melee weapon and bow
+    if (m_meleeWeapon != nullptr && m_bow != nullptr)
+    {
+        if (m_holdingWeapon == m_meleeWeapon)
+        {
+            setHoldingWeapon(m_bow);  // melee weapon switch to bow
+        }
+        else
+        {
+            setHoldingWeapon(m_meleeWeapon);  // bow switch to melee weapon
+        }
+    }
+}
+
+void Character::setSwitchDown(bool switchDown)
+{
+    m_switchDown = switchDown;
+}
+
 // direction
 bool Character::isFacingRight() const
 {
@@ -441,6 +483,7 @@ Weapon *Character::abandonWeapon()
     }
 
     Weapon *oldWeapon = m_holdingWeapon;
+    // setHoldingWeapon(nullptr); // use this will lead to the disappear of the weapon
     m_holdingWeapon = nullptr; // clear the holding weapon
     if (oldWeapon == m_meleeWeapon)
     {

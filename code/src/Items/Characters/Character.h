@@ -31,6 +31,9 @@ private:
     bool m_lastShootDown{};
     bool m_shooting{};
 
+    bool m_switchDown{};
+    bool m_lastSwitchDown{};
+
 protected:
     HeadEquipment *headEquipment{};
     LegEquipment *legEquipment{};
@@ -101,6 +104,10 @@ public:
     void addArrow(Arrow* arrow);
     QList<Arrow*> getArrowListByElement(const QString& element) const;
     void removeArrow(Arrow* arrow);
+
+    // change weapon
+    void setSwitchDown(bool switchDown);
+    void switchWeapon();
 
     // shoot
     void setShootDown(bool shootDown);

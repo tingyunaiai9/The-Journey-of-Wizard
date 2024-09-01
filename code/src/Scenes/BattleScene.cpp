@@ -730,6 +730,7 @@ void BattleScene::processShooting()
         if (meleeWeapon)
         {
             meleeWeapon = dynamic_cast<MeleeWeapon *>(m_player1->abandonWeapon());
+            m_player1->setHoldingWeapon(m_player1->getBow());
             addToShootingWeapons(meleeWeapon);
             meleeWeapon->shoot(m_player1->isFacingRight());
         }

@@ -30,10 +30,10 @@ Link::Link(QGraphicsItem *parent, const QString &pixmapPath) :
     // armor = new IcebreakerArmor(this);
     // armor = new ElectrobreakerArmor(this);
 
-    // m_meleeWeapon = new ElectroMetalSpear(this);
-    // m_holdingWeapon = m_meleeWeapon;
-    m_bow = new WoodenPrimaryBow(this);
-    m_holdingWeapon = m_bow;
+    m_meleeWeapon = new ElectroMetalSpear(this);
+    setHoldingWeapon(m_meleeWeapon);
+    // m_bow = new WoodenPrimaryBow(this);
+    // setHoldingWeapon(m_bow);
 
     headEquipment->mountToParent();
     legEquipment->mountToParent();
@@ -74,6 +74,9 @@ void CPlayer1::key_press(QKeyEvent *event)
         case Qt::Key_L: // shoot
             setShootDown(true);
             break;
+        case Qt::Key_I: // switch weapon
+            setSwitchDown(true);
+            break;
         default:
             break;
     }
@@ -99,6 +102,9 @@ void CPlayer1::key_release(QKeyEvent *event)
             break;
         case Qt::Key_L: // release shoot
             setShootDown(false);
+            break;
+        case Qt::Key_I: // release switch weapon
+            setSwitchDown(false);
             break;
         default:
             break;
