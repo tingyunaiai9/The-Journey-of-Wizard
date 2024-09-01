@@ -5,6 +5,25 @@ Arrow::Arrow(QGraphicsItem *parent, const QString &pixmapPath) :
 {
 }
 
+void Arrow::equipToParent()
+{
+    RangedWeapon::equipToParent();
+    setScale(1);
+    setPos(-16, 0);
+    if (pixmapItem != nullptr) {
+        pixmapItem->setPos(0, 0);
+    }
+}
+
+void Arrow::unequip()
+{
+    RangedWeapon::unequip();
+    setScale(4);
+    if (pixmapItem != nullptr) {
+        pixmapItem->setPos(-23, 33);
+    }
+}
+
 NormalArrow::NormalArrow(QGraphicsItem *parent) :
     Arrow(parent, ":/Items/RangedWeapons/Arrow/arrow_normal.png")
 {

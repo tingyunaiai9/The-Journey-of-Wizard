@@ -7,6 +7,9 @@ class Arrow : public RangedWeapon
 {
 public:
     explicit Arrow(QGraphicsItem *parent, const QString &pixmapPath);
+
+    void equipToParent() override;
+    void unequip() override;
 };
 
 class NormalArrow : public Arrow

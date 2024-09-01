@@ -105,15 +105,20 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     // connect(onlineButton, &QPushButton::clicked, this, &BattleScene::startOnlineGame);
     // connect(exitButton, &QPushButton::clicked, this, &BattleScene::closeGame);
 
-    // generate equipment
-    equipmentDropTimer = new QTimer(this);
-    connect(equipmentDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomEquipment);
-    equipmentDropTimer->start(10000); // 10s
+    // // generate equipment
+    // equipmentDropTimer = new QTimer(this);
+    // connect(equipmentDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomEquipment);
+    // equipmentDropTimer->start(10000); // 10s
 
-    // generate weapon
-    weaponDropTimer = new QTimer(this);
-    connect(weaponDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomWeapon);
-    weaponDropTimer->start(10000);
+    // // generate weapon
+    // weaponDropTimer = new QTimer(this);
+    // connect(weaponDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomWeapon);
+    // weaponDropTimer->start(10000);
+
+    // generate arrow
+    arrowDropTimer = new QTimer(this);
+    connect(arrowDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomArrow);
+    arrowDropTimer->start(1000);
 
     // m_spareWeapon = new NormalWoodenOneHandedSword();
     m_spareWeapon = new MetalPrimaryBow();
@@ -293,6 +298,18 @@ void BattleScene::processMovement() {
             weapon->setAcceleration(QPointF(weapon->getAcceleration().x(), 0));
             weapon->setVelocity(QPointF(weapon->getVelocity().x(), 0));
             weapon->setPos(weapon->pos().x(), findNearestMap(weapon->pos())->getFloorHeight());
+
+            // // 标记武器掉落在地上的位置
+            // QGraphicsEllipseItem* weaponPositionMarker = new QGraphicsEllipseItem(weapon->pos().x() - 3, weapon->pos().y() - 3, 6, 6);
+            // weaponPositionMarker->setPen(QPen(Qt::red)); // 使用红色标记
+            // weaponPositionMarker->setBrush(Qt::red);
+            // addItem(weaponPositionMarker);
+
+            // // 可选：在一段时间后自动移除标记
+            // QTimer::singleShot(5000, this, [this, weaponPositionMarker]() {
+            //     removeItem(weaponPositionMarker);
+            //     delete weaponPositionMarker;
+            // });
         }
         else
         {
@@ -516,6 +533,23 @@ void BattleScene::generateRandomWeapon() {
         addToSpareWeapons(newWeapon);
     }
 
+}
+
+void BattleScene::generateRandomArrow()
+{
+    QStringList elements = {"Normal", "Flame", "Ice", "Electro"};
+    QString element = elements.at(rand() % elements.size());
+
+    Weapon *newArrow = CWeaponFactory::NewWeapon("Arrow", element);
+    if (newArrow)
+    {
+        qreal randomX = static_cast<qreal>(rand() % static_cast<int>(this->sceneRect().width()));
+        newArrow->setPos(randomX, 0);  // top: y=0
+        newArrow->unequip();
+        addItem(newArrow);
+
+        addToSpareWeapons(newArrow);
+    }
 }
 
 void BattleScene::generateItem(QString itemCode)

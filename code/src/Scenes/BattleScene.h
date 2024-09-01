@@ -38,6 +38,7 @@ private:
 
     QTimer *equipmentDropTimer; // time to drop equipment
     QTimer *weaponDropTimer; // time to drop weapon
+    QTimer *arrowDropTimer; // time to drop arrow
 
 protected slots:
     void update() override;
@@ -45,6 +46,7 @@ protected slots:
 private slots:
     void generateRandomEquipment();
     void generateRandomWeapon();
+    void generateRandomArrow();
     void generateItem(QString itemCode);
 
 public:

@@ -418,6 +418,9 @@ void Character::addArrow(Arrow* arrow)
         m_arrows[element] = QList<Arrow*>();
     }
     m_arrows[element].append(arrow);
+
+    arrow->setParentItem(this);
+    arrow->equipToParent();
 }
 
 QList<Arrow*> Character::getArrowListByElement(const QString& element) const
@@ -432,6 +435,10 @@ void Character::removeArrow(Arrow* arrow)
     {
         m_arrows[element].removeAll(arrow);
     }
+
+    arrow->unequip();
+    arrow->setPos(pos());
+    arrow->setParentItem(parentItem());
 }
 
 // switch weapon

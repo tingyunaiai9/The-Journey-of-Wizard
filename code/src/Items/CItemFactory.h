@@ -23,7 +23,7 @@ public:
 class CWeaponFactory
 {
 public:
-    static Weapon* NewWeapon(const QString& type, const QString& element, const QString& material);
+    static Weapon* NewWeapon(const QString& type, const QString& element = "", const QString& material = "");
 };
 
 #endif //QT_PROGRAMMING_2024_CITEMFACTORY_H
