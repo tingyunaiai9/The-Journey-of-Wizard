@@ -252,7 +252,12 @@ RangedWeapon *Character::pickupRangedWeapon(RangedWeapon *newRangedWeapon)
 
     // Arrow
     Arrow* newArrow = dynamic_cast<Arrow*>(newRangedWeapon);
-    // TODO: store the arrows
+    if (newArrow != nullptr)
+    {
+        addArrow(newArrow);
+        return nullptr; // no old arrow return
+    }
+
     return nullptr;
 }
 
@@ -375,6 +380,32 @@ void Character::setBow(Bow *bow)
     m_bow = bow;
 }
 
+// arrow
+void Character::addArrow(Arrow* arrow)
+{
+    QString element = arrow->getElement();
+    if (!m_arrows.contains(element))
+    {
+        m_arrows[element] = QList<Arrow*>();
+    }
+    m_arrows[element].append(arrow);
+}
+
+QList<Arrow*> Character::getArrowListByElement(const QString& element) const
+{
+    return m_arrows.value(element, QList<Arrow*>());
+}
+
+void Character::removeArrow(Arrow* arrow)
+{
+    QString element = arrow->getElement();
+    if (m_arrows.contains(element))
+    {
+        m_arrows[element].removeAll(arrow);
+    }
+}
+
+// direction
 bool Character::isFacingRight() const
 {
     return transform().m11() > 0;

@@ -16,7 +16,7 @@ private:
 public:
     Weapon(QGraphicsItem *parent, const QString &pixmapPath);
 
-    [[nodiscard]] virtual QString getMaterial() const = 0;
+    [[nodiscard]] virtual QString getMaterial() const {return "";}
 
     virtual void equipToParent();
     virtual void unequip();
@@ -29,7 +29,8 @@ public:
     [[nodiscard]] virtual int getAttackForwardDistance() const {return 0;}
     [[nodiscard]] virtual int getAttackBackwardDistance() const {return 0;}
     [[nodiscard]] virtual int getDamage() const {return 0;}
-    [[nodiscard]] virtual QString getElement() const {return "Normal";}
+
+    [[nodiscard]] virtual QString getElement() const {return "";}
 
     // shoot
     [[nodiscard]] const QPointF &getVelocity() const;

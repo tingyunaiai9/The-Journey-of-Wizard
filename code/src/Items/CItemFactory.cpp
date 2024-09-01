@@ -15,10 +15,15 @@
 #include "./LegEquipments/IcebreakerShoes.h"
 #include "./LegEquipments/ElectrobreakerShoes.h"
 
+#include "./MeleeWeapons/OneHandedSword.h"
+#include "./MeleeWeapons/TwoHandedSword.h"
 #include "./MeleeWeapons/Spear.h"
+#include "./RangedWeapons/PrimaryBow.h"
+#include "./RangedWeapons/Arrow.h"
 
 
-Item* CItemFactory::NewItem(const QString& category, const QString& type, const QString& element)
+
+Item* CItemFactory::NewItem(const QString& category, const QString& type, const QString& element, const QString& material)
 {
     if (category == "Equipment")
     {
@@ -26,7 +31,7 @@ Item* CItemFactory::NewItem(const QString& category, const QString& type, const 
     }
     else if (category == "Weapon" )
     {
-        return CWeaponFactory::NewWeapon(type, element);
+        return CWeaponFactory::NewWeapon(type, element, material);
     }
     else
     {
@@ -116,7 +121,178 @@ Mountable* CEquipmentFactory::NewEquipment(const QString& type, const QString& e
 }
 
 // TODO
-Weapon* CWeaponFactory::NewWeapon(const QString& type, const QString& element)
+Weapon* CWeaponFactory::NewWeapon(const QString& type, const QString& element, const QString& material)
 {
+    if (type == "OneHandedSword")
+    {
+        if (element == "Flame")
+        {
+            if (material == "Wooden")
+            {
+                return new FlameWoodenOneHandedSword();
+            }
+            else if (material == "Metal")
+            {
+                return new FlameMetalOneHandedSword();
+            }
+        }
+        else if (element == "Ice")
+        {
+            if (material == "Wooden")
+            {
+                return new IceWoodenOneHandedSword();
+            }
+            else if (material == "Metal")
+            {
+                return new IceMetalOneHandedSword();
+            }
+        }
+        else if (element == "Electro")
+        {
+            if (material == "Wooden")
+            {
+                return new ElectroWoodenOneHandedSword();
+            }
+            else if (material == "Metal")
+            {
+                return new ElectroMetalOneHandedSword();
+            }
+        }
+        else if (element == "Normal")
+        {
+            if (material == "Wooden")
+            {
+                return new NormalWoodenOneHandedSword();
+            }
+            else if (material == "Metal")
+            {
+                return new NormalMetalOneHandedSword();
+            }
+        }
+    }
+    else if (type == "TwoHandedSword")
+    {
+        if (element == "Flame")
+        {
+            if (material == "Wooden")
+            {
+                return new FlameWoodenTwoHandedSword();
+            }
+            else if (material == "Metal")
+            {
+                return new FlameMetalTwoHandedSword();
+            }
+        }
+        else if (element == "Ice")
+        {
+            if (material == "Wooden")
+            {
+                return new IceWoodenTwoHandedSword();
+            }
+            else if (material == "Metal")
+            {
+                return new IceMetalTwoHandedSword();
+            }
+        }
+        else if (element == "Electro")
+        {
+            if (material == "Wooden")
+            {
+                return new ElectroWoodenTwoHandedSword();
+            }
+            else if (material == "Metal")
+            {
+                return new ElectroMetalTwoHandedSword();
+            }
+        }
+        else if (element == "Normal")
+        {
+            if (material == "Wooden")
+            {
+                return new NormalWoodenTwoHandedSword();
+            }
+            else if (material == "Metal")
+            {
+                return new NormalMetalTwoHandedSword();
+            }
+        }
+    }
+    else if (type == "Spear")
+    {
+        if (element == "Flame")
+        {
+            if (material == "Wooden")
+            {
+                return new FlameWoodenSpear();
+            }
+            else if (material == "Metal")
+            {
+                return new FlameMetalSpear();
+            }
+        }
+        else if (element == "Ice")
+        {
+            if (material == "Wooden")
+            {
+                return new IceWoodenSpear();
+            }
+            else if (material == "Metal")
+            {
+                return new IceMetalSpear();
+            }
+        }
+        else if (element == "Electro")
+        {
+            if (material == "Wooden")
+            {
+                return new ElectroWoodenSpear();
+            }
+            else if (material == "Metal")
+            {
+                return new ElectroMetalSpear();
+            }
+        }
+        else if (element == "Normal")
+        {
+            if (material == "Wooden")
+            {
+                return new NormalWoodenSpear();
+            }
+            else if (material == "Metal")
+            {
+                return new NormalMetalSpear();
+            }
+        }
+    }
+    else if (type == "PrimaryBow")
+    {
+        if (material == "Wooden")
+        {
+            return new WoodenPrimaryBow();
+        }
+        else if (material == "Metal")
+        {
+            return new MetalPrimaryBow();
+        }
+    }
+    else if (type == "Arrow")
+    {
+        if (element == "Flame")
+        {
+            return new FlameArrow();
+        }
+        else if (element == "Ice")
+        {
+            return new IceArrow();
+        }
+        else if (element == "Electro")
+        {
+            return new ElectroArrow();
+        }
+        else if (element == "Normal")
+        {
+            return new NormalArrow();
+        }
+    }
     return nullptr;
 }

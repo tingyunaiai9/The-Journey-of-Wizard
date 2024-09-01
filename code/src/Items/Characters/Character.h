@@ -40,6 +40,7 @@ protected:
     MeleeWeapon *m_meleeWeapon{};
     Bow *m_bow{};
     Weapon *m_holdingWeapon{}; // the weapon character holding
+    QMap<QString, QList<Arrow*>> m_arrows; // arrows the character has
 
     QPointF m_velocity{};
     QPointF m_acceleration{};
@@ -96,6 +97,10 @@ public:
     void setHoldingWeapon(Weapon* weapon);
     void setMeleeWeapon(MeleeWeapon* meleeWeapon);
     void setBow(Bow* bow);
+    // arrow
+    void addArrow(Arrow* arrow);
+    QList<Arrow*> getArrowListByElement(const QString& element) const;
+    void removeArrow(Arrow* arrow);
 
     // shoot
     void setShootDown(bool shootDown);
