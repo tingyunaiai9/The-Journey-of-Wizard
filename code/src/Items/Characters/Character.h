@@ -47,6 +47,7 @@ protected:
     Bow *m_bow{};
     Weapon *m_holdingWeapon{}; // the weapon character holding
     QMap<QString, QList<Arrow*>> m_arrows; // arrows the character has
+    int m_currentArrowElementIndex = 0; // the index of the current arrow element
 
     int m_hp = 100;
 
@@ -98,6 +99,8 @@ public:
     void addArrow(Arrow* arrow);
     QList<Arrow*> getArrowListByElement(const QString& element) const;
     void removeArrow(Arrow* arrow);
+    void selectNextArrowElement();
+    void updateArrowVisibility();
 
     // change weapon
     void setSwitchDown(bool switchDown);

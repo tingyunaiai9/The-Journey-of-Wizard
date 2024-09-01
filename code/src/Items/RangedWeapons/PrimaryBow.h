@@ -7,6 +7,12 @@ class PrimaryBow : public Bow
 {
 public:
     explicit PrimaryBow(QGraphicsItem *parent, const QString &pixmapPath);
+
+    int getShootArrowCount() const override {return 1;}
+    QList<QPointF> getShootArrowVelocities() const override
+    {
+        return QList<QPointF>{QPointF(1.5, 0)};
+    }
 };
 
 class WoodenPrimaryBow : public PrimaryBow

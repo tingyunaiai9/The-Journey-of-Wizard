@@ -806,6 +806,12 @@ void BattleScene::processShooting()
         if (bow)
         {
             // TODO: bow shoot
+            int shootArrowCount = bow->getShootArrowCount();
+            QList<QPointF> shootAttowVelocities = bow->getShootArrowVelocities();
+
+            // 检查player是否有足够的箭
+            // 分别射出每一支箭，对应数组中的速度
+
         }
 
     }

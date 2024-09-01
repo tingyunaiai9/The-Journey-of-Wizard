@@ -141,7 +141,8 @@ void Character::processInput() {
         Bow* bow = dynamic_cast<Bow*>(m_holdingWeapon);
         if (bow)
         {
-            // TODO: change arrow
+            // change arrow element
+            selectNextArrowElement();
         }
 
     }
@@ -397,6 +398,8 @@ void Character::setHoldingWeapon(Weapon *holdingWeapon)
     {
         m_holdingWeapon->setVisible(true); // show the new weapon
     }
+
+    updateArrowVisibility(); // update the arrow visibility when switch weapon
 }
 
 void Character::setMeleeWeapon(MeleeWeapon *meleeWeapon)
@@ -410,7 +413,7 @@ void Character::setBow(Bow *bow)
 }
 
 // arrow
-void Character::addArrow(Arrow* arrow)
+void Character::addArrow(Arrow* arrow) // add arrow to m_arrows
 {
     QString element = arrow->getElement();
     if (!m_arrows.contains(element))
@@ -421,6 +424,9 @@ void Character::addArrow(Arrow* arrow)
 
     arrow->setParentItem(this);
     arrow->equipToParent();
+
+    // update the arrow visibility
+    updateArrowVisibility();
 }
 
 QList<Arrow*> Character::getArrowListByElement(const QString& element) const
@@ -428,7 +434,7 @@ QList<Arrow*> Character::getArrowListByElement(const QString& element) const
     return m_arrows.value(element, QList<Arrow*>());
 }
 
-void Character::removeArrow(Arrow* arrow)
+void Character::removeArrow(Arrow* arrow) // remove arrow from m_arrows
 {
     QString element = arrow->getElement();
     if (m_arrows.contains(element))
@@ -439,6 +445,61 @@ void Character::removeArrow(Arrow* arrow)
     arrow->unequip();
     arrow->setPos(pos());
     arrow->setParentItem(parentItem());
+}
+
+// change the cur arrow element to next
+void Character::selectNextArrowElement()
+{
+    if (m_arrows.isEmpty())
+    {
+        return;
+    }
+
+    // get the element
+    QStringList elements = m_arrows.keys();
+    m_currentArrowElementIndex = (m_currentArrowElementIndex + 1) % elements.size(); // update element index
+
+    updateArrowVisibility();
+}
+
+// update the arrow visibility
+void Character::updateArrowVisibility()
+{
+    if (m_holdingWeapon == m_bow) // hold bow, show the current arrow
+    {
+        QStringList elements = m_arrows.keys();
+        if (!elements.isEmpty())
+        {
+            QString currentElement = elements.at(m_currentArrowElementIndex % elements.size());
+            QList<Arrow*> arrowList = m_arrows.value(currentElement);
+
+            // hide all the arrows
+            for (auto &element : elements)
+            {
+                for (auto arrow : m_arrows[element])
+                {
+                    arrow->setVisible(false);
+                }
+            }
+            // show the selected arrow
+            if (!arrowList.isEmpty())
+            {
+                Arrow *currentArrow = arrowList.first();
+                currentArrow->setVisible(true);
+                currentArrow->setZValue(m_holdingWeapon->zValue() + 1); // Set arrow Z value above the weapon
+            }
+        }
+    }
+    else // hold melee weapon or nullptr, hide all arrows
+    {
+        for (auto &element : m_arrows.keys())
+        {
+            for (auto arrow : m_arrows[element])
+            {
+                arrow->setVisible(false);
+            }
+        }
+    }
 }
 
 // switch weapon
