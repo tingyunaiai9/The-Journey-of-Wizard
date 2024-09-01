@@ -111,7 +111,7 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     equipmentDropTimer->start(10000); // 10s
 
     // m_spareWeapon = new NormalWoodenOneHandedSword();
-    m_spareWeapon = new WoodenPrimaryBow();
+    m_spareWeapon = new MetalPrimaryBow();
     addItem(m_spareWeapon);
     m_spareWeapon->unequip();
     m_spareWeapon->setPos(m_battlefield->getSpawnPos(0.5));
