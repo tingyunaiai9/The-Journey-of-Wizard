@@ -248,6 +248,11 @@ MeleeWeapon *Character::pickupMeleeWeapon(MeleeWeapon *newMeleeWeapon)
     newMeleeWeapon->equipToParent();
     m_meleeWeapon = newMeleeWeapon;
     setHoldingWeapon(m_meleeWeapon); // hold the new weapon
+    // m_holdingWeapon = newMeleeWeapon;
+    if (oldMeleeWeapon != nullptr)
+    {
+        oldMeleeWeapon->setVisible(true);
+    }
     return oldMeleeWeapon;
 }
 
@@ -269,6 +274,12 @@ RangedWeapon *Character::pickupRangedWeapon(RangedWeapon *newRangedWeapon)
         newBow->equipToParent();
         m_bow = newBow;
         setHoldingWeapon(m_bow); // hold the new weapon
+        // TODO: bug: pick up new bow and old bow disappear
+        // m_holdingWeapon = newBow;
+        if (oldBow != nullptr)
+        {
+            oldBow->setVisible(true);
+        }
         return oldBow;
     }
 
@@ -483,7 +494,7 @@ Weapon *Character::abandonWeapon()
     }
 
     Weapon *oldWeapon = m_holdingWeapon;
-    // setHoldingWeapon(nullptr); // use this will lead to the disappear of the weapon
+    // setHoldingWeapon(nullptr); // use this will lead to the disappear
     m_holdingWeapon = nullptr; // clear the holding weapon
     if (oldWeapon == m_meleeWeapon)
     {

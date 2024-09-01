@@ -37,12 +37,14 @@ private:
     QVector<Weapon*> m_shootingWeapons;
 
     QTimer *equipmentDropTimer; // time to drop equipment
+    QTimer *weaponDropTimer; // time to drop weapon
 
 protected slots:
     void update() override;
 
 private slots:
     void generateRandomEquipment();
+    void generateRandomWeapon();
     void generateItem(QString itemCode);
 
 public:

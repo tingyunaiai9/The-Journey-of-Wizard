@@ -110,6 +110,11 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     connect(equipmentDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomEquipment);
     equipmentDropTimer->start(10000); // 10s
 
+    // generate weapon
+    weaponDropTimer = new QTimer(this);
+    connect(weaponDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomWeapon);
+    weaponDropTimer->start(10000);
+
     // m_spareWeapon = new NormalWoodenOneHandedSword();
     m_spareWeapon = new MetalPrimaryBow();
     addItem(m_spareWeapon);
@@ -484,6 +489,29 @@ void BattleScene::generateRandomEquipment() {
 
         addToSpareEquipments(newEquipment); // store the equipment
     }
+}
+
+void BattleScene::generateRandomWeapon() {
+    QStringList types = {"OneHandedSword", "TwoHandedSword", "Spear",
+                         "PrimaryBow"}; // TODO: add more types
+    QStringList elements = {"Normal", "Flame", "Ice", "Electro"};
+    QStringList materials = {"Wooden", "Metal"};
+
+    QString type = types.at(rand() % types.size());
+    QString element = elements.at(rand() % elements.size());
+    QString material = materials.at(rand() % materials.size());
+
+    Weapon *newWeapon = CWeaponFactory::NewWeapon(type, element, material);
+    if (newWeapon)
+    {
+        qreal randomX = static_cast<qreal>(rand() % static_cast<int>(this->sceneRect().width()));
+        newWeapon->setPos(randomX, 0);  // top: y=0
+        newWeapon->unequip();
+        addItem(newWeapon);
+
+        addToSpareWeapons(newWeapon);
+    }
+
 }
 
 void BattleScene::generateItem(QString itemCode)
