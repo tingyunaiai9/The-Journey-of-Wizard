@@ -231,22 +231,29 @@ MeleeWeapon *Character::pickupMeleeWeapon(MeleeWeapon *newMeleeWeapon)
 
 RangedWeapon *Character::pickupRangedWeapon(RangedWeapon *newRangedWeapon)
 {
-    // TODO: can not pick if already have one
-    // already complete in BattleScene::pickupWeapon
+    // Bow
+    Bow* newBow = dynamic_cast<Bow*>(newRangedWeapon);
+    if (newBow != nullptr)
+    {
+        auto oldBow = m_bow;
 
-    auto oldRangedWeapon = m_rangedWeapon;
+        if (oldBow != nullptr) {
+            oldBow->unequip();
+            oldBow->setPos(newBow->pos());
+            oldBow->setParentItem(parentItem());
+        }
 
-    if (oldRangedWeapon != nullptr) {
-        oldRangedWeapon->unequip();
-        oldRangedWeapon->setPos(newRangedWeapon->pos());
-        oldRangedWeapon->setParentItem(parentItem());
+        newBow->setParentItem(this);
+        newBow->equipToParent();
+        m_bow = newBow;
+        m_holdingWeapon = m_bow; // hold the new weapon
+        return oldBow;
     }
 
-    newRangedWeapon->setParentItem(this);
-    newRangedWeapon->equipToParent();
-    m_rangedWeapon = newRangedWeapon;
-    m_holdingWeapon = m_rangedWeapon; // hold the new weapon
-    return oldRangedWeapon;
+    // Arrow
+    Arrow* newArrow = dynamic_cast<Arrow*>(newRangedWeapon);
+    // TODO: store the arrows
+    return nullptr;
 }
 
 void Character::key_press(QKeyEvent *event)
@@ -348,9 +355,9 @@ MeleeWeapon *Character::getMeleeWeapon()
     return m_meleeWeapon;
 }
 
-RangedWeapon *Character::getRangedWeapon()
+Bow *Character::getBow()
 {
-    return m_rangedWeapon;
+    return m_bow;
 }
 
 void Character::setHoldingWeapon(Weapon *holdingWeapon)
@@ -363,9 +370,9 @@ void Character::setMeleeWeapon(MeleeWeapon *meleeWeapon)
     m_meleeWeapon = meleeWeapon;
 }
 
-void Character::setRangedWeapon(RangedWeapon *rangedWeapon)
+void Character::setBow(Bow *bow)
 {
-    m_rangedWeapon = rangedWeapon;
+    m_bow = bow;
 }
 
 bool Character::isFacingRight() const
@@ -396,9 +403,9 @@ Weapon *Character::abandonWeapon()
     {
         m_meleeWeapon = nullptr;
     }
-    else if (oldWeapon == m_rangedWeapon)
+    else if (oldWeapon == m_bow)
     {
-        m_rangedWeapon = nullptr;
+        m_bow = nullptr;
     }
 
     // unequip the weapon

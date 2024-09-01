@@ -8,6 +8,7 @@
 #include "../MeleeWeapons/OneHandedSword.h"
 #include "../MeleeWeapons/TwoHandedSword.h"
 #include "../MeleeWeapons/Spear.h"
+#include "../RangedWeapons/PrimaryBow.h"
 
 #include <QKeyEvent>
 
@@ -29,14 +30,16 @@ Link::Link(QGraphicsItem *parent, const QString &pixmapPath) :
     // armor = new IcebreakerArmor(this);
     // armor = new ElectrobreakerArmor(this);
 
-    m_meleeWeapon = new ElectroMetalSpear(this);
-    m_holdingWeapon = m_meleeWeapon;
+    // m_meleeWeapon = new ElectroMetalSpear(this);
+    // m_holdingWeapon = m_meleeWeapon;
+    m_bow = new WoodenPrimaryBow(this);
+    m_holdingWeapon = m_bow;
 
     headEquipment->mountToParent();
     legEquipment->mountToParent();
     armor->mountToParent();
 
-    m_meleeWeapon->equipToParent();
+    m_holdingWeapon->equipToParent();
 }
 
 CPlayer1::CPlayer1(QGraphicsItem *parent) :

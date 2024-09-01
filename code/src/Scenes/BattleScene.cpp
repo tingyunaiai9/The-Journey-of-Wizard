@@ -10,6 +10,7 @@
 #include "../Items/Maps/MetalPlatform.h"
 
 #include "../Items/MeleeWeapons/OneHandedSword.h"
+#include "../Items/RangedWeapons/PrimaryBow.h"
 
 #include <QDebug>
 #include <QPushButton>
@@ -109,7 +110,8 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     connect(equipmentDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomEquipment);
     equipmentDropTimer->start(10000); // 10s
 
-    m_spareWeapon = new NormalWoodenOneHandedSword();
+    // m_spareWeapon = new NormalWoodenOneHandedSword();
+    m_spareWeapon = new WoodenPrimaryBow();
     addItem(m_spareWeapon);
     m_spareWeapon->unequip();
     m_spareWeapon->setPos(m_battlefield->getSpawnPos(0.5));
@@ -423,13 +425,8 @@ Weapon *BattleScene::pickupWeapon(Character *player, Weapon *weapon)
     }
     else if (auto rangedWeapon = dynamic_cast<RangedWeapon *>(weapon))
     {
-        // can not pick if already have one
-        auto oldRangedWeapon = player->getRangedWeapon();
-        if (oldRangedWeapon != nullptr)
-        {
-            return nullptr;
-        }
-
+        // bow: change
+        // arrow: store
         previousWeapon = player->pickupRangedWeapon(rangedWeapon);
     }
 

@@ -26,10 +26,10 @@ public:
     virtual void stopAttack();
     [[nodiscard]] bool isAttacking() const;
 
-    [[nodiscard]] virtual int getAttackForwardDistance() const = 0;
-    [[nodiscard]] virtual int getAttackBackwardDistance() const = 0;
-    [[nodiscard]] virtual int getDamage() const = 0;
-    [[nodiscard]] virtual QString getElement() const = 0;
+    [[nodiscard]] virtual int getAttackForwardDistance() const {return 0;}
+    [[nodiscard]] virtual int getAttackBackwardDistance() const {return 0;}
+    [[nodiscard]] virtual int getDamage() const {return 0;}
+    [[nodiscard]] virtual QString getElement() const {return "Normal";}
 
     // shoot
     [[nodiscard]] const QPointF &getVelocity() const;

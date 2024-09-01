@@ -8,6 +8,8 @@
 #include "../LegEquipments/LegEquipment.h"
 #include "../MeleeWeapons/MeleeWeapon.h"
 #include "../RangedWeapons/RangedWeapon.h"
+#include "../RangedWeapons/Bow.h"
+#include "../RangedWeapons/Arrow.h"
 #include "IHero.h"
 
 class Character : public Item, public IHero
@@ -36,7 +38,7 @@ protected:
 
     // weapon
     MeleeWeapon *m_meleeWeapon{};
-    RangedWeapon *m_rangedWeapon{};
+    Bow *m_bow{};
     Weapon *m_holdingWeapon{}; // the weapon character holding
 
     QPointF m_velocity{};
@@ -90,10 +92,10 @@ public:
 
     Weapon* getHoldingWeapon();
     MeleeWeapon* getMeleeWeapon();
-    RangedWeapon* getRangedWeapon();
+    Bow* getBow();
     void setHoldingWeapon(Weapon* weapon);
     void setMeleeWeapon(MeleeWeapon* meleeWeapon);
-    void setRangedWeapon(RangedWeapon* rangedWeapon);
+    void setBow(Bow* bow);
 
     // shoot
     void setShootDown(bool shootDown);

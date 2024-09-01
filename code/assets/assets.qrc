@@ -42,5 +42,7 @@
         <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_wooden_flame.png</file>
         <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_wooden_ice.png</file>
         <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_wooden_normal.png</file>
+        <file>Items/RangedWeapons/Bow/primary_bow_metal.png</file>
+        <file>Items/RangedWeapons/Bow/primary_bow_wooden.png</file>
     </qresource>
 </RCC>
