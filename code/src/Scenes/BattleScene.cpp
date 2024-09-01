@@ -725,16 +725,22 @@ void BattleScene::processShooting()
 {
     if (m_player1->isShooting())
     {
-
-        // TODO: currently abandon all the holding weapon: melee + ranged
-        Weapon *previousWeapon = m_player1->abandonWeapon();
-
-        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(previousWeapon);
+        // shoot melee weapon
+        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(m_player1->getHoldingWeapon());
         if (meleeWeapon)
         {
+            meleeWeapon = dynamic_cast<MeleeWeapon *>(m_player1->abandonWeapon());
             addToShootingWeapons(meleeWeapon);
             meleeWeapon->shoot(m_player1->isFacingRight());
         }
+
+        // shoot ranged weapon
+        auto bow = dynamic_cast<Bow *>(m_player1->getHoldingWeapon());
+        if (bow)
+        {
+            // TODO: bow shoot
+        }
+
     }
 
     // TODO: move the move part to processMovement

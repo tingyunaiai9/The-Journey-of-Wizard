@@ -25,3 +25,25 @@ void Bow::unequip()
         pixmapItem->setPos(20, -12);
     }
 }
+
+void Bow::startAttack()
+{
+    RangedWeapon::startAttack();
+
+    //rotate
+    if (pixmapItem != nullptr) {
+        pixmapItem->setRotation(45);
+        pixmapItem->setPos(25, -5);
+    }
+}
+
+void Bow::stopAttack()
+{
+    RangedWeapon::stopAttack();
+
+    //rotate back
+    if (pixmapItem != nullptr) {
+        pixmapItem->setRotation(0);
+        pixmapItem->setPos(0, 0);
+    }
+}

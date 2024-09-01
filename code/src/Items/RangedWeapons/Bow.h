@@ -10,6 +10,9 @@ public:
 
     void equipToParent() override;
     void unequip() override;
+
+    void startAttack() override;
+    void stopAttack() override;
 };
 
 #endif //QT_PROGRAMMING_2024_BOW_H
