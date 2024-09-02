@@ -635,10 +635,10 @@ QRectF Character::getAreaRect()
 }
 
 // direction
-bool Character::isFacingRight() const
-{
-    return transform().m11() > 0;
-}
+// bool Character::isFacingRight() const
+// {
+//     return transform().m11() > 0;
+// }
 
 void Character::turnLeft()
 {

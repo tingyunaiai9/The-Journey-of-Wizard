@@ -135,7 +135,7 @@ public:
     virtual QRectF getAreaRect() override;
     virtual void showAreaRect(Scene* scene, bool bDebug) override;
 
-    bool isFacingRight() const; // direction of the character
+    // bool isFacingRight() const; // direction of the character
     void turnLeft();
     void turnRight();
 };

@@ -784,6 +784,7 @@ void BattleScene::processShooting()
     if (m_player1->isShooting())
     {
         // shoot ranged weapon
+        // bow first to avoid shoot melee weapon and change to bow and shoot bow the same time
         auto bow = dynamic_cast<Bow *>(m_player1->getHoldingWeapon());
         if (bow) // bow shoot
         {

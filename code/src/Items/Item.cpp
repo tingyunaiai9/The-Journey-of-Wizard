@@ -138,3 +138,9 @@ void Item::move(qint64 deltaTime, QRectF maxRect)
     setPos(moveX, moveY);
     setVelocity(getVelocity() + getAcceleration() * (double) deltaTime);
 }
+
+// direction
+bool Item::isFacingRight() const
+{
+    return transform().m11() > 0;
+}

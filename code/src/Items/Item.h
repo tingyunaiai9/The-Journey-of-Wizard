@@ -56,6 +56,9 @@ public:
     [[nodiscard]] const QPointF &getAcceleration() const;
     void setAcceleration(const QPointF &acceleration);
     virtual void move(qint64 deltaTime, QRectF maxRect = QRectF(0, 0, 1280, 480));
+
+    // direction
+    [[nodiscard]] bool isFacingRight() const;
 };
 
 #endif //QT_PROGRAMMING_2024_ITEM_H
