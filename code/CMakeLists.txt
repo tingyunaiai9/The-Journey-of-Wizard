@@ -47,6 +47,8 @@ add_executable(qt_programming_2024 src/main.cpp
         src/Items/RangedWeapons/Arrow.h
         src/Items/RangedWeapons/PrimaryBow.cpp
         src/Items/RangedWeapons/PrimaryBow.h
+        src/Items/RangedWeapons/ComboBow.cpp
+        src/Items/RangedWeapons/ComboBow.h
 
         src/Items/Characters/Character.cpp
         src/Items/Characters/Character.h

@@ -48,5 +48,7 @@
         <file>Items/RangedWeapons/Arrow/arrow_flame.png</file>
         <file>Items/RangedWeapons/Arrow/arrow_ice.png</file>
         <file>Items/RangedWeapons/Arrow/arrow_normal.png</file>
+        <file>Items/RangedWeapons/Bow/combo_bow_metal.png</file>
+        <file>Items/RangedWeapons/Bow/combo_bow_wooden.png</file>
     </qresource>
 </RCC>

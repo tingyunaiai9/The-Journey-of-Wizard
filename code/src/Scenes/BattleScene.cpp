@@ -11,6 +11,7 @@
 
 #include "../Items/MeleeWeapons/OneHandedSword.h"
 #include "../Items/RangedWeapons/PrimaryBow.h"
+#include "../Items/RangedWeapons/ComboBow.h"
 
 #include <QDebug>
 #include <QPushButton>
@@ -121,7 +122,8 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     arrowDropTimer->start(1000);
 
     // m_spareWeapon = new NormalWoodenOneHandedSword();
-    m_spareWeapon = new MetalPrimaryBow();
+    // m_spareWeapon = new MetalPrimaryBow();
+    m_spareWeapon = new MetalComboBow();
     addItem(m_spareWeapon);
     m_spareWeapon->unequip();
     m_spareWeapon->setPos(m_battlefield->getSpawnPos(0.5));
@@ -847,9 +849,15 @@ void BattleScene::processShooting()
         }
     }
 
+    QList<Weapon*> weaponsToRemove; // record weapons to remove
     // TODO: move the move part to processMovement
     for (auto weapon : m_shootingWeapons)
     {
+        if (weapon == nullptr)
+        {
+            continue;
+        }
+
         weapon->setPos(weapon->pos().x() + weapon->getVelocity().x() * (double) deltaTime,
                        fmin(480, weapon->pos().y() + weapon->getVelocity().y() * (double) deltaTime));
         weapon->setVelocity(weapon->getVelocity() + weapon->getAcceleration() * (double) deltaTime);
@@ -887,20 +895,16 @@ void BattleScene::processShooting()
         {
             m_player1->beHit(weapon->getDamage(), weapon->getElement());
             // remove after attack
-            removeItem(weapon);
-            removeFromShootingWeapons(weapon);
-            delete weapon;
-
+            if (weapon && weapon->scene() == this)
+            weaponsToRemove.append(weapon); // record the weapon to remove
             continue;
         }
         else if (attackRange.contains(player2Pos))
         {
             m_player2->beHit(weapon->getDamage(), weapon->getElement());
             // remove after attack
-            removeItem(weapon);
-            removeFromShootingWeapons(weapon);
-            delete weapon;
-
+            if (weapon && weapon->scene() == this)
+            weaponsToRemove.append(weapon); // record the weapon to remove
             continue;
         }
 
@@ -908,15 +912,13 @@ void BattleScene::processShooting()
         {
             // TODO: attack the map
             // attack and disappear
-            removeItem(weapon);
-            removeFromShootingWeapons(weapon);
-            delete weapon;
+            weaponsToRemove.append(weapon); // record the weapon to remove
+            continue;
         }
         else
         {
             weapon->setAcceleration(QPointF(weapon->getAcceleration().x(), Item::GRAVITY.y()));
         }
-
 
         // // 调试：绘制射击武器的位置
         // QGraphicsEllipseItem *weaponPositionMarker = new QGraphicsEllipseItem(weapon->pos().x() - 5, weapon->pos().y() - 5, 10, 10);
@@ -931,6 +933,17 @@ void BattleScene::processShooting()
         // });
     }
 
+    // remove weapons
+    for (auto weapon : weaponsToRemove)
+    {
+        if (weapon && weapon->scene() == this)
+        {
+            removeFromShootingWeapons(weapon);
+            removeItem(weapon);
+            delete weapon;
+            weapon = nullptr;
+        }
+    }
 }
 
 // fps
