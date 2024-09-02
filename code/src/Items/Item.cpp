@@ -13,6 +13,7 @@ Item::Item(QGraphicsItem *parent, const QString &pixmapPath) :
     }
 
     m_sceneRect = nullptr;
+    m_posPoint = nullptr;
     m_scene = nullptr;
 
     m_velocity = QPointF(0,0);
@@ -26,6 +27,10 @@ Item::~Item()
         m_scene->removeItem(m_sceneRect);
         delete m_sceneRect;
         m_sceneRect = nullptr;
+
+        m_scene->removeItem(m_posPoint);
+        delete m_posPoint;
+        m_posPoint = nullptr;
     }
 }
 
@@ -45,6 +50,11 @@ void Item::showAreaRect(Scene* scene, bool bDebug)
         m_sceneRect->setBrush(Qt::NoBrush);
         m_scene->addItem(m_sceneRect);
 
+        m_posPoint = new QGraphicsEllipseItem(pos().x() - 2, pos().y() - 2, 4, 4);
+        m_posPoint->setPen(QPen(Qt::red));
+        m_posPoint->setBrush(Qt::red);
+        m_scene->addItem(m_posPoint);
+
         qDebug() << getName() << itemRect;
     }
 
@@ -53,6 +63,9 @@ void Item::showAreaRect(Scene* scene, bool bDebug)
         m_scene->removeItem(m_sceneRect);
         delete m_sceneRect;
         m_sceneRect = nullptr;
+        m_scene->removeItem(m_posPoint);
+        delete m_posPoint;
+        m_posPoint = nullptr;
     }
 }
 
@@ -92,7 +105,36 @@ void Item::setAcceleration(const QPointF &acceleration) {
 
 void Item::move(qint64 deltaTime, QRectF maxRect)
 {
-    setPos(pos().x() + getVelocity().x() * (double) deltaTime,
-                        fmin(480, pos().y() + getVelocity().y() * (double) deltaTime));
+    qreal posX = pos().x();
+    qreal posY = pos().y();
+
+    qreal velocityX = getVelocity().x();
+    qreal velocityY = getVelocity().y();
+
+    qreal moveX;
+    qreal moveY;
+
+    if (velocityX == 0)
+    {
+        moveX = posX;
+    }
+    else
+    {
+        posX += velocityX * (double) deltaTime;
+        moveX = fmin(maxRect.right(), posX);
+        moveX = fmax(maxRect.left(), moveX);
+    }
+
+    if (velocityY == 0)
+    {
+        moveY = posY;
+    }
+    else
+    {
+        posY += velocityY * (double) deltaTime;
+        moveY = fmin(maxRect.bottom(), posY);
+    }
+
+    setPos(moveX, moveY);
     setVelocity(getVelocity() + getAcceleration() * (double) deltaTime);
 }

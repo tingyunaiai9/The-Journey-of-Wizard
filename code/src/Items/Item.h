@@ -35,6 +35,7 @@ public:
 
 private:
     QGraphicsRectItem* m_sceneRect;
+    QGraphicsEllipseItem* m_posPoint;
     Scene* m_scene;
 
     Item* m_groundMap = nullptr;

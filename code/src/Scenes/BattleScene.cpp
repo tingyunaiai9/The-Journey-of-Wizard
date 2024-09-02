@@ -238,10 +238,7 @@ void BattleScene::processMovement() {
         // m_player1->setPos(m_player1->pos() +
         //                   m_player1->getVelocity() * (double) deltaTime);
         // avoid drop out of the scene
-        m_player1->setPos(m_player1->pos().x() + m_player1->getVelocity().x() * (double) deltaTime,
-                          fmin(480, m_player1->pos().y() + m_player1->getVelocity().y() * (double) deltaTime));
-        m_player1->setVelocity(m_player1->getVelocity() +
-                               m_player1->getAcceleration() * (double) deltaTime);
+        m_player1->move(deltaTime);
 
         // onground and not jumping
         if (isOnGround(m_player1) && m_player1->getVelocity().y() >= 0)
@@ -260,10 +257,7 @@ void BattleScene::processMovement() {
 
     if (m_player2 != nullptr)
     {
-        m_player2->setPos(m_player2->pos().x() + m_player2->getVelocity().x() * (double) deltaTime,
-                          fmin(480, m_player2->pos().y() + m_player2->getVelocity().y() * (double) deltaTime));
-        m_player2->setVelocity(m_player2->getVelocity() +
-                               m_player2->getAcceleration() * (double) deltaTime);
+        m_player2->move(deltaTime);
 
         // onground and not jumping
         if (isOnGround(m_player2) && m_player2->getVelocity().y() >= 0)
@@ -283,9 +277,7 @@ void BattleScene::processMovement() {
     for(auto equipment : m_spareEquipments)
     {
         // equipment->setPos(equipment->pos() + equipment->getVelocity() * (double) deltaTime);
-        equipment->setPos(equipment->pos().x() + equipment->getVelocity().x() * (double) deltaTime,
-                          fmin(480, equipment->pos().y() + equipment->getVelocity().y() * (double) deltaTime));
-        equipment->setVelocity(equipment->getVelocity() + equipment->getAcceleration() * (double) deltaTime);
+        equipment->move(deltaTime);
 
         if (isOnGround(equipment))
         {
@@ -309,18 +301,6 @@ void BattleScene::processMovement() {
             weapon->setAcceleration(QPointF(weapon->getAcceleration().x(), 0));
             weapon->setVelocity(QPointF(weapon->getVelocity().x(), 0));
             weapon->setPos(weapon->pos().x(), findNearestMap(weapon->pos())->getFloorHeight());
-
-            // // 标记武器掉落在地上的位置
-            // QGraphicsEllipseItem* weaponPositionMarker = new QGraphicsEllipseItem(weapon->pos().x() - 3, weapon->pos().y() - 3, 6, 6);
-            // weaponPositionMarker->setPen(QPen(Qt::red)); // 使用红色标记
-            // weaponPositionMarker->setBrush(Qt::red);
-            // addItem(weaponPositionMarker);
-
-            // // 可选：在一段时间后自动移除标记
-            // QTimer::singleShot(5000, this, [this, weaponPositionMarker]() {
-            //     removeItem(weaponPositionMarker);
-            //     delete weaponPositionMarker;
-            // });
         }
         else
         {
@@ -803,16 +783,6 @@ void BattleScene::processShooting()
 {
     if (m_player1->isShooting())
     {
-        // shoot melee weapon
-        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(m_player1->getHoldingWeapon());
-        if (meleeWeapon)
-        {
-            meleeWeapon = dynamic_cast<MeleeWeapon *>(m_player1->abandonWeapon());
-            m_player1->setHoldingWeapon(m_player1->getBow());
-            addToShootingWeapons(meleeWeapon);
-            meleeWeapon->shoot(m_player1->isFacingRight());
-        }
-
         // shoot ranged weapon
         auto bow = dynamic_cast<Bow *>(m_player1->getHoldingWeapon());
         if (bow) // bow shoot
@@ -864,6 +834,16 @@ void BattleScene::processShooting()
             m_player1->selectNextArrowElement();
         }
 
+
+        // shoot melee weapon
+        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(m_player1->getHoldingWeapon());
+        if (meleeWeapon)
+        {
+            meleeWeapon = dynamic_cast<MeleeWeapon *>(m_player1->abandonWeapon());
+            m_player1->setHoldingWeapon(m_player1->getBow());
+            addToShootingWeapons(meleeWeapon);
+            meleeWeapon->shoot(m_player1->isFacingRight());
+        }
     }
 
     // TODO: move the move part to processMovement

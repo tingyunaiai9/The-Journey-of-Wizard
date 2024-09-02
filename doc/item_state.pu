@@ -1,0 +1,17 @@
+@startuml
+
+skinparam shadowing true
+
+[*] --> STATIC
+
+STATIC --> MOVING
+MOVING --> STATIC
+
+[*] --> NORMAL
+NORMAL --> BURNED
+BURNED --> NORMAL
+BURNED --> BURNING
+BURNING --> BURNOUT
+BURNOUT --> [*]
+
+@enduml
