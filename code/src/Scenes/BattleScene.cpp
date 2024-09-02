@@ -12,6 +12,7 @@
 #include "../Items/MeleeWeapons/OneHandedSword.h"
 #include "../Items/RangedWeapons/PrimaryBow.h"
 #include "../Items/RangedWeapons/ComboBow.h"
+#include "../Items/RangedWeapons/AOEBow.h"
 
 #include <QDebug>
 #include <QPushButton>
@@ -123,7 +124,7 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
 
     // m_spareWeapon = new NormalWoodenOneHandedSword();
     // m_spareWeapon = new MetalPrimaryBow();
-    m_spareWeapon = new WoodenComboBow();
+    m_spareWeapon = new MetalAOEBow();
     addItem(m_spareWeapon);
     m_spareWeapon->unequip();
     m_spareWeapon->setPos(m_battlefield->getSpawnPos(0.5));

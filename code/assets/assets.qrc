@@ -50,5 +50,7 @@
         <file>Items/RangedWeapons/Arrow/arrow_normal.png</file>
         <file>Items/RangedWeapons/Bow/combo_bow_metal.png</file>
         <file>Items/RangedWeapons/Bow/combo_bow_wooden.png</file>
+        <file>Items/RangedWeapons/Bow/AOE_bow_metal.png</file>
+        <file>Items/RangedWeapons/Bow/AOE_bow_wooden.png</file>
     </qresource>
 </RCC>
