@@ -148,23 +148,29 @@ void BattleScene::closeGame() {
     qDebug() << "结束对战";
 }
 
-void BattleScene::processInput() {
-    if (m_player1 != nullptr) {
+void BattleScene::processInput()
+{
+    if (m_player1 != nullptr)
+    {
         m_player1->processInput();
     }
 
-    if (m_player2 != nullptr) {
+    if (m_player2 != nullptr)
+    {
         m_player2->processInput();
     }
 }
 
-void BattleScene::keyPressEvent(QKeyEvent *event) {
+void BattleScene::keyPressEvent(QKeyEvent *event)
+{
     bool ok;
     QString text;
-    switch (event->key()) {
+    switch (event->key())
+    {
         case Qt::Key_Return:
             text = QInputDialog::getText(nullptr, "message dialog", "cheat code: ", QLineEdit::Normal, "", &ok);
-            if (ok && !text.isEmpty()) {
+            if (ok && !text.isEmpty())
+            {
                 // 处理用户输入的文本
                 generateItem(text);
             }
@@ -181,7 +187,8 @@ void BattleScene::keyPressEvent(QKeyEvent *event) {
     }
 
     //
-    if (m_player1 != nullptr) {
+    if (m_player1 != nullptr)
+    {
         m_player1->key_press(event);
     }
 
@@ -190,18 +197,22 @@ void BattleScene::keyPressEvent(QKeyEvent *event) {
     }
 }
 
-void BattleScene::keyReleaseEvent(QKeyEvent *event) {
+void BattleScene::keyReleaseEvent(QKeyEvent *event)
+{
     //
-    if (m_player1 != nullptr) {
+    if (m_player1 != nullptr)
+    {
         m_player1->key_release(event);
     }
 
-    if (m_player2 != nullptr) {
+    if (m_player2 != nullptr)
+    {
         m_player2->key_release(event);
     }
 }
 
-void BattleScene::update() {
+void BattleScene::update()
+{
     Scene::update();
 
     processInput();
@@ -779,6 +790,7 @@ void BattleScene::processAttacking()
 // shoot
 void BattleScene::addToShootingWeapons(Weapon *weapon)
 {
+    weapon->setVisible(true);
     m_shootingWeapons.append(weapon);
 }
 
@@ -803,15 +815,53 @@ void BattleScene::processShooting()
 
         // shoot ranged weapon
         auto bow = dynamic_cast<Bow *>(m_player1->getHoldingWeapon());
-        if (bow)
+        if (bow) // bow shoot
         {
-            // TODO: bow shoot
             int shootArrowCount = bow->getShootArrowCount();
             QList<QPointF> shootAttowVelocities = bow->getShootArrowVelocities();
 
-            // 检查player是否有足够的箭
-            // 分别射出每一支箭，对应数组中的速度
+            // check if player has enough arrows
+            int totalArrowsAvailable = m_player1->getTotalArrowCount();
+            int arrowsToShoot = qMin(shootArrowCount, totalArrowsAvailable);
 
+            if (arrowsToShoot <= 0) // no arrows to shoot
+            {
+                return;
+            }
+
+            QString currentElement = m_player1->getCurrentArrowElement();
+            QList<Arrow*> arrowsToFire;
+
+            // use current element arrows first
+            QList<Arrow*> currentElementArrows = m_player1->getArrowListByElement(currentElement);
+            for (int i = 0; i < currentElementArrows.size() && arrowsToFire.size() < arrowsToShoot; i++)
+            {
+                arrowsToFire.append(currentElementArrows.at(i));
+            }
+
+            // if not enough, use other element arrows
+            while(arrowsToFire.size() < arrowsToShoot)
+            {
+                m_player1->selectNextArrowElement();
+                currentElement = m_player1->getCurrentArrowElement();
+                currentElementArrows = m_player1->getArrowListByElement(currentElement);
+                for (int i = 0; i < currentElementArrows.size() && arrowsToFire.size() < arrowsToShoot; i++)
+                {
+                    arrowsToFire.append(currentElementArrows.at(i));
+                }
+            }
+
+            // shoot arrows with different velocities
+            for (int i = 0; i < arrowsToFire.size(); ++i)
+            {
+                Arrow* arrow = arrowsToFire.at(i);
+                QPointF velocity = shootAttowVelocities.at(i);
+                m_player1->removeArrow(arrow);
+                addToShootingWeapons(arrow);
+                arrow->shoot(m_player1->isFacingRight(), velocity);
+            }
+
+            m_player1->selectNextArrowElement();
         }
 
     }
@@ -827,26 +877,64 @@ void BattleScene::processShooting()
         QRectF attackRange; // only attack forward
 
         // TODO: only the shoot weapon player1 shoot
-        if (m_player1->isFacingRight())
+        // TODO: move attackRange to weapon
+        MeleeWeapon* meleeWeapon = dynamic_cast<MeleeWeapon*>(weapon);
+        if (meleeWeapon)
         {
-            attackRange = QRectF(weapon->pos().x() - 55,
-                                 weapon->pos().y() - 24 + 60,
-                                 weapon->getAttackForwardDistance(),
-                                 48 + 50);
+            if (m_player1->isFacingRight())
+            {
+                attackRange = QRectF(weapon->pos().x() - 55,
+                                     weapon->pos().y() - 24 + 60,
+                                     weapon->getAttackForwardDistance(),
+                                     48 + 50);
+            }
+            else
+            {
+                attackRange = QRectF(weapon->pos().x() - weapon->getAttackForwardDistance() + 55,
+                                     weapon->pos().y() - 24 + 60,
+                                     weapon->getAttackForwardDistance(),
+                                     48 + 50);
+            }
         }
-        else
+        else // arrow
         {
-            attackRange = QRectF(weapon->pos().x() - weapon->getAttackForwardDistance() + 55,
-                                 weapon->pos().y() - 24 + 60,
-                                 weapon->getAttackForwardDistance(),
-                                 48 + 50);
+            if (m_player1->isFacingRight())
+            {
+                attackRange = QRectF(weapon->pos().x() - 55,
+                                     weapon->pos().y(),
+                                     weapon->getAttackForwardDistance(),
+                                     48 + 60);
+            }
+            else
+            {
+                attackRange = QRectF(weapon->pos().x() - weapon->getAttackForwardDistance() + 55,
+                                     weapon->pos().y(),
+                                     weapon->getAttackForwardDistance(),
+                                     48 + 60);
+            }
         }
 
-        // 绘制攻击范围矩形
+
+        // // 绘制攻击范围矩形
         // QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);
         // attackRangeRect->setPen(QPen(Qt::red));
         // attackRangeRect->setBrush(Qt::NoBrush);
         // addItem(attackRangeRect);
+
+        // // 绘制 Player2 的位置点
+        // QPointF player2Pos = m_player2->pos();
+        // QGraphicsEllipseItem *player2PositionMarker = new QGraphicsEllipseItem(player2Pos.x() - 5, player2Pos.y() - 5, 10, 10);
+        // player2PositionMarker->setPen(QPen(Qt::blue));
+        // player2PositionMarker->setBrush(Qt::blue);
+        // addItem(player2PositionMarker);
+
+        // // 可选：在短时间后自动移除这些标记
+        // QTimer::singleShot(100, this, [this, attackRangeRect, player2PositionMarker]() {
+        //     removeItem(attackRangeRect);
+        //     removeItem(player2PositionMarker);
+        //     delete attackRangeRect;
+        //     delete player2PositionMarker;
+        // });
 
 
         // TODO: only attack player2 now
@@ -876,13 +964,13 @@ void BattleScene::processShooting()
         }
 
 
-        // 调试：绘制射击武器的位置
+        // // 调试：绘制射击武器的位置
         // QGraphicsEllipseItem *weaponPositionMarker = new QGraphicsEllipseItem(weapon->pos().x() - 5, weapon->pos().y() - 5, 10, 10);
         // weaponPositionMarker->setPen(QPen(Qt::green));
         // weaponPositionMarker->setBrush(Qt::green);
         // addItem(weaponPositionMarker);
 
-        // 可选：在短时间后自动移除这些标记
+        // // 可选：在短时间后自动移除这些标记
         // QTimer::singleShot(100, this, [this, weaponPositionMarker]() {
         //     removeItem(weaponPositionMarker);
         //     delete weaponPositionMarker;

@@ -8,6 +8,11 @@ class Arrow : public RangedWeapon
 public:
     explicit Arrow(QGraphicsItem *parent, const QString &pixmapPath);
 
+    [[nodiscard]] virtual int getAttackForwardDistance() const override {return 20;}
+    [[nodiscard]] virtual int getDamage() const override {return 5;}
+
+    void shoot(bool isFacingRight = true, QPointF velocity = {1.5, 0}) override;
+
     void equipToParent() override;
     void unequip() override;
 };

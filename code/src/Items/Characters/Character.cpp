@@ -445,6 +445,18 @@ void Character::removeArrow(Arrow* arrow) // remove arrow from m_arrows
     arrow->unequip();
     arrow->setPos(pos());
     arrow->setParentItem(parentItem());
+    arrow->setScale(4);
+}
+
+// get the current arrow element
+QString Character::getCurrentArrowElement() const
+{
+    QStringList elements = m_arrows.keys();
+    if (elements.isEmpty())
+    {
+        return "";
+    }
+    return elements.at(m_currentArrowElementIndex % elements.size());
 }
 
 // change the cur arrow element to next
@@ -455,9 +467,17 @@ void Character::selectNextArrowElement()
         return;
     }
 
-    // get the element
     QStringList elements = m_arrows.keys();
-    m_currentArrowElementIndex = (m_currentArrowElementIndex + 1) % elements.size(); // update element index
+    int originalIndex = m_currentArrowElementIndex;
+
+    do
+    {
+        m_currentArrowElementIndex = (m_currentArrowElementIndex + 1) % elements.size(); // update
+        if (!m_arrows[elements[m_currentArrowElementIndex]].isEmpty())
+        {
+            break; // find the next arrow element
+        }
+    } while (m_currentArrowElementIndex != originalIndex);
 
     updateArrowVisibility();
 }
@@ -500,6 +520,17 @@ void Character::updateArrowVisibility()
             }
         }
     }
+}
+
+// get the number of arrows the character has
+int Character::getTotalArrowCount() const
+{
+    int totalArrows = 0;
+    for (auto &element : m_arrows.keys())
+    {
+        totalArrows += m_arrows[element].size();
+    }
+    return totalArrows;
 }
 
 // switch weapon

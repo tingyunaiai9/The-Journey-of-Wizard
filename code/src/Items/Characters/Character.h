@@ -99,8 +99,10 @@ public:
     void addArrow(Arrow* arrow);
     QList<Arrow*> getArrowListByElement(const QString& element) const;
     void removeArrow(Arrow* arrow);
+    QString getCurrentArrowElement() const;
     void selectNextArrowElement();
     void updateArrowVisibility();
+    int getTotalArrowCount() const;
 
     // change weapon
     void setSwitchDown(bool switchDown);
