@@ -19,6 +19,8 @@
 #include "./MeleeWeapons/TwoHandedSword.h"
 #include "./MeleeWeapons/Spear.h"
 #include "./RangedWeapons/PrimaryBow.h"
+#include "./RangedWeapons/ComboBow.h"
+#include "./RangedWeapons/AOEBow.h"
 #include "./RangedWeapons/Arrow.h"
 
 
@@ -293,6 +295,28 @@ Weapon* CWeaponFactory::NewWeapon(const QString& type, const QString& element, c
         else if (material == "Metal")
         {
             return new MetalPrimaryBow();
+        }
+    }
+    else if (type == "ComboBow")
+    {
+        if (material == "Wooden")
+        {
+            return new WoodenComboBow();
+        }
+        else if (material == "Metal")
+        {
+            return new MetalComboBow();
+        }
+    }
+    else if (type == "AOEBow")
+    {
+        if (material == "Wooden")
+        {
+            return new WoodenAOEBow();
+        }
+        else if (material == "Metal")
+        {
+            return new MetalAOEBow();
         }
     }
     else if (type == "Arrow")

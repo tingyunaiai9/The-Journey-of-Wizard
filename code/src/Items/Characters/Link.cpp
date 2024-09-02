@@ -30,8 +30,8 @@ Link::Link(QGraphicsItem *parent, const QString &pixmapPath) :
     // armor = new IcebreakerArmor(this);
     // armor = new ElectrobreakerArmor(this);
 
-    m_meleeWeapon = new ElectroMetalSpear(this);
-    setHoldingWeapon(m_meleeWeapon);
+    // m_meleeWeapon = new ElectroMetalSpear(this);
+    // setHoldingWeapon(m_meleeWeapon);
     // m_bow = new WoodenPrimaryBow(this);
     // setHoldingWeapon(m_bow);
 
@@ -39,7 +39,7 @@ Link::Link(QGraphicsItem *parent, const QString &pixmapPath) :
     legEquipment->mountToParent();
     armor->mountToParent();
 
-    m_holdingWeapon->equipToParent();
+    // m_holdingWeapon->equipToParent();
 }
 
 CPlayer1::CPlayer1(QGraphicsItem *parent) :

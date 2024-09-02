@@ -107,15 +107,15 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     // connect(onlineButton, &QPushButton::clicked, this, &BattleScene::startOnlineGame);
     // connect(exitButton, &QPushButton::clicked, this, &BattleScene::closeGame);
 
-    // // generate equipment
-    // equipmentDropTimer = new QTimer(this);
-    // connect(equipmentDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomEquipment);
-    // equipmentDropTimer->start(10000); // 10s
+    // generate equipment
+    equipmentDropTimer = new QTimer(this);
+    connect(equipmentDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomEquipment);
+    equipmentDropTimer->start(10000); // 10s
 
-    // // generate weapon
-    // weaponDropTimer = new QTimer(this);
-    // connect(weaponDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomWeapon);
-    // weaponDropTimer->start(10000);
+    // generate weapon
+    weaponDropTimer = new QTimer(this);
+    connect(weaponDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomWeapon);
+    weaponDropTimer->start(10000);
 
     // generate arrow
     arrowDropTimer = new QTimer(this);
@@ -124,11 +124,11 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
 
     // m_spareWeapon = new NormalWoodenOneHandedSword();
     // m_spareWeapon = new MetalPrimaryBow();
-    m_spareWeapon = new MetalAOEBow();
-    addItem(m_spareWeapon);
-    m_spareWeapon->unequip();
-    m_spareWeapon->setPos(m_battlefield->getSpawnPos(0.5));
-    addToSpareWeapons(m_spareWeapon);
+    // m_spareWeapon = new MetalAOEBow();
+    // addItem(m_spareWeapon);
+    // m_spareWeapon->unequip();
+    // m_spareWeapon->setPos(m_battlefield->getSpawnPos(0.5));
+    // addToSpareWeapons(m_spareWeapon);
 }
 
 void BattleScene::startSinglePlayerGame() {
@@ -514,7 +514,7 @@ void BattleScene::generateRandomEquipment() {
 
 void BattleScene::generateRandomWeapon() {
     QStringList types = {"OneHandedSword", "TwoHandedSword", "Spear",
-                         "PrimaryBow"}; // TODO: add more types
+                         "PrimaryBow", "ComboBow", "AOEBow"};
     QStringList elements = {"Normal", "Flame", "Ice", "Electro"};
     QStringList materials = {"Wooden", "Metal"};
 
@@ -697,25 +697,25 @@ void BattleScene::processAttacking()
                 m_player2->beHit(meleeWeapon->getDamage(), meleeWeapon->getElement());
             }
 
-            // 绘制攻击范围矩形
-            QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);
-            attackRangeRect->setPen(QPen(Qt::red));
-            attackRangeRect->setBrush(Qt::NoBrush);
-            addItem(attackRangeRect);
+            // // 绘制攻击范围矩形
+            // QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);
+            // attackRangeRect->setPen(QPen(Qt::red));
+            // attackRangeRect->setBrush(Qt::NoBrush);
+            // addItem(attackRangeRect);
 
-            // 绘制 Player2 的位置点
-            QGraphicsEllipseItem* player2Point = new QGraphicsEllipseItem(player2Pos.x() - 2, player2Pos.y() - 2, 4, 4);
-            player2Point->setPen(QPen(Qt::blue));
-            player2Point->setBrush(Qt::blue);
-            addItem(player2Point);
+            // // 绘制 Player2 的位置点
+            // QGraphicsEllipseItem* player2Point = new QGraphicsEllipseItem(player2Pos.x() - 2, player2Pos.y() - 2, 4, 4);
+            // player2Point->setPen(QPen(Qt::blue));
+            // player2Point->setBrush(Qt::blue);
+            // addItem(player2Point);
 
-            // 可选：在一段时间后自动移除这些绘制内容
-            QTimer::singleShot(100, this, [this, attackRangeRect, player2Point]() {
-                removeItem(attackRangeRect);
-                removeItem(player2Point);
-                delete attackRangeRect;
-                delete player2Point;
-            });
+            // // 可选：在一段时间后自动移除这些绘制内容
+            // QTimer::singleShot(100, this, [this, attackRangeRect, player2Point]() {
+            //     removeItem(attackRangeRect);
+            //     removeItem(player2Point);
+            //     delete attackRangeRect;
+            //     delete player2Point;
+            // });
         }
         // TODO: RangedWeapons
     }
@@ -758,25 +758,25 @@ void BattleScene::processAttacking()
                 m_player1->beHit(meleeWeapon->getDamage(), meleeWeapon->getElement());
             }
 
-            // 绘制攻击范围矩形
-            QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);
-            attackRangeRect->setPen(QPen(Qt::red));
-            attackRangeRect->setBrush(Qt::NoBrush);
-            addItem(attackRangeRect);
+            // // 绘制攻击范围矩形
+            // QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);
+            // attackRangeRect->setPen(QPen(Qt::red));
+            // attackRangeRect->setBrush(Qt::NoBrush);
+            // addItem(attackRangeRect);
 
-            // 绘制 Player2 的位置点
-            QGraphicsEllipseItem* player2Point = new QGraphicsEllipseItem(player2Pos.x() - 2, player2Pos.y() - 2, 4, 4);
-            player2Point->setPen(QPen(Qt::blue));
-            player2Point->setBrush(Qt::blue);
-            addItem(player2Point);
+            // // 绘制 Player2 的位置点
+            // QGraphicsEllipseItem* player2Point = new QGraphicsEllipseItem(player2Pos.x() - 2, player2Pos.y() - 2, 4, 4);
+            // player2Point->setPen(QPen(Qt::blue));
+            // player2Point->setBrush(Qt::blue);
+            // addItem(player2Point);
 
-            // 可选：在一段时间后自动移除这些绘制内容
-            QTimer::singleShot(100, this, [this, attackRangeRect, player2Point]() {
-                removeItem(attackRangeRect);
-                removeItem(player2Point);
-                delete attackRangeRect;
-                delete player2Point;
-            });
+            // // 可选：在一段时间后自动移除这些绘制内容
+            // QTimer::singleShot(100, this, [this, attackRangeRect, player2Point]() {
+            //     removeItem(attackRangeRect);
+            //     removeItem(player2Point);
+            //     delete attackRangeRect;
+            //     delete player2Point;
+            // });
         }
         // TODO: RangedWeapons
     }

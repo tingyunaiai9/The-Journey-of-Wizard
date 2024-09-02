@@ -485,6 +485,18 @@ void Character::selectNextArrowElement()
 // update the arrow visibility
 void Character::updateArrowVisibility()
 {
+    if (m_holdingWeapon == nullptr)
+    {
+        for (auto &element : m_arrows.keys())
+        {
+            for (auto arrow : m_arrows[element])
+            {
+                arrow->setVisible(false);
+            }
+        }
+        return;
+    }
+
     if (m_holdingWeapon == m_bow) // hold bow, show the current arrow
     {
         QStringList elements = m_arrows.keys();
@@ -510,7 +522,7 @@ void Character::updateArrowVisibility()
             }
         }
     }
-    else // hold melee weapon or nullptr, hide all arrows
+    else // hold melee weapon, hide all arrows
     {
         for (auto &element : m_arrows.keys())
         {
