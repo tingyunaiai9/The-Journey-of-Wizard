@@ -11,11 +11,11 @@ void Arrow::shoot(bool isFacingRight, QPointF velocity)
 
     if (isFacingRight)
     {
-        setPos(pos().x() + 60, pos().y() - 100); // above ground
+        setPos(pos().x() + 50, pos().y() - 120); // above ground
     }
     else
     {
-        setPos(pos().x() - 60, pos().y() - 100);
+        setPos(pos().x() - 50, pos().y() - 120);
     }
 }
 
@@ -26,14 +26,14 @@ QRectF Arrow::getShootAttackRange()
         return QRectF(pos().x() - 55,
                       pos().y(),
                       getAttackForwardDistance(),
-                      48 + 60);
+                      120);
     }
     else
     {
         return QRectF(pos().x() - getAttackForwardDistance() + 55,
                       pos().y(),
                       getAttackForwardDistance(),
-                      48 + 60);
+                      120);
     }
 }
 

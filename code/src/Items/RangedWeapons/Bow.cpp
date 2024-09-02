@@ -32,8 +32,8 @@ void Bow::startAttack()
 
     //rotate
     if (pixmapItem != nullptr) {
-        pixmapItem->setRotation(45);
-        pixmapItem->setPos(25, -5);
+        pixmapItem->setRotation(5);
+        pixmapItem->setPos(3, -2);
     }
 }
 
