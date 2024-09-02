@@ -42,3 +42,21 @@ void Weapon::shoot(bool isFacingRight, QPointF velocity)
         m_velocity = {-velocity.x(), velocity.y()};
     }
 }
+
+QRectF Weapon::getShootAttackRange()
+{
+    if (isFacingRight())
+    {
+        return QRectF(pos().x() - 55,
+                      pos().y() - 24,
+                      getAttackForwardDistance(),
+                      48);
+    }
+    else
+    {
+        return QRectF(pos().x() - getAttackForwardDistance() + 55,
+                      pos().y() - 24,
+                      getAttackForwardDistance(),
+                      48);
+    }
+}

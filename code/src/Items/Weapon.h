@@ -30,6 +30,7 @@ public:
     [[nodiscard]] virtual QString getElement() const {return "";}
 
     virtual void shoot(bool isFacingRight = true, QPointF velocity = {0, 0});
+    virtual QRectF getShootAttackRange();
 };
 
 

@@ -856,45 +856,7 @@ void BattleScene::processShooting()
 
         // detect if attack the player
         QRectF attackRange; // only attack forward
-
-        // TODO: only the shoot weapon player1 shoot
-        // TODO: move attackRange to weapon
-        MeleeWeapon* meleeWeapon = dynamic_cast<MeleeWeapon*>(weapon);
-        if (meleeWeapon)
-        {
-            if (m_player1->isFacingRight())
-            {
-                attackRange = QRectF(weapon->pos().x() - 55,
-                                     weapon->pos().y() - 24 + 60,
-                                     weapon->getAttackForwardDistance(),
-                                     48 + 50);
-            }
-            else
-            {
-                attackRange = QRectF(weapon->pos().x() - weapon->getAttackForwardDistance() + 55,
-                                     weapon->pos().y() - 24 + 60,
-                                     weapon->getAttackForwardDistance(),
-                                     48 + 50);
-            }
-        }
-        else // arrow
-        {
-            if (m_player1->isFacingRight())
-            {
-                attackRange = QRectF(weapon->pos().x() - 55,
-                                     weapon->pos().y(),
-                                     weapon->getAttackForwardDistance(),
-                                     48 + 60);
-            }
-            else
-            {
-                attackRange = QRectF(weapon->pos().x() - weapon->getAttackForwardDistance() + 55,
-                                     weapon->pos().y(),
-                                     weapon->getAttackForwardDistance(),
-                                     48 + 60);
-            }
-        }
-
+        attackRange = weapon->getShootAttackRange();
 
         // // 绘制攻击范围矩形
         // QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);

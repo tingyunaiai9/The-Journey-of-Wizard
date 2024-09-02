@@ -12,6 +12,7 @@ public:
     [[nodiscard]] virtual int getDamage() const override {return 5;}
 
     void shoot(bool isFacingRight = true, QPointF velocity = {1.5, 0}) override;
+    QRectF getShootAttackRange() override;
 
     void equipToParent() override;
     void unequip() override;

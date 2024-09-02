@@ -19,6 +19,24 @@ void Arrow::shoot(bool isFacingRight, QPointF velocity)
     }
 }
 
+QRectF Arrow::getShootAttackRange()
+{
+    if (isFacingRight())
+    {
+        return QRectF(pos().x() - 55,
+                      pos().y(),
+                      getAttackForwardDistance(),
+                      48 + 60);
+    }
+    else
+    {
+        return QRectF(pos().x() - getAttackForwardDistance() + 55,
+                      pos().y(),
+                      getAttackForwardDistance(),
+                      48 + 60);
+    }
+}
+
 void Arrow::equipToParent()
 {
     RangedWeapon::equipToParent();
