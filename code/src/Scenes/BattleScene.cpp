@@ -880,9 +880,20 @@ void BattleScene::processShooting()
         // });
 
 
-        // TODO: only attack player2 now
+        // attack player1 or player2
+        QPointF player1Pos = m_player1->pos();
         QPointF player2Pos = m_player2->pos();
-        if (attackRange.contains(player2Pos))
+        if (attackRange.contains(player1Pos))
+        {
+            m_player1->beHit(weapon->getDamage(), weapon->getElement());
+            // remove after attack
+            removeItem(weapon);
+            removeFromShootingWeapons(weapon);
+            delete weapon;
+
+            continue;
+        }
+        else if (attackRange.contains(player2Pos))
         {
             m_player2->beHit(weapon->getDamage(), weapon->getElement());
             // remove after attack
