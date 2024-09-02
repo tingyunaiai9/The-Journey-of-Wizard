@@ -50,7 +50,8 @@ void Item::showAreaRect(Scene* scene, bool bDebug)
         m_sceneRect->setBrush(Qt::NoBrush);
         m_scene->addItem(m_sceneRect);
 
-        m_posPoint = new QGraphicsEllipseItem(pos().x() - 2, pos().y() - 2, 4, 4);
+        QPointF itemPos = getCenterPos();
+        m_posPoint = new QGraphicsEllipseItem(itemPos.x() - 2, itemPos.y() - 2, 4, 4);
         m_posPoint->setPen(QPen(Qt::red));
         m_posPoint->setBrush(Qt::red);
         m_scene->addItem(m_posPoint);
@@ -68,24 +69,6 @@ void Item::showAreaRect(Scene* scene, bool bDebug)
         m_posPoint = nullptr;
     }
 }
-
-bool Item::isOnGround(QVector<Item*> &itemVec, bool bReload)
-{
-    if ((m_groundMap) && (!bReload))
-    {
-        return true;
-    }
-
-    QRectF itemRect = getAreaRect();
-
-    for (Item *i : itemVec)
-    {
-        Map * map = dynamic_cast<Map*>(i);
-    }
-
-    return false;
-}
-
 
 const QPointF &Item::getVelocity() const {
     return m_velocity;

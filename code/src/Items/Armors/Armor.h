@@ -12,6 +12,7 @@ public:
 
     void unmount() override;
 
+    virtual QPointF getCenterPos() override;
 };
 
 

@@ -21,3 +21,10 @@ void Armor::unmount() {
         pixmapItem->setPos(0, 5);
     }
 }
+
+QPointF Armor::getCenterPos()
+{
+    QPointF centerPos = pos();
+    centerPos.setX(centerPos.x() + 48);
+    return centerPos;
+}

@@ -39,3 +39,10 @@ QRectF MeleeWeapon::getShootAttackRange()
                       48 + 50);
     }
 }
+
+QPointF MeleeWeapon::getCenterPos()
+{
+    QPointF centerPos = pos();
+    centerPos.setX(centerPos.x() + 96);
+    return centerPos;
+}

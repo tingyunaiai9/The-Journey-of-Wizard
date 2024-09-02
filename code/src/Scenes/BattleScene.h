@@ -81,6 +81,7 @@ private:
 
     Map *findNearestMap(const QPointF &pos);
     bool isOnGround(Item *item);
+    bool isOnMapGround(Item *item, Map *nearestMap);
 
     void addToSpareEquipments(Mountable* equipment);
     void removeFromSpareEquipments(Mountable* equipment);

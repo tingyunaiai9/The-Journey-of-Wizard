@@ -50,6 +50,26 @@ Item* CItemFactory::NewItem(const QString& itemCode)
     {
         return new IceWoodenSpear();
     }
+    else if (item_code == "I11")
+    {
+        return new IceWoodenOneHandedSword();
+    }
+    else if (item_code == "I12")
+    {
+        return new IceWoodenTwoHandedSword();
+    }
+    else if (item_code == "EA")
+    {
+        return new ElectrobreakerArmor();
+    }
+    else if (item_code == "FA")
+    {
+        return new FlamebreakerArmor();
+    }
+    else if (item_code == "IA")
+    {
+        return new IcebreakerArmor();
+    }
     else
     {
         return nullptr;

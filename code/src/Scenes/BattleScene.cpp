@@ -123,7 +123,7 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
 
     // m_spareWeapon = new NormalWoodenOneHandedSword();
     // m_spareWeapon = new MetalPrimaryBow();
-    m_spareWeapon = new MetalComboBow();
+    m_spareWeapon = new WoodenComboBow();
     addItem(m_spareWeapon);
     m_spareWeapon->unequip();
     m_spareWeapon->setPos(m_battlefield->getSpawnPos(0.5));
@@ -280,12 +280,12 @@ void BattleScene::processMovement() {
     {
         // equipment->setPos(equipment->pos() + equipment->getVelocity() * (double) deltaTime);
         equipment->move(deltaTime);
-
-        if (isOnGround(equipment))
+        Map *nearestMap = findNearestMap(equipment->getCenterPos());
+        if (isOnMapGround(equipment, nearestMap))
         {
             equipment->setAcceleration(QPointF(equipment->getAcceleration().x(), 0));
             equipment->setVelocity(QPointF(equipment->getVelocity().x(), 0));
-            equipment->setPos(equipment->pos().x(), findNearestMap(equipment->pos())->getFloorHeight());
+            equipment->setPos(equipment->pos().x(), nearestMap->getFloorHeight());
         }
         else
         {
@@ -297,12 +297,13 @@ void BattleScene::processMovement() {
     {
         // equipment->setPos(equipment->pos() + equipment->getVelocity() * (double) deltaTime);
         weapon->move(deltaTime);
+        Map *nearestMap = findNearestMap(weapon->getCenterPos());
 
-        if (isOnGround(weapon))
+        if (isOnMapGround(weapon, nearestMap))
         {
             weapon->setAcceleration(QPointF(weapon->getAcceleration().x(), 0));
             weapon->setVelocity(QPointF(weapon->getVelocity().x(), 0));
-            weapon->setPos(weapon->pos().x(), findNearestMap(weapon->pos())->getFloorHeight());
+            weapon->setPos(weapon->pos().x(), nearestMap->getFloorHeight());
         }
         else
         {
@@ -319,13 +320,13 @@ Map *BattleScene::findNearestMap(const QPointF &pos)
     for (Map *map : m_maps)
     {
         // Check if the player is within the horizontal bounds of the map
-        if (pos.x() >= map->sceneBoundingRect().left() - 5 &&
-            pos.x() <= map->sceneBoundingRect().right() + 5)
+        if ((pos.x() >= map->getAreaRect().left() - 5) &&
+            (pos.x() <= map->getAreaRect().right() + 5))
         {
             // positive distance means the player is above the floor of map
             qreal distance = map->getFloorHeight() - pos.y();
             // >= a negative value allows the player to be slightly below the floor
-            if (distance >= -20 && distance < minDistance)
+            if ((distance >= -20) && (distance < minDistance))
             {
                 minDistance = distance;
                 nearest = map;
@@ -338,10 +339,15 @@ Map *BattleScene::findNearestMap(const QPointF &pos)
 
 bool BattleScene::isOnGround(Item *item)
 {
-    Map *nearestMap = findNearestMap(item->pos());
+    Map *nearestMap = findNearestMap(item->getCenterPos());
+    return isOnMapGround(item, nearestMap);
+}
+
+bool BattleScene::isOnMapGround(Item *item, Map *nearestMap)
+{
     if (nearestMap != nullptr)
     {
-        return item->pos().y() >= nearestMap->getFloorHeight();
+        return item->getCenterPos().y() >= nearestMap->getFloorHeight();
     }
     return false;
 }
@@ -552,15 +558,21 @@ void BattleScene::generateItem(QString itemCode)
     if (newItem)
     {
         qreal randomX = static_cast<qreal>(rand() % static_cast<int>(this->sceneRect().width()));
-        randomX = 727; // for debug
         newItem->setPos(randomX, 0);  // top: y=0
         addItem(newItem);
 
-        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(newItem);
-        if (meleeWeapon)
+        auto weapon = dynamic_cast<Weapon *>(newItem);
+        if (weapon)
         {
-            meleeWeapon->unequip();
-            addToSpareWeapons(meleeWeapon);
+            weapon->unequip();
+            addToSpareWeapons(weapon);
+        }
+
+        auto armor = dynamic_cast<Mountable *>(newItem);
+        if (armor)
+        {
+            armor->unmount();
+            addToSpareEquipments(armor);
         }
     }
 }
@@ -836,7 +848,6 @@ void BattleScene::processShooting()
 
             m_player1->selectNextArrowElement();
         }
-
 
         // shoot melee weapon
         auto meleeWeapon = dynamic_cast<MeleeWeapon *>(m_player1->getHoldingWeapon());

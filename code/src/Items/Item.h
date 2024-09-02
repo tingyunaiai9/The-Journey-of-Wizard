@@ -49,7 +49,7 @@ public:
     virtual QRectF getAreaRect();
     virtual void showAreaRect(Scene* scene, bool bDebug);
 
-    virtual bool isOnGround(QVector<Item*> &itemVec, bool bReload=false);
+    virtual QPointF getCenterPos() {return pos();};
 
     [[nodiscard]] const QPointF &getVelocity() const;
     void setVelocity(const QPointF &velocity);

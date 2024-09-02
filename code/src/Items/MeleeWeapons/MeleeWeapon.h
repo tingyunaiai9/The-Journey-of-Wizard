@@ -12,6 +12,8 @@ public:
     QRectF getShootAttackRange() override;
 
     virtual const QString getName() override {return "MeleeWeapon";};
+
+    virtual QPointF getCenterPos() override;
 };
 
 #endif //QT_PROGRAMMING_2024_MELEEWEAPON_H
