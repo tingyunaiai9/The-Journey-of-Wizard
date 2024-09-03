@@ -6,6 +6,8 @@
 class ElectrobreakerArmor : public Armor {
 public:
     explicit ElectrobreakerArmor(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Electro"; }
 };
 
 #endif // ELECTROBREAKERARMOR_H

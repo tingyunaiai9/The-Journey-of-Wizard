@@ -117,10 +117,10 @@ public:
 
     Weapon* abandonWeapon(); // abandon the holding weapon
 
-    //
-    virtual bool h_getElectroResistance() override;
+    // resistance
     virtual bool h_getFlameResistance() override;
     virtual bool h_getIceResistance() override;
+    virtual bool h_getElectroResistance() override;
 
     // be hit
     virtual void h_startHitting() override; // from IHero

@@ -6,6 +6,8 @@
 class BlackHat: public HeadEquipment {
 public:
     explicit BlackHat(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Normal"; }
 };
 
 #endif // BLACKHAT_H

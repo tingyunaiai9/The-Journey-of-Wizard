@@ -6,6 +6,8 @@
 class FlamebreakerShoes : public LegEquipment {
 public:
     explicit FlamebreakerShoes(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Flame"; }
 };
 
 #endif // FLAMEBREAKERSHOES_H

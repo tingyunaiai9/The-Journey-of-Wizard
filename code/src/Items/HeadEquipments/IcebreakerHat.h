@@ -6,6 +6,8 @@
 class IcebreakerHat: public HeadEquipment {
 public:
     explicit IcebreakerHat(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Ice"; }
 };
 
 #endif // ICEBREAKERHAT_H

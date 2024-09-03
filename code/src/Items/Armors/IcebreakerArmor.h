@@ -6,6 +6,8 @@
 class IcebreakerArmor : public Armor {
 public:
     explicit IcebreakerArmor(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Ice"; }
 };
 
 #endif // ICEBREAKERARMOR_H

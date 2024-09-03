@@ -6,6 +6,8 @@
 class BlackWizardRobe : public Armor {
 public:
     explicit BlackWizardRobe(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Normal"; }
 };
 
 #endif // BLACKWIZARDROBE_H

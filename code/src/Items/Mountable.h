@@ -18,6 +18,8 @@ public:
     virtual void unmount();
 
     [[nodiscard]] bool isMounted() const;
+
+    [[nodiscard]] virtual QString getElement() const {return "";} // element
 };
 
 

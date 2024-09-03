@@ -6,6 +6,8 @@
 class ElectrobreakerShoes : public LegEquipment {
 public:
     explicit ElectrobreakerShoes(QGraphicsItem *parent = nullptr);
+
+    [[nodiscard]] virtual QString getElement() const override { return "Electro"; }
 };
 
 #endif // ELECTROBREAKERSHOES_H

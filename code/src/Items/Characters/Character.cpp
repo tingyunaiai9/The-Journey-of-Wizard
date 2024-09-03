@@ -328,19 +328,89 @@ void Character::setAttack()
     state_obj->setAttack();
 }
 
-bool Character::h_getElectroResistance()
-{
-    return false;
-}
+// resistance
 bool Character::h_getFlameResistance()
 {
-    return false;
-}
-bool Character::h_getIceResistance()
-{
+    if (headEquipment)
+    {
+        if (headEquipment->getElement() == "Flame")
+        {
+            return true;
+        }
+    }
+    if (armor)
+    {
+        if (armor->getElement() == "Flame")
+        {
+            return true;
+        }
+    }
+    if (legEquipment)
+    {
+        if (legEquipment->getElement() == "Flame")
+        {
+            return true;
+        }
+    }
+
     return false;
 }
 
+bool Character::h_getIceResistance()
+{
+    if (headEquipment)
+    {
+        if (headEquipment->getElement() == "Ice")
+        {
+            return true;
+        }
+    }
+    if (armor)
+    {
+        if (armor->getElement() == "Ice")
+        {
+            return true;
+        }
+    }
+    if (legEquipment)
+    {
+        if (legEquipment->getElement() == "Ice")
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Character::h_getElectroResistance()
+{
+    if (headEquipment)
+    {
+        if (headEquipment->getElement() == "Electro")
+        {
+            return true;
+        }
+    }
+    if (armor)
+    {
+        if (armor->getElement() == "Electro")
+        {
+            return true;
+        }
+    }
+    if (legEquipment)
+    {
+        if (legEquipment->getElement() == "Electro")
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+// state
 bool Character::isHolding()
 {
     IState* state_obj = nullptr;
