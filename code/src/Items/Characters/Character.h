@@ -53,6 +53,7 @@ protected:
 
     QGraphicsPixmapItem* m_hittingPicture{}; // the picture be hit
     QGraphicsPixmapItem* m_frozenPicture{}; // the picture be frozen
+    QGraphicsPixmapItem* m_burningPicture{}; // the picture be burning
 
 public:
     explicit Character(QGraphicsItem *parent, const QString &pixmapPath);
@@ -127,6 +128,9 @@ public:
     virtual void h_stopHitting() override;
     virtual void h_startFrozen() override;
     virtual void h_stopFrozen() override;
+    virtual void h_startBurning() override;
+    virtual void h_stopBurning() override;
+
     virtual void h_clearKeyPress() override;
 
     void processInput();

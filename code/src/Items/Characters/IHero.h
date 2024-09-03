@@ -92,6 +92,12 @@ class IHero: public QObject
 private:
     HEROSTATE m_State;
     QMap<HEROSTATE, IState*> m_StateMap;
+
+    qint64 m_2kMs = 2000; // the interval of flame damage
+    qint64 m_10kMs = 10000; // the duration of flame
+    qint64 m_burningElapsedTime = 0; // the time elapsed since the start of burning
+    qint64 m_burningIntervalTime = 0; // the time elapsed since the last flame damage
+
 protected:
     void initState(HEROSTATE stateType);
     void addState(HEROSTATE stateType, IState* stateObj);
@@ -118,6 +124,11 @@ public:
     virtual void h_stopFrozen() {};
     virtual void h_clearKeyPress() {};
 
+    virtual void h_startBurning();
+    virtual void h_stopBurning() {};
+    void processBurningFps(qint64 deltaTime);
+    bool isBurningTimeUp();
+
     virtual void h_keyPress(QKeyEvent *event) {};
     virtual void h_keyRelease(QKeyEvent *event) {};
 };
@@ -141,7 +152,9 @@ public:
     virtual QString getName() override;
 
     void setAttack() override;
-    // TODO: add processFps for flame hold to 受到持续伤害
+    virtual void beHit(int damage, QString element) override;
+
+    void processFps(qint64 deltaTime) override;
 };
 
 class CIceHold : public IHold

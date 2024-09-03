@@ -497,6 +497,27 @@ void Character::h_stopFrozen()
     }
 }
 
+void Character::h_startBurning()
+{
+    IHero::h_startBurning(); // clear burning time
+
+    if (m_burningPicture == nullptr)
+    {
+        m_burningPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Characters/character_burning.png"));
+        m_burningPicture->setParentItem(this);
+        m_burningPicture->setPos(-16, 0);
+    }
+}
+
+void Character::h_stopBurning()
+{
+    if (m_burningPicture)
+    {
+        delete m_burningPicture;
+        m_burningPicture = nullptr;
+    }
+}
+
 void Character::h_clearKeyPress()
 {
     setLeftDown(false);
@@ -803,6 +824,7 @@ void Character::toDead()
     h_stopAttack();
     h_stopHitting();
     h_stopFrozen();
+    h_stopBurning();
 
     h_clearKeyPress();
 

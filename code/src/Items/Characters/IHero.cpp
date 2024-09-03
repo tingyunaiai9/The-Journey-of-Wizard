@@ -52,6 +52,30 @@ void IHero::clearStateMap()
     m_StateMap.clear();
 }
 
+void IHero::h_startBurning()
+{
+    // clear the burning time
+    m_burningElapsedTime = 0;
+    m_burningIntervalTime = 0;
+}
+
+void IHero::processBurningFps(qint64 deltaTime)
+{
+    m_burningElapsedTime += deltaTime;
+    m_burningIntervalTime += deltaTime;
+
+    if (m_burningIntervalTime > m_2kMs && m_burningElapsedTime <= m_10kMs) // flame damage interval
+    {
+        h_reduceHp(1);
+        m_burningIntervalTime = 0;
+    }
+}
+
+bool IHero::isBurningTimeUp()
+{
+    return m_burningElapsedTime > m_10kMs;
+}
+
 // IHode, IAttacking, IHitting
 IHold::IHold(IHero* heroObj):
     IState(heroObj)
@@ -78,7 +102,7 @@ void IHold::beHit(int damage, QString element)
     }
     else if ((element == "Flame") && (m_HeroObj->h_getFlameResistance() == false))
     {
-        // TODO: start flame burning
+        m_HeroObj->h_startBurning(); // change to burning
         m_HeroObj->setState(HEROSTATE::FLAME_HITTING);
     }
     else if ((element == "Electro") && (m_HeroObj->h_getElectroResistance() == false))
@@ -161,6 +185,33 @@ void CFlameHold::setAttack()
 {
     IHold::setAttack();
     m_HeroObj->setState(HEROSTATE::FLAME_ATTACKING);
+}
+
+void CFlameHold::beHit(int damage, QString element) // flame be hit change to flame hitting
+{
+    m_HeroObj->h_startHitting();
+    m_HeroObj->h_reduceHp(damage);
+    m_elapsedTime = 0;
+
+    // TODO: 是否需要再次重新计时？
+    // if ((element == "Flame") && (m_HeroObj->h_getFlameResistance() == false))
+    // {
+    //     m_HeroObj->h_startBurning(); // change to burning
+    //     m_HeroObj->setState(HEROSTATE::FLAME_HITTING);
+    // }
+
+    m_HeroObj->setState(HEROSTATE::FLAME_HITTING);
+}
+
+void CFlameHold::processFps(qint64 deltaTime)
+{
+    m_HeroObj->processBurningFps(deltaTime);
+
+    if (m_HeroObj->isBurningTimeUp()) // burning time up
+    {
+        m_HeroObj->h_stopBurning();
+        m_HeroObj->setState(HEROSTATE::NORMAL_HOLD);
+    }
 }
 
 CIceHold::CIceHold(IHero* heroObj):
@@ -255,12 +306,22 @@ QString CFlameAttacking::getName()
 void CFlameAttacking::processFps(qint64 deltaTime)
 {
     IAttacking::processFps(deltaTime);
+    m_HeroObj->processBurningFps(deltaTime);
 
     // time up, change state to hold
     if (m_elapsedTime > m_500Ms)
     {
-        m_HeroObj->setState(HEROSTATE::FLAME_HOLD);
-        m_elapsedTime = 0;
+        if (m_HeroObj->isBurningTimeUp()) // burning time up, change to normal
+        {
+            m_HeroObj->h_stopBurning();
+            m_HeroObj->setState(HEROSTATE::NORMAL_HOLD);
+            m_elapsedTime = 0;
+        }
+        else
+        {
+            m_HeroObj->setState(HEROSTATE::FLAME_HOLD);
+            m_elapsedTime = 0;
+        }
     }
 }
 
@@ -338,12 +399,22 @@ QString CFlameHitting::getName()
 void CFlameHitting::processFps(qint64 deltaTime)
 {
     IHitting::processFps(deltaTime);
+    m_HeroObj->processBurningFps(deltaTime);
 
     // time up, change state to hold
     if (m_elapsedTime > m_500Ms)
     {
-        m_HeroObj->setState(HEROSTATE::FLAME_HOLD);
-        m_elapsedTime = 0;
+        if (m_HeroObj->isBurningTimeUp()) // burning time up, change to normal
+        {
+            m_HeroObj->h_stopBurning();
+            m_HeroObj->setState(HEROSTATE::NORMAL_HOLD);
+            m_elapsedTime = 0;
+        }
+        else
+        {
+            m_HeroObj->setState(HEROSTATE::FLAME_HOLD);
+            m_elapsedTime = 0;
+        }
     }
 }
 
