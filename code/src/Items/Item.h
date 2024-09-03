@@ -33,6 +33,8 @@ public:
         // Its pixmapItem is automatically handled by children's paint()
     }
 
+    QGraphicsPixmapItem* getPixmapItem() const { return pixmapItem; }
+
 private:
     QGraphicsRectItem* m_sceneRect;
     QGraphicsEllipseItem* m_posPoint;

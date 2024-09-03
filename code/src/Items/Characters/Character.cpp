@@ -736,8 +736,33 @@ void Character::toDead()
 
     h_clearKeyPress();
 
-    setRotation(90); // rotate the character to 90 degree
-    setPos(pos().x(), pos().y() + 100); // move the character down
+    if (pixmapItem)
+    {
+        pixmapItem->setRotation(-90);
+        QPointF newPos = pixmapItem->pos() + QPointF(-10, 55);
+        pixmapItem->setPos(newPos);
+
+        if (headEquipment)
+        {
+            headEquipment->getPixmapItem()->setRotation(-90);
+            headEquipment->getPixmapItem()->setPos(newPos + QPointF(16, 0));
+        }
+        if (armor)
+        {
+            armor->getPixmapItem()->setRotation(-90);
+            armor->getPixmapItem()->setPos(newPos + QPointF(16, 0));
+        }
+        if (legEquipment)
+        {
+            legEquipment->getPixmapItem()->setRotation(-90);
+            legEquipment->getPixmapItem()->setPos(newPos + QPointF(16, 0));
+        }
+        if (m_holdingWeapon)
+        {
+            m_holdingWeapon->getPixmapItem()->setRotation(-90);
+            m_holdingWeapon->getPixmapItem()->setPos(newPos + QPointF(16, 0));
+        }
+    }
 
     setState(DEAD);
 }
