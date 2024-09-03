@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QMap>
 #include <QString>
+#include <QKeyEvent>
 
 enum HEROSTATE
 {
@@ -33,8 +34,8 @@ protected:
 
     // TODO: change the time of attack and hit
     qint64 m_500Ms = 500; // the duration of hitting
-    qint64 m_2kMs = 2000; // the duration of ice
-    qint64 m_5kMs = 5000; // the duration of flame
+    qint64 m_5kMs = 5000; // the duration of ice
+    qint64 m_10kMs = 10000; // the duration of flame
     qint64 m_elapsedTime = 0; // the time elapsed since the start of hitting
 
 public:
@@ -47,6 +48,8 @@ public:
     virtual void setAttack() {};
     virtual void beHit(int damage, QString element) {};
 
+    virtual void key_press(QKeyEvent *event);
+    virtual void key_release(QKeyEvent *event);
     virtual void processFps(qint64 deltaTime) {};
 };
 
@@ -58,9 +61,6 @@ public:
     explicit IHold(IHero* heroObj);
 
     bool isHolding() override {return true;}
-
-    void setAttack() override;
-    void beHit(int damage, QString element) override;
 };
 
 class IAttacking : public IState
@@ -69,8 +69,6 @@ public:
     explicit IAttacking(IHero* heroObj);
 
     bool isAttacking() override {return true;}
-
-    virtual void processFps(qint64 deltaTime) override;
 };
 
 class IHitting : public IState
@@ -80,8 +78,6 @@ public:
     explicit IHitting(IHero* heroObj);
 
     bool isHitting() override {return true;}
-
-    virtual void processFps(qint64 deltaTime) override;
 };
 
 class IHero: public QObject
@@ -99,11 +95,24 @@ protected:
 public:
     void setState(HEROSTATE stateType);
 
-    virtual void h_startAttack() {}; // implement in Character
-    virtual void h_stopAttack() {};
-    virtual void h_startHitting() {}; // implement in Character
-    virtual void h_stopHitting() {};
+    // implement in Character
     virtual void h_reduceHp(int damage) {};
+
+    virtual void h_startAttack() {};
+    virtual void h_stopAttack() {};
+    virtual void h_startHitting() {};
+    virtual void h_stopHitting() {};
+
+    virtual bool h_getElectroResistance() {return false;};
+    virtual bool h_getFlameResistance() {return false;};
+    virtual bool h_getIceResistance() {return false;};
+
+    virtual void h_startFrozen() {};
+    virtual void h_stopFrozen() {};
+    virtual void h_clearKeyPress() {};
+
+    virtual void h_keyPress(QKeyEvent *event) {};
+    virtual void h_keyRelease(QKeyEvent *event) {};
 };
 
 
@@ -115,6 +124,7 @@ public:
     virtual QString getName() override;
 
     void setAttack() override;
+    void beHit(int damage, QString element) override;
 };
 
 class CFlameHold : public IHold
@@ -209,6 +219,8 @@ public:
     virtual QString getName() override;
 
     virtual void processFps(qint64 deltaTime) override;
+    virtual void key_press(QKeyEvent *event) override;
+    void beHit(int damage, QString element) override;
 };
 
 class CElectroHitting : public IHitting

@@ -57,6 +57,7 @@ public:
     void processPicking();
     void processAttacking();
     void processShooting();
+    void processPlayerShooting(Character * player);
 
     void processFps(qint64 deltaTime);
     void processHp();

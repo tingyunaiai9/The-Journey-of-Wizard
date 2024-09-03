@@ -119,7 +119,9 @@ public:
     // be hit
     virtual void h_startHitting() override; // from IHero
     virtual void h_stopHitting() override;
-
+    virtual void h_startFrozen() override;
+    virtual void h_stopFrozen() override;
+    virtual void h_clearKeyPress() override;
 
     void processInput();
 
@@ -129,9 +131,10 @@ public:
     int getHp() const;
 
 public:
-    virtual void key_press(QKeyEvent *event);
-    virtual void key_release(QKeyEvent *event);
+    void key_press(QKeyEvent *event);
+    void key_release(QKeyEvent *event);
     void processFps(qint64 deltaTime);
+
 
     virtual const QString getName() override {return "Character";};
     virtual QRectF getAreaRect() override;

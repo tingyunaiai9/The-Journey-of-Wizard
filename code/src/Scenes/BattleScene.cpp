@@ -746,20 +746,20 @@ void BattleScene::removeFromShootingWeapons(Weapon *weapon)
     m_shootingWeapons.removeOne(weapon);
 }
 
-void BattleScene::processShooting()
+void BattleScene::processPlayerShooting(Character * player)
 {
-    if (m_player1->isShooting())
+    if (player->isShooting())
     {
         // shoot ranged weapon
         // bow first to avoid shoot melee weapon and change to bow and shoot bow the same time
-        auto bow = dynamic_cast<Bow *>(m_player1->getHoldingWeapon());
+        auto bow = dynamic_cast<Bow *>(player->getHoldingWeapon());
         if (bow) // bow shoot
         {
             int shootArrowCount = bow->getShootArrowCount();
             QList<QPointF> shootAttowVelocities = bow->getShootArrowVelocities();
 
             // check if player has enough arrows
-            int totalArrowsAvailable = m_player1->getTotalArrowCount();
+            int totalArrowsAvailable = player->getTotalArrowCount();
             int arrowsToShoot = qMin(shootArrowCount, totalArrowsAvailable);
 
             if (arrowsToShoot <= 0) // no arrows to shoot
@@ -767,11 +767,11 @@ void BattleScene::processShooting()
                 return;
             }
 
-            QString currentElement = m_player1->getCurrentArrowElement();
+            QString currentElement = player->getCurrentArrowElement();
             QList<Arrow*> arrowsToFire;
 
             // use current element arrows first
-            QList<Arrow*> currentElementArrows = m_player1->getArrowListByElement(currentElement);
+            QList<Arrow*> currentElementArrows = player->getArrowListByElement(currentElement);
             for (int i = 0; i < currentElementArrows.size() && arrowsToFire.size() < arrowsToShoot; i++)
             {
                 arrowsToFire.append(currentElementArrows.at(i));
@@ -780,9 +780,9 @@ void BattleScene::processShooting()
             // if not enough, use other element arrows
             while(arrowsToFire.size() < arrowsToShoot)
             {
-                m_player1->selectNextArrowElement();
-                currentElement = m_player1->getCurrentArrowElement();
-                currentElementArrows = m_player1->getArrowListByElement(currentElement);
+                player->selectNextArrowElement();
+                currentElement = player->getCurrentArrowElement();
+                currentElementArrows = player->getArrowListByElement(currentElement);
                 for (int i = 0; i < currentElementArrows.size() && arrowsToFire.size() < arrowsToShoot; i++)
                 {
                     arrowsToFire.append(currentElementArrows.at(i));
@@ -794,24 +794,30 @@ void BattleScene::processShooting()
             {
                 Arrow* arrow = arrowsToFire.at(i);
                 QPointF velocity = shootAttowVelocities.at(i);
-                m_player1->removeArrow(arrow);
+                player->removeArrow(arrow);
                 addToShootingWeapons(arrow);
-                arrow->shoot(m_player1->isFacingRight(), velocity);
+                arrow->shoot(player->isFacingRight(), velocity);
             }
 
-            m_player1->selectNextArrowElement();
+            player->selectNextArrowElement();
         }
 
         // shoot melee weapon
-        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(m_player1->getHoldingWeapon());
+        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(player->getHoldingWeapon());
         if (meleeWeapon)
         {
-            meleeWeapon = dynamic_cast<MeleeWeapon *>(m_player1->abandonWeapon());
-            m_player1->setHoldingWeapon(m_player1->getBow());
+            meleeWeapon = dynamic_cast<MeleeWeapon *>(player->abandonWeapon());
+            player->setHoldingWeapon(player->getBow());
             addToShootingWeapons(meleeWeapon);
-            meleeWeapon->shoot(m_player1->isFacingRight());
+            meleeWeapon->shoot(player->isFacingRight());
         }
     }
+}
+
+void BattleScene::processShooting()
+{
+    processPlayerShooting(m_player1);
+    processPlayerShooting(m_player2);
 
     QList<Weapon*> weaponsToRemove; // record weapons to remove
     // TODO: move the move part to processMovement

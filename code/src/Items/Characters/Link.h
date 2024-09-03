@@ -15,8 +15,8 @@ class CPlayer1 : public Link
 public:
     explicit CPlayer1(QGraphicsItem *parent = nullptr);
 
-    void key_press(QKeyEvent *event) override;
-    void key_release(QKeyEvent *event) override;
+    virtual void h_keyPress(QKeyEvent *event) override;
+    virtual void h_keyRelease(QKeyEvent *event) override;
 };
 
 class CPlayer2 : public Link
@@ -24,8 +24,8 @@ class CPlayer2 : public Link
 public:
     explicit CPlayer2(QGraphicsItem *parent = nullptr);
 
-    void key_press(QKeyEvent *event) override;
-    void key_release(QKeyEvent *event) override;
+    virtual void h_keyPress(QKeyEvent *event) override;
+    virtual void h_keyRelease(QKeyEvent *event) override;
 };
 
 #endif //QT_PROGRAMMING_2024_LINK_H

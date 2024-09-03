@@ -97,4 +97,4 @@ TODO: 为文档加上目录
 
 ## 参考文献
 
-> [Qt Documentation](https://doc.qt.io/)
+> [1] Qt Documentation [EB/OL]，https://doc.qt.io

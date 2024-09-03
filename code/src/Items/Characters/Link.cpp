@@ -53,7 +53,7 @@ CPlayer2::CPlayer2(QGraphicsItem *parent) :
     turnLeft();
 }
 
-void CPlayer1::key_press(QKeyEvent *event)
+void CPlayer1::h_keyPress(QKeyEvent *event)
 {
     switch (event->key()) {
         case Qt::Key_A:
@@ -82,7 +82,7 @@ void CPlayer1::key_press(QKeyEvent *event)
     }
 }
 
-void CPlayer1::key_release(QKeyEvent *event)
+void CPlayer1::h_keyRelease(QKeyEvent *event)
 {
     switch (event->key()) {
         case Qt::Key_A:
@@ -111,7 +111,7 @@ void CPlayer1::key_release(QKeyEvent *event)
     }
 }
 
-void CPlayer2::key_press(QKeyEvent *event)
+void CPlayer2::h_keyPress(QKeyEvent *event)
 {    switch (event->key()) {
         case Qt::Key_Left:
             setLeftDown(true);
@@ -128,12 +128,18 @@ void CPlayer2::key_press(QKeyEvent *event)
         case Qt::Key_Period:
             setAttackDown(true);
             break;
+        case Qt::Key_Slash: // shoot
+            setShootDown(true);
+            break;
+        case Qt::Key_Shift: // switch weapon
+            setSwitchDown(true);
+            break;
         default:
             break;
     }
 }
 
-void CPlayer2::key_release(QKeyEvent *event)
+void CPlayer2::h_keyRelease(QKeyEvent *event)
 {
     switch (event->key()) {
         case Qt::Key_Left:
@@ -150,6 +156,12 @@ void CPlayer2::key_release(QKeyEvent *event)
             break;
         case Qt::Key_Period: // release attack
             setAttackDown(false);
+            break;
+        case Qt::Key_Slash: // release shoot
+            setShootDown(false);
+            break;
+        case Qt::Key_Shift: // release switch weapon
+            setSwitchDown(false);
             break;
         default:
             break;

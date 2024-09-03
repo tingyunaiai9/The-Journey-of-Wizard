@@ -282,10 +282,20 @@ RangedWeapon *Character::pickupRangedWeapon(RangedWeapon *newRangedWeapon)
 }
 
 void Character::key_press(QKeyEvent *event)
-{}
+{
+    IState* state_obj = nullptr;
+    state_obj = getStateObj();
+
+    state_obj->key_press(event);
+}
 
 void Character::key_release(QKeyEvent *event)
-{}
+{
+    IState* state_obj = nullptr;
+    state_obj = getStateObj();
+
+    state_obj->key_release(event);
+}
 
 void Character::processFps(qint64 deltaTime)
 {
@@ -361,7 +371,17 @@ void Character::h_startHitting()
     if (headEquipment != nullptr) {
         headEquipment->startHitting();
     }
+}
 
+void Character::h_stopHitting()
+{
+    if (headEquipment != nullptr) {
+        headEquipment->stopHitting();
+    }
+}
+
+void Character::h_startFrozen()
+{
     if (m_hittingPicture == nullptr)
     {
         m_hittingPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Characters/character_hitting.png"));
@@ -370,17 +390,24 @@ void Character::h_startHitting()
     }
 }
 
-void Character::h_stopHitting()
+void Character::h_stopFrozen()
 {
-    if (headEquipment != nullptr) {
-        headEquipment->stopHitting();
-    }
-
     if (m_hittingPicture)
     {
         delete m_hittingPicture;
         m_hittingPicture = nullptr;
     }
+}
+
+void Character::h_clearKeyPress()
+{
+    setLeftDown(false);
+    setRightDown(false);
+    setJumpDown(false);
+    setPickDown(false);
+    setAttackDown(false);
+    setShootDown(false);
+    setSwitchDown(false);
 }
 
 Weapon *Character::getHoldingWeapon()
