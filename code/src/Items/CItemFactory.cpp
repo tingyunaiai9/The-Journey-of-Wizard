@@ -340,3 +340,45 @@ Weapon* CWeaponFactory::NewWeapon(const QString& type, const QString& element, c
     }
     return nullptr;
 }
+
+Mountable* CEquipmentFactory::getNewRandomEquipment()
+{
+    QStringList types = {"Armor", "HeadEquipment", "LegEquipment"};
+    QStringList elements = {"Flame", "Ice", "Electro"}; // "Normal" is not included
+
+    QString type = types.at(rand() % types.size());
+    QString element = elements.at(rand() % elements.size());
+
+    Mountable *newEquipment = nullptr;
+    newEquipment = CEquipmentFactory::NewEquipment(type, element);
+
+    return newEquipment;
+}
+
+Weapon* CWeaponFactory::getNewRandomWeapon()
+{
+    QStringList types = {"OneHandedSword", "TwoHandedSword", "Spear",
+                         "PrimaryBow", "ComboBow", "AOEBow"}; // "Arrow" is not included
+    QStringList elements = {"Normal", "Flame", "Ice", "Electro"};
+    QStringList materials = {"Wooden", "Metal"};
+
+    QString type = types.at(rand() % types.size());
+    QString element = elements.at(rand() % elements.size());
+    QString material = materials.at(rand() % materials.size());
+
+    Weapon *newWeapon = nullptr;
+    newWeapon = CWeaponFactory::NewWeapon(type, element, material);
+
+    return newWeapon;
+}
+
+Weapon* CWeaponFactory::getNewRandomArrow()
+{
+    QStringList elements = {"Normal", "Flame", "Ice", "Electro"};
+    QString element = elements.at(rand() % elements.size());
+
+    Weapon *newArrow = nullptr;
+    newArrow = CWeaponFactory::NewWeapon("Arrow", element);
+
+    return newArrow;
+}

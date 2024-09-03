@@ -115,12 +115,12 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     // generate weapon
     weaponDropTimer = new QTimer(this);
     connect(weaponDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomWeapon);
-    weaponDropTimer->start(10000);
+    weaponDropTimer->start(10000); // 10s
 
     // generate arrow
     arrowDropTimer = new QTimer(this);
     connect(arrowDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomArrow);
-    arrowDropTimer->start(1000);
+    arrowDropTimer->start(1000); // 1s
 
     // m_spareWeapon = new NormalWoodenOneHandedSword();
     // m_spareWeapon = new MetalPrimaryBow();
@@ -195,7 +195,8 @@ void BattleScene::keyPressEvent(QKeyEvent *event)
         m_player1->key_press(event);
     }
 
-    if (m_player2 != nullptr) {
+    if (m_player2 != nullptr)
+    {
         m_player2->key_press(event);
     }
 }
@@ -489,22 +490,15 @@ Weapon *BattleScene::pickupWeapon(Character *player, Weapon *weapon)
 }
 
 // drop item
-void BattleScene::generateRandomEquipment() {
-    QStringList types = {"Armor", "HeadEquipment", "LegEquipment"};
-    QStringList elements = {"Flame", "Ice", "Electro"};
-
-    QString type = types.at(rand() % types.size());
-    QString element = elements.at(rand() % elements.size());
-
-    Mountable *newEquipment = CEquipmentFactory::NewEquipment(type, element);
+void BattleScene::generateRandomEquipment()
+{
+    Mountable *newEquipment = CEquipmentFactory::getNewRandomEquipment();
 
     if (newEquipment)
     {
         // generate at a random x position
         qreal randomX = static_cast<qreal>(rand() % static_cast<int>(this->sceneRect().width()));
-
         newEquipment->setPos(randomX, 0);  // top: y=0
-
         newEquipment->unmount();
         addItem(newEquipment);
 
@@ -512,17 +506,10 @@ void BattleScene::generateRandomEquipment() {
     }
 }
 
-void BattleScene::generateRandomWeapon() {
-    QStringList types = {"OneHandedSword", "TwoHandedSword", "Spear",
-                         "PrimaryBow", "ComboBow", "AOEBow"};
-    QStringList elements = {"Normal", "Flame", "Ice", "Electro"};
-    QStringList materials = {"Wooden", "Metal"};
+void BattleScene::generateRandomWeapon()
+{
+    Weapon *newWeapon = CWeaponFactory::getNewRandomWeapon();
 
-    QString type = types.at(rand() % types.size());
-    QString element = elements.at(rand() % elements.size());
-    QString material = materials.at(rand() % materials.size());
-
-    Weapon *newWeapon = CWeaponFactory::NewWeapon(type, element, material);
     if (newWeapon)
     {
         qreal randomX = static_cast<qreal>(rand() % static_cast<int>(this->sceneRect().width()));
@@ -532,15 +519,12 @@ void BattleScene::generateRandomWeapon() {
 
         addToSpareWeapons(newWeapon);
     }
-
 }
 
 void BattleScene::generateRandomArrow()
 {
-    QStringList elements = {"Normal", "Flame", "Ice", "Electro"};
-    QString element = elements.at(rand() % elements.size());
+    Weapon *newArrow = CWeaponFactory::getNewRandomArrow();
 
-    Weapon *newArrow = CWeaponFactory::NewWeapon("Arrow", element);
     if (newArrow)
     {
         qreal randomX = static_cast<qreal>(rand() % static_cast<int>(this->sceneRect().width()));
