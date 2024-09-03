@@ -53,5 +53,6 @@
         <file>Items/RangedWeapons/Bow/AOE_bow_metal.png</file>
         <file>Items/RangedWeapons/Bow/AOE_bow_wooden.png</file>
         <file>Items/Characters/character_hitting.png</file>
+        <file>Items/Characters/character_frozen.png</file>
     </qresource>
 </RCC>

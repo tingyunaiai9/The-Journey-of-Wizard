@@ -371,17 +371,7 @@ void Character::h_startHitting()
     if (headEquipment != nullptr) {
         headEquipment->startHitting();
     }
-}
 
-void Character::h_stopHitting()
-{
-    if (headEquipment != nullptr) {
-        headEquipment->stopHitting();
-    }
-}
-
-void Character::h_startFrozen()
-{
     if (m_hittingPicture == nullptr)
     {
         m_hittingPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Characters/character_hitting.png"));
@@ -390,12 +380,35 @@ void Character::h_startFrozen()
     }
 }
 
-void Character::h_stopFrozen()
+void Character::h_stopHitting()
 {
+    if (headEquipment != nullptr) {
+        headEquipment->stopHitting();
+    }
+
     if (m_hittingPicture)
     {
         delete m_hittingPicture;
         m_hittingPicture = nullptr;
+    }
+}
+
+void Character::h_startFrozen()
+{
+    if (m_frozenPicture == nullptr)
+    {
+        m_frozenPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Characters/character_frozen.png"));
+        m_frozenPicture->setParentItem(this);
+        m_frozenPicture->setPos(-16, 0);
+    }
+}
+
+void Character::h_stopFrozen()
+{
+    if (m_frozenPicture)
+    {
+        delete m_frozenPicture;
+        m_frozenPicture = nullptr;
     }
 }
 

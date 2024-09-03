@@ -52,6 +52,7 @@ protected:
     int m_hp = 100;
 
     QGraphicsPixmapItem* m_hittingPicture{}; // the picture be hit
+    QGraphicsPixmapItem* m_frozenPicture{}; // the picture be frozen
 
 public:
     explicit Character(QGraphicsItem *parent, const QString &pixmapPath);
