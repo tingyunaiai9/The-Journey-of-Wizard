@@ -61,6 +61,9 @@ public:
     explicit IHold(IHero* heroObj);
 
     bool isHolding() override {return true;}
+
+    virtual void setAttack() override;
+    virtual void beHit(int damage, QString element) override;
 };
 
 class IAttacking : public IState
@@ -69,15 +72,18 @@ public:
     explicit IAttacking(IHero* heroObj);
 
     bool isAttacking() override {return true;}
+
+    virtual void processFps(qint64 deltaTime) override;
 };
 
 class IHitting : public IState
 {
-
 public:
     explicit IHitting(IHero* heroObj);
 
     bool isHitting() override {return true;}
+
+    virtual void processFps(qint64 deltaTime) override;
 };
 
 class IHero: public QObject
@@ -124,7 +130,6 @@ public:
     virtual QString getName() override;
 
     void setAttack() override;
-    void beHit(int damage, QString element) override;
 };
 
 class CFlameHold : public IHold
@@ -133,6 +138,9 @@ public:
     explicit CFlameHold(IHero* heroObj);
 
     virtual QString getName() override;
+
+    void setAttack() override;
+    // TODO: add processFps for flame hold to 受到持续伤害
 };
 
 class CIceHold : public IHold
@@ -141,6 +149,12 @@ public:
     explicit CIceHold(IHero* heroObj);
 
     virtual QString getName() override;
+
+    void setAttack() override;
+    virtual void beHit(int damage, QString element) override;
+
+    virtual void key_press(QKeyEvent *event) override;
+    virtual void processFps(qint64 deltaTime) override;
 };
 
 class CElectroHold : public IHold
@@ -149,6 +163,9 @@ public:
     explicit CElectroHold(IHero* heroObj);
 
     virtual QString getName() override;
+
+    void setAttack() override;
+    // TODO: add processFps for electro hold to 受到持续伤害
 };
 
 class CNormalAttacking : public IAttacking
@@ -218,9 +235,8 @@ public:
 
     virtual QString getName() override;
 
-    virtual void processFps(qint64 deltaTime) override;
     virtual void key_press(QKeyEvent *event) override;
-    void beHit(int damage, QString element) override;
+    virtual void processFps(qint64 deltaTime) override;
 };
 
 class CElectroHitting : public IHitting
