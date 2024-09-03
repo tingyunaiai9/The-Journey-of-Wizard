@@ -3,6 +3,8 @@
 
 #include "Item.h"
 
+class Character; // Forward declaration
+
 class Weapon : public Item
 {
 private:
@@ -26,6 +28,7 @@ public:
     [[nodiscard]] virtual int getAttackForwardDistance() const {return 0;}
     [[nodiscard]] virtual int getAttackBackwardDistance() const {return 0;}
     [[nodiscard]] virtual int getDamage() const {return 0;}
+    virtual QRectF getMeleeAttackRange(Character* player = nullptr);
 
     [[nodiscard]] virtual QString getElement() const {return "";}
 

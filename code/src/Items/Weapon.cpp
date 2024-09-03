@@ -1,4 +1,5 @@
 #include "Weapon.h"
+#include "./Characters/Character.h"
 
 Weapon::Weapon(QGraphicsItem *parent, const QString &pixmapPath) :
     Item(parent, pixmapPath)
@@ -27,6 +28,29 @@ void Weapon::stopAttack() {
 
 bool Weapon::isAttacking() const {
     return m_isAttacking;
+}
+
+QRectF Weapon::getMeleeAttackRange(Character* player)
+{
+    if (player == nullptr)
+    {
+        return QRectF();
+    }
+
+    if (player->isFacingRight())
+    {
+        return QRectF(player->pos().x() - getAttackBackwardDistance(),
+                      player->pos().y() - 24,
+                      getAttackForwardDistance() + getAttackBackwardDistance(),
+                      48);
+    }
+    else
+    {
+        return QRectF(player->pos().x() - getAttackForwardDistance(),
+                      player->pos().y() - 24,
+                      getAttackForwardDistance() + getAttackBackwardDistance(),
+                      48);
+    }
 }
 
 void Weapon::shoot(bool isFacingRight, QPointF velocity)

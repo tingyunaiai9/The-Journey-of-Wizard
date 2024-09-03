@@ -650,30 +650,14 @@ void BattleScene::processAttacking()
 
         if (meleeWeapon)
         {
-            bool facingRight = m_player1->isFacingRight();
-
-            // calculate the attack rectangle
-            QRectF attackRange;
-            if (facingRight)
-            {
-                attackRange = QRectF(m_player1->pos().x() - meleeWeapon->getAttackBackwardDistance(),
-                                     m_player1->pos().y() - 24,
-                                     meleeWeapon->getAttackForwardDistance() + meleeWeapon->getAttackBackwardDistance(),
-                                     48);
-            }
-            else
-            {
-                attackRange = QRectF(m_player1->pos().x() - meleeWeapon->getAttackForwardDistance(),
-                                     m_player1->pos().y() - 24,
-                                     meleeWeapon->getAttackForwardDistance() + meleeWeapon->getAttackBackwardDistance(),
-                                     48);
-            }
+            // calculate the attack rectangle according to the player's position
+            QRectF attackRange = meleeWeapon->getMeleeAttackRange(m_player1);
 
             QPointF player2Pos = m_player2->pos();
 
-            // 打印矩形的详细信息
-            qDebug() << "Attack Range:" << attackRange;
-            qDebug() << "Player2 Position:" << player2Pos;
+            // // 打印矩形的详细信息
+            // qDebug() << "Attack Range:" << attackRange;
+            // qDebug() << "Player2 Position:" << player2Pos;
 
             // the rectangle contains the point?
             if (attackRange.contains(player2Pos))
@@ -711,33 +695,17 @@ void BattleScene::processAttacking()
 
         if (meleeWeapon)
         {
-            bool facingRight = m_player2->isFacingRight();
+            // calculate the attack rectangle according to the player's position
+            QRectF attackRange = meleeWeapon->getMeleeAttackRange(m_player2);
 
-            // calculate the attack rectangle
-            QRectF attackRange;
-            if (facingRight)
-            {
-                attackRange = QRectF(m_player2->pos().x() - meleeWeapon->getAttackBackwardDistance(),
-                                     m_player2->pos().y() - 24,
-                                     meleeWeapon->getAttackForwardDistance() + meleeWeapon->getAttackBackwardDistance(),
-                                     48);
-            }
-            else
-            {
-                attackRange = QRectF(m_player2->pos().x() - meleeWeapon->getAttackForwardDistance() - meleeWeapon->getAttackBackwardDistance(),
-                                     m_player2->pos().y() - 24,
-                                     meleeWeapon->getAttackForwardDistance() + meleeWeapon->getAttackBackwardDistance(),
-                                     48);
-            }
-
-            QPointF player2Pos = m_player1->pos();
+            QPointF player1Pos = m_player1->pos();
 
             // 打印矩形的详细信息
             // qDebug() << "Attack Range:" << attackRange;
             // qDebug() << "Player2 Position:" << player2Pos;
 
             // the rectangle contains the point?
-            if (attackRange.contains(player2Pos))
+            if (attackRange.contains(player1Pos))
             {
                 m_player1->beHit(meleeWeapon->getDamage(), meleeWeapon->getElement());
             }
