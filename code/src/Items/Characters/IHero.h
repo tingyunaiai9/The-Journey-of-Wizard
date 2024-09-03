@@ -19,7 +19,8 @@ enum HEROSTATE
     NORMAL_HITTING,
     FLAME_HITTING,
     ICE_HITTING,
-    ELECTRO_HITTING
+    ELECTRO_HITTING,
+    DEAD
 };
 
 class IHero;
@@ -247,6 +248,16 @@ public:
     virtual QString getName() override;
 
     virtual void processFps(qint64 deltaTime) override;
+};
+
+class CDead : public IState
+{
+public:
+    explicit CDead(IHero* heroObj);
+
+    virtual QString getName() override;
+
+    virtual void key_press(QKeyEvent *event) override;
 };
 
 #endif //QT_PROGRAMMING_2024_IHERO_H

@@ -117,6 +117,11 @@ public:
 
     Weapon* abandonWeapon(); // abandon the holding weapon
 
+    //
+    virtual bool h_getElectroResistance() override;
+    virtual bool h_getFlameResistance() override;
+    virtual bool h_getIceResistance() override;
+
     // be hit
     virtual void h_startHitting() override; // from IHero
     virtual void h_stopHitting() override;
@@ -135,7 +140,7 @@ public:
     void key_press(QKeyEvent *event);
     void key_release(QKeyEvent *event);
     void processFps(qint64 deltaTime);
-
+    void toDead();
 
     virtual const QString getName() override {return "Character";};
     virtual QRectF getAreaRect() override;

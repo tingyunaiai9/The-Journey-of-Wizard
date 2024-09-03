@@ -36,6 +36,8 @@ Character::Character(QGraphicsItem *parent, const QString &pixmapPath) :
     addState(ICE_HITTING, new CIceHitting(this));
     addState(ELECTRO_HITTING, new CElectroHitting(this));
 
+    addState(DEAD, new CDead(this));
+
     initState(NORMAL_HOLD);
 }
 
@@ -324,6 +326,19 @@ void Character::setAttack()
     state_obj = getStateObj();
 
     state_obj->setAttack();
+}
+
+bool Character::h_getElectroResistance()
+{
+    return false;
+}
+bool Character::h_getFlameResistance()
+{
+    return false;
+}
+bool Character::h_getIceResistance()
+{
+    return false;
 }
 
 bool Character::isHolding()
@@ -704,6 +719,28 @@ QRectF Character::getAreaRect()
 // {
 //     return transform().m11() > 0;
 // }
+
+void Character::toDead()
+{
+    IState* state_obj = nullptr;
+    state_obj = getStateObj();
+    if (state_obj->getName() == "Dead") // already dead
+    {
+        return;
+    }
+
+    // clear all pictures
+    h_stopAttack();
+    h_stopHitting();
+    h_stopFrozen();
+
+    h_clearKeyPress();
+
+    setRotation(90); // rotate the character to 90 degree
+    setPos(pos().x(), pos().y() + 100); // move the character down
+
+    setState(DEAD);
+}
 
 void Character::turnLeft()
 {

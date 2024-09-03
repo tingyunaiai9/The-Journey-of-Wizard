@@ -177,15 +177,14 @@ void BattleScene::keyPressEvent(QKeyEvent *event)
                 // 处理用户输入的文本
                 generateItem(text);
             }
-            return Scene::keyPressEvent(event);
+            break;
         case Qt::Key_BracketLeft:
             debugItem(true);
-            return Scene::keyPressEvent(event);
+            break;
         case Qt::Key_BracketRight:
             debugItem(false);
-            return Scene::keyPressEvent(event);
+            break;
         default:
-            Scene::keyPressEvent(event);
             break;
     }
 
@@ -933,12 +932,34 @@ void BattleScene::processHp()
 {
     if (m_player1 != nullptr)
     {
-        m_bar1->setValue(m_player1->getHp());
+        int hp = m_player1->getHp();
+        m_bar1->setValue(hp);
+        if (hp > 0)
+        {
+        }
+        else
+        {
+            if (m_player1->isHolding())
+            {
+                m_player1->toDead();
+            }
+        }
     }
 
     if (m_player2 != nullptr)
     {
-        m_bar2->setValue(m_player2->getHp());
+        int hp = m_player2->getHp();
+        m_bar2->setValue(hp);
+        if (hp > 0)
+        {
+        }
+        else
+        {
+            if (m_player2->isHolding())
+            {
+                m_player2->toDead();
+            }
+        }
     }
 }
 

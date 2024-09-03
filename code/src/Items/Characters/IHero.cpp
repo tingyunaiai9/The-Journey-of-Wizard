@@ -393,3 +393,16 @@ void CElectroHitting::processFps(qint64 deltaTime)
         m_elapsedTime = 0;
     }
 }
+
+CDead::CDead(IHero* heroObj):
+    IState(heroObj)
+{
+}
+
+QString CDead::getName()
+{
+    return "Dead";
+}
+
+void CDead::key_press(QKeyEvent *event)
+{}
