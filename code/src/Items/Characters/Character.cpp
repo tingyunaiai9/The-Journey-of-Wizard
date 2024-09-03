@@ -361,12 +361,25 @@ void Character::h_startHitting()
     if (headEquipment != nullptr) {
         headEquipment->startHitting();
     }
+
+    if (m_hittingPicture == nullptr)
+    {
+        m_hittingPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Characters/character_hitting.png"));
+        m_hittingPicture->setParentItem(this);
+        m_hittingPicture->setPos(-16, 0);
+    }
 }
 
 void Character::h_stopHitting()
 {
     if (headEquipment != nullptr) {
         headEquipment->stopHitting();
+    }
+
+    if (m_hittingPicture)
+    {
+        delete m_hittingPicture;
+        m_hittingPicture = nullptr;
     }
 }
 

@@ -51,6 +51,8 @@ protected:
 
     int m_hp = 100;
 
+    QGraphicsPixmapItem* m_hittingPicture{}; // the picture be hit
+
 public:
     explicit Character(QGraphicsItem *parent, const QString &pixmapPath);
 
