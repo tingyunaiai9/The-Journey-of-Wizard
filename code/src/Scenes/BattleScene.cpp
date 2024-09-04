@@ -1024,5 +1024,42 @@ void BattleScene::processAttackingWoodPlatform()
 
 void BattleScene::burningWoodPlatform(WoodPlatform* plat)
 {
-    qDebug() << "burningWoodPlatform";
+    plat->startBurning();
+    // add a timer to remove the equipment
+    QTimer* timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, [this, plat]() {
+        plat->stopBurning();
+        m_maps.removeOne(plat);
+        removeItem(plat);  // remove from scene
+        // delete plat;
+    });
+
+    timer->setSingleShot(true);  // only once
+    timer->start(10000);  // 10s
+}
+
+double distanceBetweenRects(const QRectF& rect1, const QRectF& rect2) {
+    // 检查两个矩形是否相交
+    if (rect1.intersects(rect2)) {
+        return 0.0;
+    }
+
+    // 计算两个矩形之间的最小距离
+    double dx = 0.0;
+    double dy = 0.0;
+
+    if (rect1.right() < rect2.left()) {
+        dx = rect2.left() - rect1.right();
+    } else if (rect2.right() < rect1.left()) {
+        dx = rect1.left() - rect2.right();
+    }
+
+    if (rect1.bottom() < rect2.top()) {
+        dy = rect2.top() - rect1.bottom();
+    } else if (rect2.bottom() < rect1.top()) {
+        dy = rect1.top() - rect2.bottom();
+    }
+
+    // 返回欧几里得距离
+    return std::sqrt(dx * dx + dy * dy);
 }
