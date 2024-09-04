@@ -63,11 +63,6 @@ public:
     void processFps(qint64 deltaTime);
     void processHp();
 
-    void startSinglePlayerGame();
-    void startTwoPlayerGame();
-    void startOnlineGame();
-    void closeGame();
-
     void addToSpareWeapons(Weapon* weapon);
 
     void processAttackingWoodPlatform();

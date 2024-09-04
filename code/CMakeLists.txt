@@ -110,7 +110,9 @@ add_executable(qt_programming_2024 src/main.cpp
         src/Scenes/Scene.cpp
         src/Scenes/Scene.h
         src/Scenes/BattleScene.cpp
-        src/Scenes/BattleScene.h)
+        src/Scenes/BattleScene.h
+        src/Scenes/StartScene.cpp
+        src/Scenes/StartScene.h)
 target_link_libraries(qt_programming_2024
         Qt::Core
         Qt::Gui

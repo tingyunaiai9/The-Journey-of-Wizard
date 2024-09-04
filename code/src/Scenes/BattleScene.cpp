@@ -10,7 +10,6 @@
 #include "../Items/Maps/MetalPlatform.h"
 
 #include <QDebug>
-#include <QPushButton>
 #include <QInputDialog>
 
 BattleScene::BattleScene(QObject *parent) : Scene(parent) {
@@ -82,30 +81,6 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     proxy = addWidget(m_bar2);
     proxy->setPos(980, 80); // position
 
-    // TODO: buttons
-    // QPushButton *singlePlayerButton = new QPushButton("单人游戏");
-    // QPushButton *twoPlayerButton = new QPushButton("双人对战");
-    // QPushButton *onlineButton = new QPushButton("联网对战");
-    // QPushButton *exitButton = new QPushButton("结束游戏");
-
-    // proxy = addWidget(singlePlayerButton);
-    // proxy->setPos(100,50);
-    // proxy = addWidget(twoPlayerButton);
-    // proxy->setPos(400,50);
-    // proxy = addWidget(onlineButton);
-    // proxy->setPos(700,50);
-    // proxy = addWidget(exitButton);
-    // proxy->setPos(1000,50);
-    // singlePlayerButton->setFixedSize(200,50);
-    // twoPlayerButton->setFixedSize(200,50);
-    // onlineButton->setFixedSize(200,50);
-    // exitButton->setFixedSize(200,50);
-
-    // connect(singlePlayerButton, &QPushButton::clicked, this, &BattleScene::startSinglePlayerGame);
-    // connect(twoPlayerButton, &QPushButton::clicked, this, &BattleScene::startTwoPlayerGame);
-    // connect(onlineButton, &QPushButton::clicked, this, &BattleScene::startOnlineGame);
-    // connect(exitButton, &QPushButton::clicked, this, &BattleScene::closeGame);
-
     // // generate equipment
     // equipmentDropTimer = new QTimer(this);
     // connect(equipmentDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomEquipment);
@@ -120,26 +95,6 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     arrowDropTimer = new QTimer(this);
     connect(arrowDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomArrow);
     arrowDropTimer->start(1000); // 1s
-}
-
-void BattleScene::startSinglePlayerGame() {
-    // 在这里添加单人游戏的逻辑
-    qDebug() << "开始单人游戏";
-}
-
-void BattleScene::startTwoPlayerGame() {
-    // 在这里添加双人对战的逻辑
-    qDebug() << "开始双人对战";
-}
-
-void BattleScene::startOnlineGame() {
-    // 在这里添加联网对战的逻辑
-    qDebug() << "开始联网对战";
-}
-
-void BattleScene::closeGame() {
-    // 在这里添加联网对战的逻辑
-    qDebug() << "结束对战";
 }
 
 void BattleScene::processInput()
