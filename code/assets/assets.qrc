@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>Items/Armors/FlamebreakerArmor/BotW_Flamebreaker_Armor_Icon.png</file>
         <file>Items/Characters/character_body.png</file>
         <file>Items/HeadEquipments/BlackHat/black_hat.png</file>
         <file>Items/Maps/Battlefield/forest.png</file>
