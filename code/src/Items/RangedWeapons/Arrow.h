@@ -16,6 +16,8 @@ public:
 
     void equipToParent() override;
     void unequip() override;
+
+    virtual QPointF getCenterPos() override;
 };
 
 class NormalArrow : public Arrow

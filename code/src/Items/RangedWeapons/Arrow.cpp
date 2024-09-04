@@ -57,6 +57,13 @@ void Arrow::unequip()
     setVisible(true); // show the arrow
 }
 
+QPointF Arrow::getCenterPos()
+{
+    QPointF centerPos = pos();
+    centerPos.setX(centerPos.x() + 4);
+    return centerPos;
+}
+
 NormalArrow::NormalArrow(QGraphicsItem *parent) :
     Arrow(parent, ":/Items/RangedWeapons/Arrow/arrow_normal.png")
 {

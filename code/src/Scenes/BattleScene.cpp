@@ -83,9 +83,9 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
 
     QGraphicsProxyWidget *proxy = nullptr;
     proxy = addWidget(m_bar1);
-    proxy->setPos(100, 100);
+    proxy->setPos(100, 80);
     proxy = addWidget(m_bar2);
-    proxy->setPos(980, 100); // position
+    proxy->setPos(980, 80); // position
 
     // TODO: buttons
     // QPushButton *singlePlayerButton = new QPushButton("单人游戏");
