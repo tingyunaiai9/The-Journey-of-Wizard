@@ -67,6 +67,8 @@ public:
     void startOnlineGame();
     void closeGame();
 
+    void addToSpareWeapons(Weapon* weapon);
+
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 
@@ -87,7 +89,7 @@ private:
     void addToSpareEquipments(Mountable* equipment);
     void removeFromSpareEquipments(Mountable* equipment);
 
-    void addToSpareWeapons(Weapon* weapon);
+    // void addToSpareWeapons(Weapon* weapon);
     void removeFromSpareWeapons(Weapon* weapon);
 
     void addToShootingWeapons(Weapon* weapon);

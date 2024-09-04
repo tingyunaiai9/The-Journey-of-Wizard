@@ -530,7 +530,36 @@ void Character::h_startElectricShock()
         m_electricShockPicture->setPos(-16, 0);
     }
 
-    // TODO: drop metal weapon
+    // drop metal weapon
+    if (m_holdingWeapon == nullptr)
+    {
+        return;
+    }
+
+    if (m_holdingWeapon->getMaterial() == "Metal")
+    {
+        Weapon* oldWeapon = abandonWeapon();
+        if (oldWeapon)
+        {
+            oldWeapon->unequip(); // unequip the weapon
+
+            // add to spare weapons
+            if (m_battleScene)
+            {
+                m_battleScene->addToSpareWeapons(oldWeapon);
+            }
+
+            MeleeWeapon* meleeWeapon = dynamic_cast<MeleeWeapon*>(oldWeapon);
+            if (meleeWeapon) // drop melee weapon
+            {
+                setHoldingWeapon(m_bow); // switch to bow
+            }
+            else // drop bow
+            {
+                setHoldingWeapon(m_meleeWeapon); // switch to melee weapon
+            }
+        }
+    }
 }
 
 void Character::h_stopElectricShock()
@@ -761,9 +790,11 @@ bool Character::isShooting()
     return m_shooting;
 }
 
+// abandon the holding weapon
 Weapon *Character::abandonWeapon()
 {
-    if (m_holdingWeapon == nullptr) {
+    if (m_holdingWeapon == nullptr)
+    {
         return nullptr;
     }
 
