@@ -1,5 +1,6 @@
 #include "Character.h"
 #include "../MeleeWeapons/TwoHandedSword.h"
+#include "../../Scenes/BattleScene.h"
 
 #include <QTransform>
 #include <QTimer>
@@ -529,7 +530,7 @@ void Character::h_startElectricShock()
         m_electricShockPicture->setPos(-16, 0);
     }
 
-    // drop metal weapon
+    // TODO: drop metal weapon
 }
 
 void Character::h_stopElectricShock()
@@ -806,6 +807,12 @@ void Character::beHit(int damage, QString element)
     state_obj = getStateObj();
 
     state_obj->beHit(damage, element);
+}
+
+// battle scene
+void Character::setBattleScene(BattleScene *battleScene)
+{
+    m_battleScene = battleScene;
 }
 
 QRectF Character::getAreaRect()

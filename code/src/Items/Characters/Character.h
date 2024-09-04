@@ -1,7 +1,6 @@
 #ifndef QT_PROGRAMMING_2024_CHARACTER_H
 #define QT_PROGRAMMING_2024_CHARACTER_H
 
-#include <QGraphicsEllipseItem>
 #include "../Weapon.h"
 #include "../HeadEquipments/HeadEquipment.h"
 #include "../Armors/Armor.h"
@@ -11,6 +10,10 @@
 #include "../RangedWeapons/Bow.h"
 #include "../RangedWeapons/Arrow.h"
 #include "IHero.h"
+
+#include <QGraphicsEllipseItem>
+
+class BattleScene;
 
 class Character : public Item, public IHero
 {
@@ -36,6 +39,8 @@ private:
 
     bool m_switchDown{};
     bool m_lastSwitchDown{};
+
+    BattleScene* m_battleScene{};
 
 protected:
     HeadEquipment *headEquipment{};
@@ -144,7 +149,9 @@ public:
     virtual void h_reduceHp(int damage) override;
     int getHp() const;
 
-public:
+    // battle scene
+    void setBattleScene(BattleScene* battleScene);
+
     void key_press(QKeyEvent *event);
     void key_release(QKeyEvent *event);
     void processFps(qint64 deltaTime);

@@ -46,6 +46,10 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     m_player1->setPos(m_battlefield->getSpawnPos(0.2));
     m_player2->setPos(m_battlefield->getSpawnPos(0.8));
 
+    // set battle scene for players
+    m_player1->setBattleScene(this);
+    m_player2->setBattleScene(this);
+
     // init lifebar
     m_bar1 = new QProgressBar();
     m_bar1->setTextVisible(false);
