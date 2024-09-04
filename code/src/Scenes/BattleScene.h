@@ -32,7 +32,6 @@ private:
     QVector<Mountable*> m_spareEquipments;
     QMap<Mountable*, QTimer*> m_spareEquipmentTimers; // timers for spare equipment to disappear
 
-    Weapon* m_spareWeapon;
     QVector<Weapon*> m_spareWeapons;
     QMap<Weapon*, QTimer*> m_spareWeaponTimers; // timers for spare melee weapons to disappear
 

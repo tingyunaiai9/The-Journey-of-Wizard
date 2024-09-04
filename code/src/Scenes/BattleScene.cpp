@@ -9,11 +9,6 @@
 #include "../Items/Maps/RockPlatform.h"
 #include "../Items/Maps/MetalPlatform.h"
 
-#include "../Items/MeleeWeapons/OneHandedSword.h"
-#include "../Items/RangedWeapons/PrimaryBow.h"
-#include "../Items/RangedWeapons/ComboBow.h"
-#include "../Items/RangedWeapons/AOEBow.h"
-
 #include <QDebug>
 #include <QPushButton>
 #include <QInputDialog>
@@ -111,28 +106,20 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent) {
     // connect(onlineButton, &QPushButton::clicked, this, &BattleScene::startOnlineGame);
     // connect(exitButton, &QPushButton::clicked, this, &BattleScene::closeGame);
 
-    // generate equipment
-    equipmentDropTimer = new QTimer(this);
-    connect(equipmentDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomEquipment);
-    equipmentDropTimer->start(10000); // 10s
+    // // generate equipment
+    // equipmentDropTimer = new QTimer(this);
+    // connect(equipmentDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomEquipment);
+    // equipmentDropTimer->start(10000); // 10s
 
-    // generate weapon
-    weaponDropTimer = new QTimer(this);
-    connect(weaponDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomWeapon);
-    weaponDropTimer->start(10000); // 10s
+    // // generate weapon
+    // weaponDropTimer = new QTimer(this);
+    // connect(weaponDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomWeapon);
+    // weaponDropTimer->start(10000); // 10s
 
     // generate arrow
     arrowDropTimer = new QTimer(this);
     connect(arrowDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomArrow);
     arrowDropTimer->start(1000); // 1s
-
-    // m_spareWeapon = new NormalWoodenOneHandedSword();
-    // m_spareWeapon = new MetalPrimaryBow();
-    // m_spareWeapon = new MetalAOEBow();
-    // addItem(m_spareWeapon);
-    // m_spareWeapon->unequip();
-    // m_spareWeapon->setPos(m_battlefield->getSpawnPos(0.5));
-    // addToSpareWeapons(m_spareWeapon);
 }
 
 void BattleScene::startSinglePlayerGame() {
