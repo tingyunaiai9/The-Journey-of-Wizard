@@ -937,12 +937,13 @@ void BattleScene::processHp()
     if (m_player1 != nullptr)
     {
         int hp = m_player1->getHp();
-        m_bar1->setValue(hp);
         if (hp > 0)
         {
+            m_bar1->setValue(hp);
         }
         else
         {
+            m_bar1->setValue(0);
             if (m_player1->isHolding())
             {
                 m_player1->toDead();
@@ -953,12 +954,13 @@ void BattleScene::processHp()
     if (m_player2 != nullptr)
     {
         int hp = m_player2->getHp();
-        m_bar2->setValue(hp);
         if (hp > 0)
         {
+            m_bar2->setValue(hp);
         }
         else
         {
+            m_bar2->setValue(0);
             if (m_player2->isHolding())
             {
                 m_player2->toDead();
