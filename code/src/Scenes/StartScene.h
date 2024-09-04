@@ -1,5 +1,5 @@
-#ifndef STARTSCENE_H
-#define STARTSCENE_H
+#ifndef QT_PROGRAMMING_2024_STARTSCENE_H
+#define QT_PROGRAMMING_2024_STARTSCENE_H
 
 #include <QGraphicsScene>
 #include <QPushButton>
@@ -8,29 +8,36 @@
 #include <QTimer>
 #include <QStringList>
 
-class StartScene : public QGraphicsScene {
+class StartScene : public QGraphicsScene
+{
     Q_OBJECT
+
+private:
+    QPushButton *startButton;  // the start button
+    QGraphicsPixmapItem *currentPixmapItem;
+    QTimer *imageTimer;  // timer for image transition
+    QTimer *fadeTimer;  // timer for image fade in
+    QStringList imagePaths;  // image paths
+    int currentImageIndex;
+    qreal opacity;  // image opacity
+
+    QList<QGraphicsPixmapItem*> lastThreePixmapItems;  // store the last three images
 
 public:
     explicit StartScene(QObject *parent = nullptr);
 
 signals:
-    void startGameClicked();
+    void startGameClicked();  // button click signal
+    void imagesFadedOut();  // signal when images fade out is completed
 
 private slots:
-    void startImageTransition();  // 开始图片过渡
-    void updateImageOpacity();  // 更新图片的透明度，处理淡入淡出
-    void fadeInButton();  // 按钮淡入显示
+    void startImageTransition(); // switch to the next image (fade in)
+    void updateImageOpacity(); // update the image opacity (fade in)
+    void fadeInButton();  // show the start button
 
-private:
-    QPushButton *startButton;  // 开始游戏按钮
-    QGraphicsPixmapItem *currentPixmapItem;  // 当前图片
-    QGraphicsPixmapItem *nextPixmapItem;  // 下一张图片
-    QTimer *imageTimer;  // 定时器用于切换图片
-    QTimer *fadeTimer;  // 定时器用于图片淡入效果
-    QStringList imagePaths;  // 存储图片文件路径列表
-    int currentImageIndex;  // 当前显示的图片索引
-    qreal opacity;  // 控制图片透明度
+    //slots for fade-out functionality
+    void fadeOutLastThreeImages();  // start fading out the last three images
+    void updateFadeOutOpacity();  // update the opacity for fading out images
 };
 
-#endif // STARTSCENE_H
+#endif //QT_PROGRAMMING_2024_STARTSCENE_H

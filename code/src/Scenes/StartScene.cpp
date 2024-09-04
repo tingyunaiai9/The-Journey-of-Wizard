@@ -5,10 +5,9 @@
 
 StartScene::StartScene(QObject *parent) : QGraphicsScene(parent), currentImageIndex(0), opacity(0.0)
 {
-    setSceneRect(0, 0, 1280, 720);
+    setSceneRect(0, 0, 1280, 720); // important
 
-    // 创建图片序列
-    imagePaths << ":/Scenes/StartScene/background_1.png"  // 替换为实际的图片路径
+    imagePaths << ":/Scenes/StartScene/background_1.png"
                << ":/Scenes/StartScene/background_2.png"
                << ":/Scenes/StartScene/background_3.png"
                << ":/Scenes/StartScene/background_4.png"
@@ -17,80 +16,129 @@ StartScene::StartScene(QObject *parent) : QGraphicsScene(parent), currentImageIn
                << ":/Scenes/StartScene/background_7.png"
                << ":/Scenes/StartScene/background_8.png";
 
-    // 立即显示第一张图片（不淡入）
+    // show the first image directly
     QPixmap firstPixmap(imagePaths[currentImageIndex]);
-    if (!firstPixmap.isNull()) {
+    if (!firstPixmap.isNull())
+    {
         currentPixmapItem = new QGraphicsPixmapItem(firstPixmap);
         addItem(currentPixmapItem);
+        // move the image to the bottom of the scene
         currentPixmapItem->setPos(0, sceneRect().height() - currentPixmapItem->pixmap().height());
-        currentPixmapItem->setOpacity(1.0);  // 第一张图片直接显示
+        currentPixmapItem->setOpacity(1.0);
         currentPixmapItem->setZValue(0);
     }
 
-    // 定时器控制图片淡入
+    // set up the timer for image transition
     fadeTimer = new QTimer(this);
     connect(fadeTimer, &QTimer::timeout, this, &StartScene::updateImageOpacity);
 
     imageTimer = new QTimer(this);
     connect(imageTimer, &QTimer::timeout, this, &StartScene::startImageTransition);
-    imageTimer->start(800);  // 从第二张图片开始的切换时间
+    imageTimer->start(800);  // every 800 milliseconds switch to the next image
 
-    // 创建按钮并设置其文本
+    // button
     startButton = new QPushButton("Start Game");
-    startButton->setVisible(false);  // 初始隐藏按钮
+    startButton->setVisible(false);  // hide the button
 
-    // 将按钮添加到场景中，并将其 Z 值设置为 1，确保按钮在图片上方
     QGraphicsProxyWidget *proxy = this->addWidget(startButton);
     proxy->setPos(640 - startButton->width() / 2, 360 - startButton->height() / 2);
-    proxy->setZValue(1);  // 设置按钮的 Z 值为 1
+    proxy->setZValue(1);  // set z above the image
 
-    // 连接按钮点击信号
+    // connect the button click signal to the startGameClicked signal
     connect(startButton, &QPushButton::clicked, this, &StartScene::startGameClicked);
 }
 
 void StartScene::startImageTransition()
 {
-    // 当加载新的图片时，首先停止任何进行中的淡入效果
+    // stop the fade timer if it is running
     fadeTimer->stop();
-    opacity = 0.0;  // 重置淡入透明度
+    opacity = 0.0;  // reset the opacity
 
-    // 检查是否有更多图片
-    if (currentImageIndex < imagePaths.size() - 1) {
-        currentImageIndex++;  // 切换到下一张图片
+    if (currentImageIndex < imagePaths.size() - 1)
+    {
+        currentImageIndex++;  // change to the next image
         QPixmap nextPixmap(imagePaths[currentImageIndex]);
-        if (nextPixmap.isNull()) {
+        if (nextPixmap.isNull())
+        {
             qWarning() << "Failed to load image:" << imagePaths[currentImageIndex];
             return;
         }
 
-        // 创建一个新的 QGraphicsPixmapItem 并将其添加到场景中
         currentPixmapItem = new QGraphicsPixmapItem(nextPixmap);
         addItem(currentPixmapItem);
         currentPixmapItem->setPos(0, sceneRect().height() - currentPixmapItem->pixmap().height());
         currentPixmapItem->setZValue(0);
 
-        // 从第二张图片开始淡入
-        currentPixmapItem->setOpacity(opacity);  // 设置初始透明度为 0
-        fadeTimer->start(35);  // 每 50 毫秒更新一次透明度
-    } else {
-        // 如果所有图片播放完毕，立即显示按钮并停止定时器
+        currentPixmapItem->setOpacity(opacity);  // set the opacity to 0
+        fadeTimer->start(35);  // start the fade in timer
+
+        if (currentImageIndex >= 5)
+        {
+            lastThreePixmapItems.append(currentPixmapItem);
+        }
+    }
+    else
+    {
+        // stop the image timer if all images have been shown
         imageTimer->stop();
-        fadeInButton();  // 显示按钮
+        fadeInButton();  // show the start button
     }
 }
 
 void StartScene::updateImageOpacity()
 {
-    if (opacity < 1.0) {
-        opacity += 0.05;  // 每次增加透明度
-        currentPixmapItem->setOpacity(opacity);  // 调整图片的透明度
-    } else {
-        // 达到完全不透明时停止淡入
+    if (opacity < 1.0)
+    {
+        opacity += 0.05;
+        currentPixmapItem->setOpacity(opacity);
+    }
+    else
+    {
         fadeTimer->stop();
     }
 }
 
+// show button
 void StartScene::fadeInButton()
 {
-    startButton->setVisible(true);  // 立即显示按钮
+    startButton->setVisible(true);
+    connect(startButton, &QPushButton::clicked, this, &StartScene::fadeOutLastThreeImages);
+}
+
+void StartScene::fadeOutLastThreeImages()
+{
+    if (!lastThreePixmapItems.isEmpty())
+    {
+        currentPixmapItem = lastThreePixmapItems.takeLast();
+        opacity = 1.0;
+        fadeTimer = new QTimer(this);
+        connect(fadeTimer, &QTimer::timeout, this, &StartScene::updateFadeOutOpacity);
+        fadeTimer->start(35);
+    }
+    else
+    {
+        // emit the signal when all images have faded out
+        emit imagesFadedOut();
+    }
+}
+
+void StartScene::updateFadeOutOpacity()
+{
+    if (opacity > 0.0)
+    {
+        opacity -= 0.1;
+        currentPixmapItem->setOpacity(opacity);
+    }
+    else
+    {
+        fadeTimer->stop();
+
+        // remove the item from the scene
+        removeItem(currentPixmapItem);
+        delete currentPixmapItem;
+        currentPixmapItem = nullptr;
+
+        // start fading out the next image
+        fadeOutLastThreeImages();
+    }
 }
