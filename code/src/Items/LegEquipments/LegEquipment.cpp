@@ -21,3 +21,10 @@ void LegEquipment::unmount() {
         pixmapItem->setPos(0, 3);
     }
 }
+
+QPointF LegEquipment::getCenterPos()
+{
+    QPointF centerPos = pos();
+    centerPos.setX(centerPos.x() + 60);
+    return centerPos;
+}

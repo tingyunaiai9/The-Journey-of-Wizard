@@ -43,9 +43,11 @@ Item* CItemFactory::NewItem(const QString& category, const QString& type, const 
 
 Item* CItemFactory::NewItem(const QString& itemCode)
 {
-    // S - Spear
-    // 1 - Wooden
-    // I - Ice,
+    // E - Electro, F - Flame, I - Ice
+    // 1 - Wooden, 2 - Metal
+    // S - Spear, 1 - OneHandedSword, 2 - TwoHandedSword
+    // B - PrimaryBow, 3 - ComboBow, 4 - AOEBow
+    // A - Armor, L - Leg Shoes, H - Head Hat
 
     QString item_code = itemCode.toUpper();
     if (item_code == "I1S")
@@ -60,6 +62,66 @@ Item* CItemFactory::NewItem(const QString& itemCode)
     {
         return new IceWoodenTwoHandedSword();
     }
+    else if (item_code == "E1S")
+    {
+        return new ElectroWoodenSpear();
+    }
+    else if (item_code == "E11")
+    {
+        return new ElectroWoodenOneHandedSword();
+    }
+    else if (item_code == "E12")
+    {
+        return new ElectroWoodenTwoHandedSword();
+    }
+    else if (item_code == "F1S")
+    {
+        return new FlameWoodenSpear();
+    }
+    else if (item_code == "F11")
+    {
+        return new FlameWoodenOneHandedSword();
+    }
+    else if (item_code == "F12")
+    {
+        return new FlameWoodenTwoHandedSword();
+    }
+    else if (item_code == "I2S")
+    {
+        return new IceMetalSpear();
+    }
+    else if (item_code == "I21")
+    {
+        return new IceMetalOneHandedSword();
+    }
+    else if (item_code == "I22")
+    {
+        return new IceMetalTwoHandedSword();
+    }
+    else if (item_code == "E2S")
+    {
+        return new ElectroMetalSpear();
+    }
+    else if (item_code == "E21")
+    {
+        return new ElectroMetalOneHandedSword();
+    }
+    else if (item_code == "E22")
+    {
+        return new ElectroMetalTwoHandedSword();
+    }
+    else if (item_code == "F2S")
+    {
+        return new FlameMetalSpear();
+    }
+    else if (item_code == "F21")
+    {
+        return new FlameMetalOneHandedSword();
+    }
+    else if (item_code == "F22")
+    {
+        return new FlameMetalTwoHandedSword();
+    }
     else if (item_code == "EA")
     {
         return new ElectrobreakerArmor();
@@ -71,6 +133,54 @@ Item* CItemFactory::NewItem(const QString& itemCode)
     else if (item_code == "IA")
     {
         return new IcebreakerArmor();
+    }
+    else if (item_code == "1B")
+    {
+        return new WoodenPrimaryBow();
+    }
+    else if (item_code == "2B")
+    {
+        return new MetalPrimaryBow();
+    }
+    else if (item_code == "13")
+    {
+        return new WoodenComboBow();
+    }
+    else if (item_code == "23")
+    {
+        return new MetalComboBow();
+    }
+    else if (item_code == "14")
+    {
+        return new WoodenAOEBow();
+    }
+    else if (item_code == "24")
+    {
+        return new MetalAOEBow();
+    }
+    else if (item_code == "IL")
+    {
+        return new IcebreakerShoes();
+    }
+    else if (item_code == "FL")
+    {
+        return new FlamebreakerShoes();
+    }
+    else if (item_code == "EL")
+    {
+        return new ElectrobreakerShoes();
+    }
+    else if (item_code == "IH")
+    {
+        return new IcebreakerHat();
+    }
+    else if (item_code == "FH")
+    {
+        return new FlamebreakerHat();
+    }
+    else if (item_code == "EH")
+    {
+        return new ElectrobreakerHat();
     }
     else
     {

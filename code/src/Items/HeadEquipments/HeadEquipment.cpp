@@ -35,3 +35,10 @@ void HeadEquipment::stopHitting()
         pixmapItem->setRotation(0);
     }
 }
+
+QPointF HeadEquipment::getCenterPos()
+{
+    QPointF centerPos = pos();
+    centerPos.setX(centerPos.x() + 50);
+    return centerPos;
+}

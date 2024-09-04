@@ -16,6 +16,8 @@ public:
 
     virtual void startHitting();
     virtual void stopHitting();
+
+    virtual QPointF getCenterPos() override;
 };
 
 

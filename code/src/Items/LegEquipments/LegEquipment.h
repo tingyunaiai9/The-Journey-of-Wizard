@@ -13,6 +13,8 @@ public:
     void mountToParent() override;
 
     void unmount() override;
+
+    virtual QPointF getCenterPos() override;
 };
 
 

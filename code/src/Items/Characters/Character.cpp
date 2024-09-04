@@ -528,6 +528,8 @@ void Character::h_startElectricShock()
         m_electricShockPicture->setParentItem(this);
         m_electricShockPicture->setPos(-16, 0);
     }
+
+    // drop metal weapon
 }
 
 void Character::h_stopElectricShock()
