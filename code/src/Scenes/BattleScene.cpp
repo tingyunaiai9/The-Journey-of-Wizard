@@ -12,7 +12,8 @@
 #include <QDebug>
 #include <QInputDialog>
 
-BattleScene::BattleScene(QObject *parent) : Scene(parent) {
+BattleScene::BattleScene(QObject *parent) : Scene(parent)
+{
     // This is useful if you want the scene to have the exact same dimensions as the view
     setSceneRect(0, 0, 1280, 720);
 

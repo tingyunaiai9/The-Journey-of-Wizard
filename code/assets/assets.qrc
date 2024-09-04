@@ -55,5 +55,13 @@
         <file>Items/Characters/character_frozen.png</file>
         <file>Items/Characters/character_burning.png</file>
         <file>Items/Characters/character_electric_shock.png</file>
+        <file>Scenes/StartScene/background_1.png</file>
+        <file>Scenes/StartScene/background_2.png</file>
+        <file>Scenes/StartScene/background_3.png</file>
+        <file>Scenes/StartScene/background_4.png</file>
+        <file>Scenes/StartScene/background_5.png</file>
+        <file>Scenes/StartScene/background_6.png</file>
+        <file>Scenes/StartScene/background_7.png</file>
+        <file>Scenes/StartScene/background_8.png</file>
     </qresource>
 </RCC>
