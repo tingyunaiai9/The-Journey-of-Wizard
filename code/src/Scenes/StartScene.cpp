@@ -22,7 +22,7 @@ StartScene::StartScene(QObject *parent) : QGraphicsScene(parent), currentImageIn
     if (!firstPixmap.isNull()) {
         currentPixmapItem = new QGraphicsPixmapItem(firstPixmap);
         addItem(currentPixmapItem);
-        currentPixmapItem->setPos(0, 0);
+        currentPixmapItem->setPos(0, sceneRect().height() - currentPixmapItem->pixmap().height());
         currentPixmapItem->setOpacity(1.0);  // 第一张图片直接显示
         currentPixmapItem->setZValue(0);
     }
@@ -31,7 +31,6 @@ StartScene::StartScene(QObject *parent) : QGraphicsScene(parent), currentImageIn
     fadeTimer = new QTimer(this);
     connect(fadeTimer, &QTimer::timeout, this, &StartScene::updateImageOpacity);
 
-    // 调整为更快的图片切换间隔，例如每1.1秒切换一张图片
     imageTimer = new QTimer(this);
     connect(imageTimer, &QTimer::timeout, this, &StartScene::startImageTransition);
     imageTimer->start(800);  // 从第二张图片开始的切换时间
@@ -67,7 +66,7 @@ void StartScene::startImageTransition()
         // 创建一个新的 QGraphicsPixmapItem 并将其添加到场景中
         currentPixmapItem = new QGraphicsPixmapItem(nextPixmap);
         addItem(currentPixmapItem);
-        currentPixmapItem->setPos(0, 0);
+        currentPixmapItem->setPos(0, sceneRect().height() - currentPixmapItem->pixmap().height());
         currentPixmapItem->setZValue(0);
 
         // 从第二张图片开始淡入
