@@ -229,6 +229,7 @@ void BattleScene::update()
     processShooting(); // shoot before attack
 
     processAttacking();
+    processAttackingWoodPlatform();
 
     // add for hero handle fps by self
     processFps(deltaTime);
@@ -986,4 +987,55 @@ void BattleScene::debugItem(bool bDebug)
 
     m_player1->showAreaRect(this, bDebug);
     m_player2->showAreaRect(this, bDebug);
+
+    if(!bDebug)
+    {
+        while (!m_spareWeapons.isEmpty()) {
+            auto item = m_spareWeapons.first();
+            removeFromSpareWeapons(item);
+            removeItem(item);  // remove from scene
+            delete item;
+        }
+        while (!m_spareEquipments.isEmpty()) {
+            auto item = m_spareEquipments.first();
+            removeFromSpareEquipments(item);
+            removeItem(item);  // remove from scene
+            delete item;
+        }
+    }
+}
+
+// Attack Wood Platform
+void BattleScene::processAttackingWoodPlatform()
+{
+    if (m_player1->isAttacking())
+    {
+        Weapon* weapon = m_player1->getHoldingWeapon();
+        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
+        if (meleeWeapon)
+        {
+            if (meleeWeapon->getElement() == "Flame") {
+                QRectF weaponRect = meleeWeapon->getAreaRect();
+                for (Map *map : m_maps)
+                {
+                    auto woodPlat = dynamic_cast<WoodPlatform *>(map);
+                    if (woodPlat)
+                    {
+                        QRectF platRect = woodPlat->getAreaRect();
+                        if (weaponRect.intersects(platRect))
+                        {
+                            burningWoodPlatform(woodPlat);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // TODO: add player2
+}
+
+void BattleScene::burningWoodPlatform(WoodPlatform* plat)
+{
+    qDebug() << "burningWoodPlatform";
 }

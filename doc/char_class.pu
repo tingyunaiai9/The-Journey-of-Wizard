@@ -1,0 +1,30 @@
+@startuml
+
+skinparam shadowing true
+
+
+Item <|-- Character
+IHero <|-- Character
+
+Scene <|-- BattleScene
+BattleScene o-- Character
+
+Character o-- HeadEquipment
+Character o-- LegEquipment
+Character o-- Armor
+
+Character o-- MeleeWeapon
+Character o-- Bow
+Character o-- Arrow
+
+' Weapon <|-- MeleeWeapon
+' Weapon <|-- RangedWeapon
+
+' RangedWeapon <|-- Bow
+' RangedWeapon <|-- Arrow
+
+Character <|-- Link
+Link <|-- CPlayer1
+Link <|-- CPlayer2
+
+@enduml

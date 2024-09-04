@@ -13,6 +13,8 @@
 #include <QProgressBar>
 #include <QGraphicsProxyWidget>
 
+class WoodPlatform;
+
 class BattleScene : public Scene
 {
 Q_OBJECT
@@ -55,8 +57,8 @@ public:
     void processInput();
     void processMovement();
     void processPicking();
-    void processAttacking();
     void processShooting();
+    void processAttacking();
     void processPlayerShooting(Character * player);
 
     void processFps(qint64 deltaTime);
@@ -68,6 +70,9 @@ public:
     void closeGame();
 
     void addToSpareWeapons(Weapon* weapon);
+
+    void processAttackingWoodPlatform();
+    void burningWoodPlatform(WoodPlatform* plat);
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
