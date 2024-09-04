@@ -1,0 +1,25 @@
+@startuml
+
+skinparam shadowing true
+
+class MeleeWeapon {
+}
+
+MeleeWeapon <|-- TwoHandedSword
+MeleeWeapon <|-- OneHandedSword
+MeleeWeapon <|-- Spear
+
+OneHandedSword <|-- WoodenOneHandedSword
+OneHandedSword <|-- MetalOneHandedSword
+
+WoodenOneHandedSword <|-- NormalWoodenOneHandedSword
+WoodenOneHandedSword <|-- FlameWoodenOneHandedSword
+WoodenOneHandedSword <|-- IceWoodenOneHandedSword
+WoodenOneHandedSword <|-- ElectroWoodenOneHandedSword
+
+' MetalOneHandedSword <|-- NormalMetalOneHandedSword
+' MetalOneHandedSword <|-- FlameMetalOneHandedSword
+' MetalOneHandedSword <|-- IceMetalOneHandedSword
+' MetalOneHandedSword <|-- ElectroMetalOneHandedSword
+
+@enduml

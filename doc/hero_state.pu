@@ -5,7 +5,7 @@ skinparam shadowing true
 [*] --> NORMAL_HOLD
 
 NORMAL_HOLD --> NORMAL_ATTACKING : setAttack
-NORMAL_HOLD --> NORMAL_HITTING : bePhysicalHit
+NORMAL_HOLD --> NORMAL_HITTING : beNormalHit
 NORMAL_HOLD --> FLAME_HITTING : beFlameHit
 NORMAL_HOLD --> ICE_HITTING : beIceHit
 NORMAL_HOLD --> ELECTRO_HITTING : beElectroHit

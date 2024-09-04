@@ -178,7 +178,7 @@ void BattleScene::keyPressEvent(QKeyEvent *event)
             text = QInputDialog::getText(nullptr, "message dialog", "cheat code: ", QLineEdit::Normal, "", &ok);
             if (ok && !text.isEmpty())
             {
-                // 处理用户输入的文本
+                // cheat code
                 generateItem(text);
             }
             break;
