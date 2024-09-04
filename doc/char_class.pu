@@ -7,11 +7,16 @@ Item <|-- Character
 IHero <|-- Character
 
 Scene <|-- BattleScene
-BattleScene o-- Character
+BattleScene *-left- Character
+Character o-- BattleScene
 
 Character o-- HeadEquipment
 Character o-- LegEquipment
 Character o-- Armor
+
+Character <|-down- Link
+Link <|-- CPlayer1
+Link <|-- CPlayer2
 
 Character o-- MeleeWeapon
 Character o-- Bow
@@ -22,9 +27,5 @@ Character o-- Arrow
 
 ' RangedWeapon <|-- Bow
 ' RangedWeapon <|-- Arrow
-
-Character <|-- Link
-Link <|-- CPlayer1
-Link <|-- CPlayer2
 
 @enduml

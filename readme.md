@@ -200,6 +200,11 @@
 ![](doc/pic/5_hero_state.png)
 
 
+`Character` 为玩家类，处理玩家的相关操作，与其他类的关系如下图所示
+
+![](doc/pic/5_character_class.png)
+
+
 ## 6 程序运行流程
 
 ## 7 功能需求完成情况
