@@ -52,6 +52,7 @@ void IHero::clearStateMap()
     m_StateMap.clear();
 }
 
+// burning
 void IHero::h_startBurning()
 {
     // clear the burning time
@@ -74,6 +75,31 @@ void IHero::processBurningFps(qint64 deltaTime)
 bool IHero::isBurningTimeUp()
 {
     return m_burningElapsedTime > m_10kMs;
+}
+
+// electric shock
+void IHero::h_startElectricShock()
+{
+    // clear the electric shock time
+    m_electricShockElapsedTime = 0;
+    m_electricShockIntervalTime = 0;
+}
+
+void IHero::processElectricShockFps(qint64 deltaTime)
+{
+    m_electricShockElapsedTime += deltaTime;
+    m_electricShockIntervalTime += deltaTime;
+
+    if (m_electricShockIntervalTime > m_100Ms && m_electricShockElapsedTime <= m_500Ms) // electric damage interval
+    {
+        h_reduceHp(1);
+        m_electricShockIntervalTime = 0;
+    }
+}
+
+bool IHero::isElectricShockTimeUp()
+{
+    return m_electricShockElapsedTime > m_500Ms;
 }
 
 // IHode, IAttacking, IHitting
@@ -107,7 +133,7 @@ void IHold::beHit(int damage, QString element)
     }
     else if ((element == "Electro") && (m_HeroObj->h_getElectroResistance() == false))
     {
-        // TODO: start electro
+        m_HeroObj->h_startElectricShock(); // change to electric shock
         m_HeroObj->setState(HEROSTATE::ELECTRO_HITTING);
     }
     else // normal or resistance
@@ -270,6 +296,32 @@ void CElectroHold::setAttack()
     m_HeroObj->setState(HEROSTATE::ELECTRO_ATTACKING);
 }
 
+void CElectroHold::beHit(int damage, QString element) // electro be hit change to electro hitting
+{
+    m_HeroObj->h_startHitting();
+    m_HeroObj->h_reduceHp(damage);
+    m_elapsedTime = 0;
+
+    // TODO: 是否需要再次重新计时？
+    // if ((element == "Electro") && (m_HeroObj->h_getElectroResistance() == false))
+    // {
+    //     m_HeroObj->h_startElectricShock(); // change to electric shock
+    //     m_HeroObj->setState(HEROSTATE::ELECTRO_HITTING);
+    // }
+    m_HeroObj->setState(HEROSTATE::ELECTRO_HITTING);
+}
+
+void CElectroHold::processFps(qint64 deltaTime)
+{
+    m_HeroObj->processElectricShockFps(deltaTime);
+
+    if (m_HeroObj->isElectricShockTimeUp()) // electric shock time up
+    {
+        m_HeroObj->h_stopElectricShock();
+        m_HeroObj->setState(HEROSTATE::NORMAL_HOLD);
+    }
+}
+
 // attacking
 CNormalAttacking::CNormalAttacking(IHero* heroObj):
     IAttacking(heroObj)
@@ -354,12 +406,22 @@ QString CElectroAttacking::getName()
 void CElectroAttacking::processFps(qint64 deltaTime)
 {
     IAttacking::processFps(deltaTime);
+    m_HeroObj->processElectricShockFps(deltaTime);
 
     // time up, change state to hold
     if (m_elapsedTime > m_500Ms)
     {
-        m_HeroObj->setState(HEROSTATE::ELECTRO_HOLD);
-        m_elapsedTime = 0;
+        if (m_HeroObj->isElectricShockTimeUp()) // electric shock time up, change to normal
+        {
+            m_HeroObj->h_stopElectricShock();
+            m_HeroObj->setState(HEROSTATE::NORMAL_HOLD);
+            m_elapsedTime = 0;
+        }
+        else
+        {
+            m_HeroObj->setState(HEROSTATE::ELECTRO_HOLD);
+            m_elapsedTime = 0;
+        }
     }
 }
 
@@ -456,12 +518,22 @@ QString CElectroHitting::getName()
 void CElectroHitting::processFps(qint64 deltaTime)
 {
     IHitting::processFps(deltaTime);
+    m_HeroObj->processElectricShockFps(deltaTime);
 
     // time up, change state to hold
     if (m_elapsedTime > m_500Ms)
     {
-        m_HeroObj->setState(HEROSTATE::ELECTRO_HOLD);
-        m_elapsedTime = 0;
+        if (m_HeroObj->isElectricShockTimeUp()) // electric shock time up, change to normal
+        {
+            m_HeroObj->h_stopElectricShock();
+            m_HeroObj->setState(HEROSTATE::NORMAL_HOLD);
+            m_elapsedTime = 0;
+        }
+        else
+        {
+            m_HeroObj->setState(HEROSTATE::ELECTRO_HOLD);
+            m_elapsedTime = 0;
+        }
     }
 }
 

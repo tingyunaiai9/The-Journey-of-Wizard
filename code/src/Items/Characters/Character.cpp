@@ -518,6 +518,27 @@ void Character::h_stopBurning()
     }
 }
 
+void Character::h_startElectricShock()
+{
+    IHero::h_startElectricShock(); // clear electric shock time
+
+    if (m_electricShockPicture == nullptr)
+    {
+        m_electricShockPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Characters/character_electric_shock.png"));
+        m_electricShockPicture->setParentItem(this);
+        m_electricShockPicture->setPos(-16, 0);
+    }
+}
+
+void Character::h_stopElectricShock()
+{
+    if (m_electricShockPicture)
+    {
+        delete m_electricShockPicture;
+        m_electricShockPicture = nullptr;
+    }
+}
+
 void Character::h_clearKeyPress()
 {
     setLeftDown(false);
@@ -825,6 +846,7 @@ void Character::toDead()
     h_stopHitting();
     h_stopFrozen();
     h_stopBurning();
+    h_stopElectricShock();
 
     h_clearKeyPress();
 

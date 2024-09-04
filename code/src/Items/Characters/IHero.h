@@ -35,7 +35,7 @@ protected:
 
     // TODO: change the time of attack and hit
     qint64 m_500Ms = 500; // the duration of hitting
-    qint64 m_5kMs = 5000; // the duration of ice
+    qint64 m_5kMs = 5000; // the duration of frozen
     qint64 m_10kMs = 10000; // the duration of flame
     qint64 m_elapsedTime = 0; // the time elapsed since the start of hitting
 
@@ -93,10 +93,15 @@ private:
     HEROSTATE m_State;
     QMap<HEROSTATE, IState*> m_StateMap;
 
+    qint64 m_100Ms = 100; // the interval of electric damage
+    qint64 m_500Ms = 500; // the duration of electric shock
     qint64 m_2kMs = 2000; // the interval of flame damage
     qint64 m_10kMs = 10000; // the duration of flame
+
     qint64 m_burningElapsedTime = 0; // the time elapsed since the start of burning
     qint64 m_burningIntervalTime = 0; // the time elapsed since the last flame damage
+    qint64 m_electricShockElapsedTime = 0; // the time elapsed since the start of electric shock
+    qint64 m_electricShockIntervalTime = 0; // the time elapsed since the last electric damage
 
 protected:
     void initState(HEROSTATE stateType);
@@ -128,6 +133,11 @@ public:
     virtual void h_stopBurning() {};
     void processBurningFps(qint64 deltaTime);
     bool isBurningTimeUp();
+
+    virtual void h_startElectricShock();
+    virtual void h_stopElectricShock() {};
+    void processElectricShockFps(qint64 deltaTime);
+    virtual bool isElectricShockTimeUp();
 
     virtual void h_keyPress(QKeyEvent *event) {};
     virtual void h_keyRelease(QKeyEvent *event) {};
@@ -179,7 +189,9 @@ public:
     virtual QString getName() override;
 
     void setAttack() override;
-    // TODO: add processFps for electro hold to 受到持续伤害
+    virtual void beHit(int damage, QString element) override;
+
+    void processFps(qint64 deltaTime) override;
 };
 
 class CNormalAttacking : public IAttacking

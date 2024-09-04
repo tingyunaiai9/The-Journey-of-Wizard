@@ -55,5 +55,6 @@
         <file>Items/Characters/character_hitting.png</file>
         <file>Items/Characters/character_frozen.png</file>
         <file>Items/Characters/character_burning.png</file>
+        <file>Items/Characters/character_electric_shock.png</file>
     </qresource>
 </RCC>

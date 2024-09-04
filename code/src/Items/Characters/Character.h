@@ -54,6 +54,7 @@ protected:
     QGraphicsPixmapItem* m_hittingPicture{}; // the picture be hit
     QGraphicsPixmapItem* m_frozenPicture{}; // the picture be frozen
     QGraphicsPixmapItem* m_burningPicture{}; // the picture be burning
+    QGraphicsPixmapItem* m_electricShockPicture{}; // the picture be electric shocked
 
 public:
     explicit Character(QGraphicsItem *parent, const QString &pixmapPath);
@@ -126,10 +127,13 @@ public:
     // be hit
     virtual void h_startHitting() override; // from IHero
     virtual void h_stopHitting() override;
+
     virtual void h_startFrozen() override;
     virtual void h_stopFrozen() override;
     virtual void h_startBurning() override;
     virtual void h_stopBurning() override;
+    virtual void h_startElectricShock() override;
+    virtual void h_stopElectricShock() override;
 
     virtual void h_clearKeyPress() override;
 
