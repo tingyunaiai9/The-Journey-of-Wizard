@@ -4,11 +4,9 @@ skinparam shadowing true
 
 [*] --> STATIC
 
-STATIC --> MOVING
-MOVING --> STATIC
-
 [*] --> NORMAL
 NORMAL --> BURNED
+NORMAL --> BURNING : beFlameHit
 BURNED --> NORMAL
 BURNED --> BURNING
 BURNING --> BURNOUT

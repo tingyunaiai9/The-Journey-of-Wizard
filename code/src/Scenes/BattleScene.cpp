@@ -22,14 +22,22 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
     // init maps
     m_battlefield = new Battlefield();
     m_maps.append(m_battlefield);
-    m_maps.append(new WoodPlatform());
-    m_maps.append(new WoodPlatform());
-    m_maps.last()->setPos(m_maps.at(1)->pos().x() + 128, 440);  // 设置右侧木平台的位置
+
+    WoodPlatform* plat1 = new WoodPlatform();
+    connect(plat1, &IWood::burnOut, this, &BattleScene::burnoutWoodPlatform);
+    m_maps.append(plat1);
+
+    WoodPlatform* plat2 = new WoodPlatform();
+    connect(plat2, &IWood::burnOut, this, &BattleScene::burnoutWoodPlatform);
+    m_maps.append(plat2);
+    plat2->setPos(plat1->pos().x() + 128, 440);  // 设置右侧木平台的位置
+
     m_maps.append(new RockPlatform());
     m_maps.append(new MetalPlatform());
 
     for (Map* map : m_maps) {
         addItem(map);
+
     }
 
     // init players
@@ -48,6 +56,7 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
     m_player2->setBattleScene(this);
 
     // init lifebar
+    // TODO: change to a better style
     m_bar1 = new QProgressBar();
     m_bar1->setTextVisible(false);
     m_bar1->setRange(0, 100);
@@ -83,6 +92,8 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
     proxy->setPos(100, 80);
     proxy = addWidget(m_bar2);
     proxy->setPos(980, 80); // position
+
+
 
 #ifdef DROPEQUIPMENT
     // generate equipment
@@ -178,7 +189,7 @@ void BattleScene::update()
     processShooting(); // shoot before attack
 
     processAttacking();
-    processAttackingWoodPlatform();
+    processAttackingElement();
 
     // add for hero handle fps by self
     processFps(deltaTime);
@@ -955,7 +966,7 @@ void BattleScene::debugItem(bool bDebug)
 }
 
 // Attack Wood Platform
-void BattleScene::processAttackingWoodPlatform()
+void BattleScene::processAttackingElement()
 {
     if (m_player1->isAttacking())
     {
@@ -963,65 +974,88 @@ void BattleScene::processAttackingWoodPlatform()
         auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
         if (meleeWeapon)
         {
-            if (meleeWeapon->getElement() == "Flame") {
-                QRectF weaponRect = meleeWeapon->getAreaRect();
-                for (Map *map : m_maps)
-                {
-                    auto woodPlat = dynamic_cast<WoodPlatform *>(map);
-                    if (woodPlat)
-                    {
-                        QRectF platRect = woodPlat->getAreaRect();
-                        if (weaponRect.intersects(platRect))
-                        {
-                            burningWoodPlatform(woodPlat);
-                        }
-                    }
-                }
+            for (Map *map : m_maps)
+            {
+                attackMap(meleeWeapon, map);
             }
         }
     }
 
-    // TODO: add player2
+    if (m_player2->isAttacking())
+    {
+        Weapon* weapon = m_player2->getHoldingWeapon();
+        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
+        if (meleeWeapon)
+        {
+            for (Map *map : m_maps)
+            {
+                attackMap(meleeWeapon, map);
+            }
+        }
+    }
+
+    for (auto weapon : m_shootingWeapons)
+    {
+        if (weapon == nullptr)
+        {
+            continue;
+        }
+
+        for (Map *map : m_maps)
+        {
+            attackMap(weapon, map);
+        }
+    }
 }
 
-void BattleScene::burningWoodPlatform(WoodPlatform* plat)
+void BattleScene::attackMap(Weapon* weapon, Map* map)
 {
-    plat->startBurning();
-    // add a timer to remove the equipment
-    QTimer* timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, [this, plat]() {
-        plat->stopBurning();
-        m_maps.removeOne(plat);
-        removeItem(plat);  // remove from scene
-        // delete plat;
-    });
-
-    timer->setSingleShot(true);  // only once
-    timer->start(10000);  // 10s
+    QRectF weaponRect = weapon->getAreaRect();
+    QRectF platRect = map->getAreaRect();
+    if (weaponRect.intersects(platRect))
+    {
+        map->beHit(weapon->getElement());
+    }
 }
 
-double distanceBetweenRects(const QRectF& rect1, const QRectF& rect2) {
-    // 检查两个矩形是否相交
+void BattleScene::burnoutWoodPlatform(Map* map)
+{
+    if (map)
+    {
+        m_maps.removeOne(map);
+        removeItem(map);
+        delete(map);
+    }
+}
+
+double distanceBetweenRects(const QRectF& rect1, const QRectF& rect2)
+{
+    // check if two rectangles intersect
     if (rect1.intersects(rect2)) {
         return 0.0;
     }
 
-    // 计算两个矩形之间的最小距离
+    // calculate the distance between two rectangles
     double dx = 0.0;
     double dy = 0.0;
 
-    if (rect1.right() < rect2.left()) {
+    if (rect1.right() < rect2.left())
+    {
         dx = rect2.left() - rect1.right();
-    } else if (rect2.right() < rect1.left()) {
+    }
+    else if (rect2.right() < rect1.left())
+    {
         dx = rect1.left() - rect2.right();
     }
 
-    if (rect1.bottom() < rect2.top()) {
+    if (rect1.bottom() < rect2.top())
+    {
         dy = rect2.top() - rect1.bottom();
-    } else if (rect2.bottom() < rect1.top()) {
+    }
+    else if (rect2.bottom() < rect1.top())
+    {
         dy = rect1.top() - rect2.bottom();
     }
 
-    // 返回欧几里得距离
     return std::sqrt(dx * dx + dy * dy);
 }
