@@ -62,9 +62,9 @@ void WoodPlatform::e_startBurning()
 {
     if (m_burningPicture == nullptr)
     {
-        m_burningPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Characters/character_burning.png"));
+        m_burningPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Maps/WoodPlatform/platform_burning.png"));
         m_burningPicture->setParentItem(this);
-        m_burningPicture->setPos(0, -32);
+        m_burningPicture->setPos(0, -14);
     }
 }
 

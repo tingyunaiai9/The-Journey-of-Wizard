@@ -64,5 +64,6 @@
         <file>Scenes/StartScene/background_7.png</file>
         <file>Scenes/StartScene/background_8.png</file>
         <file>Scenes/StartScene/title.png</file>
+        <file>Items/Maps/WoodPlatform/platform_burning.png</file>
     </qresource>
 </RCC>
