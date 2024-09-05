@@ -21,7 +21,7 @@ private:
     int currentImageIndex;
     qreal opacity;  // image opacity
 
-    QList<QGraphicsPixmapItem*> lastThreePixmapItems;  // store the last three images
+    QList<QGraphicsPixmapItem*> lastFourPixmapItems;  // store the last three images
 
 public:
     explicit StartScene(QObject *parent = nullptr);

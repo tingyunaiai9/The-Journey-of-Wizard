@@ -14,16 +14,21 @@ StartScene::StartScene(QObject *parent) : QGraphicsScene(parent), currentImageIn
                << ":/Scenes/StartScene/background_5.png"
                << ":/Scenes/StartScene/background_6.png"
                << ":/Scenes/StartScene/background_7.png"
-               << ":/Scenes/StartScene/background_8.png";
+               << ":/Scenes/StartScene/background_8.png"
+               << ":/Scenes/StartScene/title.png";
 
     // show the first image directly
     QPixmap firstPixmap(imagePaths[currentImageIndex]);
     if (!firstPixmap.isNull())
     {
+        // modify the image size
+        firstPixmap = firstPixmap.scaled(sceneRect().size().toSize(), Qt::KeepAspectRatio);
+
         currentPixmapItem = new QGraphicsPixmapItem(firstPixmap);
         addItem(currentPixmapItem);
-        // move the image to the bottom of the scene
-        currentPixmapItem->setPos(0, sceneRect().height() - currentPixmapItem->pixmap().height());
+        // set the image in the center of the scene
+        currentPixmapItem->setPos((sceneRect().width() - currentPixmapItem->pixmap().width()) / 2,
+                              (sceneRect().height() - currentPixmapItem->pixmap().height()) / 2);
         currentPixmapItem->setOpacity(1.0);
         currentPixmapItem->setZValue(0);
     }
@@ -64,9 +69,14 @@ void StartScene::startImageTransition()
             return;
         }
 
+        // modify the image size
+        nextPixmap = nextPixmap.scaled(sceneRect().size().toSize(), Qt::KeepAspectRatio);
+
         currentPixmapItem = new QGraphicsPixmapItem(nextPixmap);
         addItem(currentPixmapItem);
-        currentPixmapItem->setPos(0, sceneRect().height() - currentPixmapItem->pixmap().height());
+        // set the image in the center of the scene
+        currentPixmapItem->setPos((sceneRect().width() - currentPixmapItem->pixmap().width()) / 2,
+                                  (sceneRect().height() - currentPixmapItem->pixmap().height()) / 2);
         currentPixmapItem->setZValue(0);
 
         currentPixmapItem->setOpacity(opacity);  // set the opacity to 0
@@ -74,7 +84,7 @@ void StartScene::startImageTransition()
 
         if (currentImageIndex >= 5)
         {
-            lastThreePixmapItems.append(currentPixmapItem);
+            lastFourPixmapItems.append(currentPixmapItem);
         }
     }
     else
@@ -107,9 +117,9 @@ void StartScene::fadeInButton()
 
 void StartScene::fadeOutLastThreeImages()
 {
-    if (!lastThreePixmapItems.isEmpty())
+    if (!lastFourPixmapItems.isEmpty())
     {
-        currentPixmapItem = lastThreePixmapItems.takeLast();
+        currentPixmapItem = lastFourPixmapItems.takeLast();
         opacity = 1.0;
         fadeTimer = new QTimer(this);
         connect(fadeTimer, &QTimer::timeout, this, &StartScene::updateFadeOutOpacity);
