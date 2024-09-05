@@ -46,7 +46,7 @@ StartScene::StartScene(QObject *parent) : QGraphicsScene(parent), currentImageIn
     startButton->setVisible(false);  // hide the button
 
     QGraphicsProxyWidget *proxy = this->addWidget(startButton);
-    proxy->setPos(640 - startButton->width() / 2, 360 - startButton->height() / 2);
+    proxy->setPos(640 - startButton->width() / 2, 360 - startButton->height() / 2 + 100);
     proxy->setZValue(1);  // set z above the image
 
     // connect the button click signal to the startGameClicked signal
@@ -112,10 +112,16 @@ void StartScene::updateImageOpacity()
 void StartScene::fadeInButton()
 {
     startButton->setVisible(true);
-    connect(startButton, &QPushButton::clicked, this, &StartScene::fadeOutLastThreeImages);
+    connect(startButton, &QPushButton::clicked, this, &StartScene::fadeOutLastFourImages);
+    connect(startButton, &QPushButton::clicked, this, &StartScene::fadeOutButton);
 }
 
-void StartScene::fadeOutLastThreeImages()
+void StartScene::fadeOutButton()
+{
+    startButton->setVisible(false);
+}
+
+void StartScene::fadeOutLastFourImages()
 {
     if (!lastFourPixmapItems.isEmpty())
     {
@@ -149,6 +155,6 @@ void StartScene::updateFadeOutOpacity()
         currentPixmapItem = nullptr;
 
         // start fading out the next image
-        fadeOutLastThreeImages();
+        fadeOutLastFourImages();
     }
 }

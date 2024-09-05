@@ -34,9 +34,10 @@ private slots:
     void startImageTransition(); // switch to the next image (fade in)
     void updateImageOpacity(); // update the image opacity (fade in)
     void fadeInButton();  // show the start button
+    void fadeOutButton();  // hide the start button
 
     //slots for fade-out functionality
-    void fadeOutLastThreeImages();  // start fading out the last three images
+    void fadeOutLastFourImages();  // start fading out the last three images
     void updateFadeOutOpacity();  // update the opacity for fading out images
 };
 
