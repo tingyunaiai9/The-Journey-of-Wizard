@@ -12,7 +12,7 @@
 #include <QInputDialog>
 
 // #define DROPEQUIPMENT
-#define DROPARROW
+// #define DROPARROW
 
 BattleScene::BattleScene(QObject *parent) : Scene(parent)
 {
