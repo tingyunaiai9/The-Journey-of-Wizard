@@ -46,3 +46,20 @@ QPointF MeleeWeapon::getCenterPos()
     centerPos.setX(centerPos.x() + 96);
     return centerPos;
 }
+
+QRectF MeleeWeapon::getAreaRect()
+{
+    QRectF itemRect = sceneBoundingRect();
+    qreal x = itemRect.x();
+    qreal y = itemRect.y();
+    qreal cx = itemRect.width();
+    qreal cy = itemRect.height();
+
+    // itemRect.setX(x + 32);
+    // itemRect.setWidth(cx - 32);
+
+    itemRect.setY(y + 40);
+    itemRect.setHeight(cy - 40 * 2);
+
+    return itemRect;
+}

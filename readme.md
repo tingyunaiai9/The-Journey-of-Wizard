@@ -190,11 +190,18 @@
 
 2. 利用状态模式(State Pattern)实现玩家不同元素与行为之间的状态切换
 
+3. 利用状态模式实现木质物品和金属物品的状态切换
+
+4. 利用信号-槽机制实现了部分控制
+
 ## 5 模块之间逻辑关系
 
 `MyGame` 继承自 `QMainWindow`，是游戏主页面
 
 `Scene` 继承自 `QGraphicsScene`，是游戏战斗主页面。在其子类 `BattleScene` 中，处理场景内各 `Item` 的交互
+
+`StartScene` 继承自 `QGraphicsScene`，是游戏开始菜单页面。
+
 
 `Item` 继承自 `QGraphicsItem`，主要处理物品的显示、位置与移动
 
@@ -210,11 +217,15 @@
 `CItemFactory` 为 `Item` 工厂，处理各种物品的生成
 
 
-`IState` 为玩家状态类，继承自 `QObject`，处理玩家的元素与行为状态。设计如下图所示
+`IState` 及其13个子类为玩家状态类，继承自 `QObject`，处理玩家的元素与行为状态。
+
+`IHero` 提供控制玩家状态与动画的接口
+
+设计如下图所示：
 
 ![](doc/pic/5_hero_state_class.png)
 
-状态切换如下图所示： TODO：更新状态切换图
+状态切换如下图所示：
 
 ![](doc/pic/5_hero_state.png)
 
@@ -224,11 +235,15 @@
 ![](doc/pic/5_character_class.png)
 
 
+
+`IWood` 和 `IMetal` 提供控制木质与金属质物品状态与动画的接口
+
+
 ## 6 程序运行流程
 
-程序主要依靠 90FPS 的 `BattleScene::update()` 推动运行，
+程序初始进入 `StartScene` 界面，正式开始游戏进入 `BattleScene` 界面
 
-另外添加了数个辅助的 `QTimer`
+在 `BattleScene` 中，程序主要依靠 90FPS 的 `BattleScene::update()` 推动运行，
 
 每次 `update` 中，处理以下流程：
 
@@ -309,7 +324,7 @@
 ### 7.6 需求点6：弓和箭
 
 - [x] 同时拥有近战武器和弓(法杖)时，玩家可切换武器
-- [x] 空中会掉落不同元素类型的箭(能量球)，拾取可增加弹容量。可在不同类型的能量球间切换，可以出射，受重力作用。
+- [x] 空中会掉落不同元素类型的箭(能量球)，拾取可增加弹容量。可在不同类型的能量球间切换，可以射出，受重力作用。
 
 ![](doc/pic/76_change_arrow.jpg)
 

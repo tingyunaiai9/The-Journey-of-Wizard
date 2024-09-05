@@ -9,6 +9,7 @@ BURNED --> FNORMAL
 BURNED --> BURNING
 BURNING --> [*] : timeout 10s
 
+[*] --> ENORMAL
 ENORMAL --> SHOCKING : beElectroHit
 SHOCKING --> ENORMAL : timeout 2s
 

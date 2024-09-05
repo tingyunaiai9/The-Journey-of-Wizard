@@ -92,10 +92,10 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
     QGraphicsProxyWidget *proxy = nullptr;
     proxy = addWidget(m_bar1);
     proxy->setPos(100, 80);
+    proxy->resize(300, 20);
     proxy = addWidget(m_bar2);
-    proxy->setPos(980, 80); // position
-
-
+    proxy->setPos(880, 80); // position
+    proxy->resize(300, 20);
 
 #ifdef DROPEQUIPMENT
     // generate equipment
