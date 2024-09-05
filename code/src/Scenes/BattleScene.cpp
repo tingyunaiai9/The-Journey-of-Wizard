@@ -10,6 +10,10 @@
 
 #include <QDebug>
 #include <QInputDialog>
+#include <QGraphicsTextItem>
+#include <QFont>
+#include <QColor>
+
 
 #define DROPEQUIPMENT
 #define DROPARROW
@@ -907,6 +911,16 @@ void BattleScene::processHp()
             if (m_player1->isHolding())
             {
                 m_player1->toDead();
+
+                // 显示另一玩家胜利的文本
+                QGraphicsTextItem* victoryText = new QGraphicsTextItem("Player 2 Wins!");
+                QFont font;
+                font.setPointSize(32);  // 设置字体大小
+                font.setBold(true);     // 设置粗体
+                victoryText->setFont(font);
+                victoryText->setDefaultTextColor(QColor("#72a5a2"));  // 设置文本颜色为#72a5a2
+                victoryText->setPos(400, 300);  // 设置文本的位置
+                addItem(victoryText);
             }
         }
     }
@@ -924,10 +938,21 @@ void BattleScene::processHp()
             if (m_player2->isHolding())
             {
                 m_player2->toDead();
+
+                // 显示另一玩家胜利的文本
+                QGraphicsTextItem* victoryText = new QGraphicsTextItem("Player 1 Wins!");
+                QFont font;
+                font.setPointSize(32);  // 设置字体大小
+                font.setBold(true);     // 设置粗体
+                victoryText->setFont(font);
+                victoryText->setDefaultTextColor(QColor("#72a5a2"));  // 设置文本颜色为#72a5a2
+                victoryText->setPos(400, 300);  // 设置文本的位置
+                addItem(victoryText);
             }
         }
     }
 }
+
 
 void BattleScene::debugItem(bool bDebug)
 {
