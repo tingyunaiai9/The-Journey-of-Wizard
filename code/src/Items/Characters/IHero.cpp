@@ -226,7 +226,16 @@ void CFlameHold::beHit(int damage, QString element) // flame be hit change to fl
     //     m_HeroObj->setState(HEROSTATE::FLAME_HITTING);
     // }
 
-    m_HeroObj->setState(HEROSTATE::FLAME_HITTING);
+    // ice hit, change to normal hitting
+    if ((element == "Ice") && (m_HeroObj->h_getIceResistance() == false))
+    {
+        m_HeroObj->h_stopBurning();
+        m_HeroObj->setState(HEROSTATE::NORMAL_HITTING);
+    }
+    else
+    {
+        m_HeroObj->setState(HEROSTATE::FLAME_HITTING);
+    }
 }
 
 void CFlameHold::processFps(qint64 deltaTime)
