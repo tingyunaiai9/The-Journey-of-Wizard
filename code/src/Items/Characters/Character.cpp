@@ -223,12 +223,10 @@ LegEquipment *Character::pickupLegEquipment(LegEquipment *newLegEquipment) {
 
 MeleeWeapon *Character::pickupMeleeWeapon(MeleeWeapon *newMeleeWeapon)
 {
-    // TODO: can not pick if already have one
-    // already complete in BattleScene::pickupWeapon
-
     auto oldMeleeWeapon = m_meleeWeapon;
 
-    if (oldMeleeWeapon != nullptr) {
+    if (oldMeleeWeapon != nullptr)
+    {
         oldMeleeWeapon->unequip();
         oldMeleeWeapon->setPos(newMeleeWeapon->pos());
         oldMeleeWeapon->setParentItem(parentItem());
@@ -264,7 +262,6 @@ RangedWeapon *Character::pickupRangedWeapon(RangedWeapon *newRangedWeapon)
         newBow->equipToParent();
         m_bow = newBow;
         setHoldingWeapon(m_bow); // hold the new weapon
-        // TODO: bug: pick up new bow and old bow disappear
         // m_holdingWeapon = newBow;
         if (oldBow != nullptr)
         {
@@ -812,7 +809,6 @@ Weapon *Character::abandonWeapon()
 
     // unequip the weapon
     // oldWeapon->unequip();
-    // TODO: not add to spareWeapons?
 
     oldWeapon->setPos(pos());
     oldWeapon->setParentItem(parentItem());

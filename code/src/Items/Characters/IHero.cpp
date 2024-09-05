@@ -188,11 +188,6 @@ QString CNormalHold::getName()
 // change the state to normal attacking
 void CNormalHold::setAttack()
 {
-    // TODO: set timer to quit attacking
-    // or fps?
-
-    // TODO: change the state of weapon to attacking
-
     IHold::setAttack();
     m_HeroObj->setState(HEROSTATE::NORMAL_ATTACKING);
 }

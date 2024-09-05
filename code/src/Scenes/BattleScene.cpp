@@ -643,7 +643,7 @@ void BattleScene::processAttacking()
             // player2Point->setBrush(Qt::blue);
             // addItem(player2Point);
 
-            // // 可选：在一段时间后自动移除这些绘制内容
+            // // 在一段时间后自动移除这些绘制内容
             // QTimer::singleShot(100, this, [this, attackRangeRect, player2Point]() {
             //     removeItem(attackRangeRect);
             //     removeItem(player2Point);
@@ -651,7 +651,6 @@ void BattleScene::processAttacking()
             //     delete player2Point;
             // });
         }
-        // TODO: RangedWeapons
     }
 
     if (m_player2->isAttacking())
@@ -688,7 +687,7 @@ void BattleScene::processAttacking()
             // player2Point->setBrush(Qt::blue);
             // addItem(player2Point);
 
-            // // 可选：在一段时间后自动移除这些绘制内容
+            // // 在一段时间后自动移除这些绘制内容
             // QTimer::singleShot(100, this, [this, attackRangeRect, player2Point]() {
             //     removeItem(attackRangeRect);
             //     removeItem(player2Point);
@@ -696,7 +695,6 @@ void BattleScene::processAttacking()
             //     delete player2Point;
             // });
         }
-        // TODO: RangedWeapons
     }
 }
 
@@ -846,7 +844,6 @@ void BattleScene::processShooting()
 
         if (isOnGround(weapon))
         {
-            // TODO: attack the map
             // attack and disappear
             weaponsToRemove.append(weapon); // record the weapon to remove
             continue;

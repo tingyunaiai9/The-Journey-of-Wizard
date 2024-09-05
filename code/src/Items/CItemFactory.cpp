@@ -252,7 +252,6 @@ Mountable* CEquipmentFactory::NewEquipment(const QString& type, const QString& e
     return nullptr;
 }
 
-// TODO
 Weapon* CWeaponFactory::NewWeapon(const QString& type, const QString& element, const QString& material)
 {
     if (type == "OneHandedSword")
