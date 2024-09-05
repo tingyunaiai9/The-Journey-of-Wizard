@@ -152,7 +152,7 @@ void IAttacking::processFps(qint64 deltaTime)
     m_elapsedTime += deltaTime;
 
     // time up, stop attacking
-    if (m_elapsedTime > m_500Ms)
+    if (m_elapsedTime > m_200Ms)
     {
         m_HeroObj->h_stopAttack();
     }
@@ -168,7 +168,7 @@ void IHitting::processFps(qint64 deltaTime)
     m_elapsedTime += deltaTime;
 
     // time up, stop hitting
-    if (m_elapsedTime > m_500Ms)
+    if (m_elapsedTime > m_200Ms)
     {
         m_HeroObj->h_stopHitting();
     }
@@ -338,7 +338,7 @@ void CNormalAttacking::processFps(qint64 deltaTime)
     IAttacking::processFps(deltaTime);
 
     // time up, change state to hold
-    if (m_elapsedTime > m_500Ms)
+    if (m_elapsedTime > m_200Ms)
     {
         m_HeroObj->setState(HEROSTATE::NORMAL_HOLD);
         m_elapsedTime = 0;
@@ -361,7 +361,7 @@ void CFlameAttacking::processFps(qint64 deltaTime)
     m_HeroObj->processBurningFps(deltaTime);
 
     // time up, change state to hold
-    if (m_elapsedTime > m_500Ms)
+    if (m_elapsedTime > m_200Ms)
     {
         if (m_HeroObj->isBurningTimeUp()) // burning time up, change to normal
         {
@@ -409,7 +409,7 @@ void CElectroAttacking::processFps(qint64 deltaTime)
     m_HeroObj->processElectricShockFps(deltaTime);
 
     // time up, change state to hold
-    if (m_elapsedTime > m_500Ms)
+    if (m_elapsedTime > m_200Ms)
     {
         if (m_HeroObj->isElectricShockTimeUp()) // electric shock time up, change to normal
         {
@@ -441,7 +441,7 @@ void CNormalHitting::processFps(qint64 deltaTime)
     IHitting::processFps(deltaTime);
 
     // time up, change state to hold
-    if (m_elapsedTime > m_500Ms)
+    if (m_elapsedTime > m_200Ms)
     {
         m_HeroObj->setState(HEROSTATE::NORMAL_HOLD);
         m_elapsedTime = 0;
@@ -464,7 +464,7 @@ void CFlameHitting::processFps(qint64 deltaTime)
     m_HeroObj->processBurningFps(deltaTime);
 
     // time up, change state to hold
-    if (m_elapsedTime > m_500Ms)
+    if (m_elapsedTime > m_200Ms)
     {
         if (m_HeroObj->isBurningTimeUp()) // burning time up, change to normal
         {
@@ -495,7 +495,7 @@ void CIceHitting::processFps(qint64 deltaTime)
     IHitting::processFps(deltaTime);
 
     // time up, change state to hold
-    if (m_elapsedTime > m_500Ms)
+    if (m_elapsedTime > m_200Ms)
     {
         m_HeroObj->setState(HEROSTATE::ICE_HOLD);
         m_elapsedTime = 0;
@@ -521,7 +521,7 @@ void CElectroHitting::processFps(qint64 deltaTime)
     m_HeroObj->processElectricShockFps(deltaTime);
 
     // time up, change state to hold
-    if (m_elapsedTime > m_500Ms)
+    if (m_elapsedTime > m_200Ms)
     {
         if (m_HeroObj->isElectricShockTimeUp()) // electric shock time up, change to normal
         {

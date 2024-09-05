@@ -33,8 +33,8 @@ public:
 protected:
     IHero* m_HeroObj;
 
-    // TODO: change the time of attack and hit
-    qint64 m_500Ms = 500; // the duration of hitting
+    qint64 m_200Ms = 200; // the new duration of attack and hitting
+    qint64 m_500Ms = 500;
     qint64 m_5kMs = 5000; // the duration of frozen
     qint64 m_10kMs = 10000; // the duration of flame
     qint64 m_elapsedTime = 0; // the time elapsed since the start of hitting

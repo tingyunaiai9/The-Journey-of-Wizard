@@ -1,7 +1,6 @@
 #include "BattleScene.h"
 
 #include "../Items/CItemFactory.h"
-
 #include "../Items/Characters/Link.h"
 
 #include "../Items/Maps/Battlefield.h"
@@ -11,6 +10,9 @@
 
 #include <QDebug>
 #include <QInputDialog>
+
+// #define DROPEQUIPMENT
+#define DROPARROW
 
 BattleScene::BattleScene(QObject *parent) : Scene(parent)
 {
@@ -82,20 +84,24 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
     proxy = addWidget(m_bar2);
     proxy->setPos(980, 80); // position
 
-    // // generate equipment
-    // equipmentDropTimer = new QTimer(this);
-    // connect(equipmentDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomEquipment);
-    // equipmentDropTimer->start(10000); // 10s
+#ifdef DROPEQUIPMENT
+    // generate equipment
+    equipmentDropTimer = new QTimer(this);
+    connect(equipmentDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomEquipment);
+    equipmentDropTimer->start(10000); // 10s
 
-    // // generate weapon
-    // weaponDropTimer = new QTimer(this);
-    // connect(weaponDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomWeapon);
-    // weaponDropTimer->start(10000); // 10s
+    // generate weapon
+    weaponDropTimer = new QTimer(this);
+    connect(weaponDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomWeapon);
+    weaponDropTimer->start(10000); // 10s
+#endif
 
+#ifdef DROPARROW
     // generate arrow
     arrowDropTimer = new QTimer(this);
     connect(arrowDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomArrow);
     arrowDropTimer->start(1000); // 1s
+#endif
 }
 
 void BattleScene::processInput()

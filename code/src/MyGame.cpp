@@ -1,8 +1,11 @@
 #include "MyGame.h"
 #include "Scenes/BattleScene.h"
 
+// #define STARTSCENE // open this to use StartScene
+
 MyGame::MyGame(QWidget *parent) : QMainWindow(parent)
 {
+#ifdef STARTSCENE
     startScene = new StartScene(this);
     battleScene = nullptr; // important!!!
 
@@ -21,6 +24,23 @@ MyGame::MyGame(QWidget *parent) : QMainWindow(parent)
     // connect(startScene, &StartScene::startGameClicked, this, &MyGame::startBattleScene);
     // start game when images are faded out
     connect(startScene, &StartScene::imagesFadedOut, this, &MyGame::startBattleScene);
+
+#else
+    startScene = nullptr; // No StartScene in this case
+    battleScene = new BattleScene(this);
+
+    view = new QGraphicsView(this);
+    view->setScene(battleScene);
+
+    view->setFixedSize((int) view->scene()->width(), (int) view->scene()->height());
+    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    setCentralWidget(view);
+    setFixedSize(view->sizeHint());
+
+    battleScene->startLoop();
+#endif
 }
 
 void MyGame::startBattleScene()
