@@ -23,7 +23,6 @@ private:
     CWoodNormal* m_woodNormal = nullptr;
     CWoodBurned* m_woodBurned = nullptr;
     CWoodBurning* m_woodBurning = nullptr;
-    CWoodBurnout* m_woodBurnout = nullptr;
 };
 
 

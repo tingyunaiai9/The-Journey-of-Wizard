@@ -9,12 +9,14 @@ WoodPlatform::WoodPlatform(QGraphicsItem *parent) :
     setPos(360, 440);
 
     m_woodNormal = new CWoodNormal(this);
+    m_woodBurned = new CWoodBurned(this);
     m_woodBurning = new CWoodBurning(this);
 
-    addState(NORMAL, m_woodNormal);
+    addState(FNORMAL, m_woodNormal);
+    addState(BURNED, m_woodBurned);
     addState(BURNING, m_woodBurning);
 
-    initState(NORMAL);
+    initState(FNORMAL);
 }
 
 WoodPlatform::~WoodPlatform()
@@ -34,11 +36,6 @@ WoodPlatform::~WoodPlatform()
     if (m_woodBurning)
     {
         delete(m_woodBurning);
-    }
-
-    if (m_woodBurnout)
-    {
-        delete(m_woodBurnout);
     }
 }
 

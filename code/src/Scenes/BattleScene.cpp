@@ -33,7 +33,9 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
     plat2->setPos(plat1->pos().x() + 128, 440);  // 设置右侧木平台的位置
 
     m_maps.append(new RockPlatform());
-    m_maps.append(new MetalPlatform());
+
+    MetalPlatform* plat3 = new MetalPlatform();
+    m_maps.append(plat3);
 
     for (Map* map : m_maps) {
         addItem(map);

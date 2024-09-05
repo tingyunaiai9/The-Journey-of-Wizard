@@ -82,8 +82,3 @@ void CWoodBurning::timeOut()
 {
     m_woodObj->e_stopBurning();
 }
-
-CWoodBurnout::CWoodBurnout(IWood* woodObj):
-    IBurnState(woodObj)
-{
-}

@@ -10,10 +10,9 @@ class Map;
 
 enum WOODSTATE
 {
-    NORMAL,
+    FNORMAL,
     BURNED,
-    BURNING,
-    BURNOUT
+    BURNING
 };
 
 class IWood;
@@ -92,11 +91,4 @@ public:
     virtual void timeOut() override;
 };
 
-class CWoodBurnout: public IBurnState
-{
-public:
-    explicit CWoodBurnout(IWood* woodObj);
-
-    virtual QString getName() {return "WoodBurnout";};
-};
 #endif //QT_PROGRAMMING_2024_IWOOD_H

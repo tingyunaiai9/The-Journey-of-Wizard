@@ -302,7 +302,9 @@
 
 - [x] 可投掷近战武器，受重力作用，接触人或平台触发攻击并消失
 
-![](doc/pic/75_melee_shoot.jpg)
+![](doc/pic/75_melee_shoot_player.jpg)
+
+![](doc/pic/75_melee_shoot_platform.jpg)
 
 ### 7.6 需求点6：弓和箭
 
@@ -325,6 +327,13 @@
 ![](doc/pic/76_bow_shoot.jpg)
 
 ### 7.7 需求点7：火属性
+
+- [x] 有火属性的箭和近战武器，被这些武器攻击后进入着火状态。
+
+      人物的着火状态持续10秒，每2秒受到1点伤害。
+      如果着火状态时受到冰属性攻击，则回到正常状态。
+
+![](doc/pic/77_flame_melee_attack_player.jpg)
 
 ### 7.8 需求点8：冰属性
 

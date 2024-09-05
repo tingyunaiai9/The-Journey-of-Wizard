@@ -2,14 +2,14 @@
 
 skinparam shadowing true
 
-[*] --> STATIC
-
-[*] --> NORMAL
-NORMAL --> BURNED
-NORMAL --> BURNING : beFlameHit
-BURNED --> NORMAL
+[*] --> FNORMAL
+FNORMAL --> BURNED
+FNORMAL --> BURNING : beFlameHit
+BURNED --> FNORMAL
 BURNED --> BURNING
-BURNING --> BURNOUT
-BURNOUT --> [*]
+BURNING --> [*] : timeout 10s
+
+ENORMAL --> SHOCKING : beElectroHit
+SHOCKING --> ENORMAL : timeout 2s
 
 @enduml
