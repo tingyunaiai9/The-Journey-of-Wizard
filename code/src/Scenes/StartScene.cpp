@@ -43,6 +43,14 @@ StartScene::StartScene(QObject *parent) : QGraphicsScene(parent), currentImageIn
 
     // button
     startButton = new QPushButton("Start Game");
+    startButton->setFixedSize(200, 50);
+    startButton->setStyleSheet("QPushButton {"
+                            "background-color: rgba(255, 255, 255, 10);"  // alpha: opacity 0-255
+                            "border: 2px solid rgba(114, 165, 162, 100);"
+                            "border-radius: 10px;"
+                            "color: #72a5a2;"
+                            "font-size: 30px;"
+                            "}");
     startButton->setVisible(false);  // hide the button
 
     QGraphicsProxyWidget *proxy = this->addWidget(startButton);
