@@ -145,6 +145,7 @@
 
     双击 bin 目录下的 qt_programming_2024.exe 即可
 
+注：如遇窗口显示不全的情况，将电脑显示设置中的**缩放**改为100%即可
 
 ## 3 操作介绍
 
@@ -183,6 +184,11 @@
 ### 3.3 其他操作
 
 `按键Return`：打开作弊码输入框
+
+`关闭开场动画`：在 `MyGame.cpp` 中注释掉 `#define STARTSCENE`
+
+`关闭物品掉落`：在 `BattleScene.cpp` 中注释掉 `#define DROPEQUIPMENT`
+和 `#define DROPARROW`
 
 ## 4 设计思路
 

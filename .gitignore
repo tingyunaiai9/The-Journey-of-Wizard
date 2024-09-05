@@ -115,6 +115,9 @@ fabric.properties
 *.zip
 *.patch
 
+/Release/
+/doc/汇报稿子.md
+
 /素材/
 
 **/.vs/

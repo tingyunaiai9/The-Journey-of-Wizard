@@ -11,8 +11,8 @@
 #include <QDebug>
 #include <QInputDialog>
 
-// #define DROPEQUIPMENT
-// #define DROPARROW
+#define DROPEQUIPMENT
+#define DROPARROW
 
 BattleScene::BattleScene(QObject *parent) : Scene(parent)
 {
@@ -545,7 +545,7 @@ void BattleScene::addToSpareEquipments(Mountable* equipment)
     });
 
     timer->setSingleShot(true);  // only once
-    timer->start(20000);  // 20s
+    timer->start(10000);  // 10s
 
     // map timer to equipment
     m_spareEquipmentTimers.insert(equipment, timer);
@@ -584,7 +584,7 @@ void BattleScene::addToSpareWeapons(Weapon *weapon)
     });
 
     timer->setSingleShot(true);  // only once
-    timer->start(20000);  // 20s
+    timer->start(10000);  // 10s
 
     // map timer to weapon
     m_spareWeaponTimers.insert(weapon, timer);
