@@ -3,6 +3,7 @@
 
 #include "Scenes/Scene.h"
 #include "Scenes/StartScene.h"
+#include "Scenes/GameOverScene.h"
 
 #include <QGraphicsView>
 #include <QMainWindow>
@@ -15,12 +16,16 @@ public:
     explicit MyGame(QWidget *parent = nullptr);
 
 private slots:
-    void startBattleScene();  // start battle scene
+    void startBattleScene(); // start battle scene
+    void startGameOverScene(const QString& winnerText); // Start game over scene
+    void handleReturnToMainMenu(); // Handle "Return to Main Menu"
+    void handleExitGame(); // Handle "Exit Game"
 
 private:
-    Scene *battleScene;
-    StartScene *startScene;
-    QGraphicsView *view;
+    Scene *battleScene = nullptr; // Battle scene for the game
+    StartScene *startScene = nullptr; // Start scene for the game
+    GameOverScene *gameOverScene = nullptr; // Game over scene for showing the winner and buttons
+    QGraphicsView *view = nullptr; // Graphics view to display scenes
 };
 
 

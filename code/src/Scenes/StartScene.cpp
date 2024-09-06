@@ -26,6 +26,8 @@ StartScene::StartScene(QObject *parent) : QGraphicsScene(parent), currentImageIn
 
         currentPixmapItem = new QGraphicsPixmapItem(firstPixmap);
         addItem(currentPixmapItem);
+        allPixmapItems.append(currentPixmapItem);  // Add to array for future reference
+
         // set the image in the center of the scene
         currentPixmapItem->setPos((sceneRect().width() - currentPixmapItem->pixmap().width()) / 2,
                               (sceneRect().height() - currentPixmapItem->pixmap().height()) / 2);
@@ -82,6 +84,7 @@ void StartScene::startImageTransition()
 
         currentPixmapItem = new QGraphicsPixmapItem(nextPixmap);
         addItem(currentPixmapItem);
+        allPixmapItems.append(currentPixmapItem);  // Add to array for future reference
         // set the image in the center of the scene
         currentPixmapItem->setPos((sceneRect().width() - currentPixmapItem->pixmap().width()) / 2,
                                   (sceneRect().height() - currentPixmapItem->pixmap().height()) / 2);
@@ -89,16 +92,23 @@ void StartScene::startImageTransition()
 
         currentPixmapItem->setOpacity(opacity);  // set the opacity to 0
         fadeTimer->start(35);  // start the fade in timer
-
-        if (currentImageIndex >= 5)
-        {
-            lastFourPixmapItems.append(currentPixmapItem);
-        }
     }
     else
     {
         // stop the image timer if all images have been shown
-        imageTimer->stop();
+        if (imageTimer)
+        {
+            imageTimer->stop();
+            delete imageTimer;
+            imageTimer = nullptr;
+        }
+        if (fadeTimer)
+        {
+            fadeTimer->stop();
+            delete fadeTimer;
+            fadeTimer = nullptr;
+        }
+
         fadeInButton();  // show the start button
     }
 }
@@ -131,17 +141,23 @@ void StartScene::fadeOutButton()
 
 void StartScene::fadeOutLastFourImages()
 {
-    if (!lastFourPixmapItems.isEmpty())
+    if (currentImageIndex >= 5)
     {
-        currentPixmapItem = lastFourPixmapItems.takeLast();
+        // Get the current image based on the index
+        currentPixmapItem = allPixmapItems[currentImageIndex];
         opacity = 1.0;
-        fadeTimer = new QTimer(this);
-        connect(fadeTimer, &QTimer::timeout, this, &StartScene::updateFadeOutOpacity);
-        fadeTimer->start(35);
+
+        // Create or reuse the fade timer to control opacity
+        if (!fadeTimer)
+        {
+            fadeTimer = new QTimer(this);
+            connect(fadeTimer, &QTimer::timeout, this, &StartScene::updateFadeOutOpacity);
+        }
+        fadeTimer->start(35);  // Start the fade out process
     }
     else
     {
-        // emit the signal when all images have faded out
+        // Emit signal when all images have faded out
         emit imagesFadedOut();
     }
 }
@@ -150,19 +166,20 @@ void StartScene::updateFadeOutOpacity()
 {
     if (opacity > 0.0)
     {
+        // Decrease opacity gradually
         opacity -= 0.1;
         currentPixmapItem->setOpacity(opacity);
     }
     else
     {
         fadeTimer->stop();
+        // Set opacity to 0, effectively hiding the image
+        currentPixmapItem->setOpacity(0.0);
 
-        // remove the item from the scene
-        removeItem(currentPixmapItem);
-        delete currentPixmapItem;
-        currentPixmapItem = nullptr;
+        // Move to the next image in reverse order
+        currentImageIndex--;
 
-        // start fading out the next image
+        // Continue fading out the next image in reverse order
         fadeOutLastFourImages();
     }
 }

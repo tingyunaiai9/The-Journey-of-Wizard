@@ -53,6 +53,9 @@ private slots:
     void generateRandomArrow();
     void generateItem(QString itemCode);
 
+signals:
+    void gameOver(const QString& winnerText); // signal for game over to main window
+
 public:
     explicit BattleScene(QObject *parent);
 

@@ -15,7 +15,7 @@
 #include <QColor>
 
 
-#define DROPEQUIPMENT
+// #define DROPEQUIPMENT
 #define DROPARROW
 
 BattleScene::BattleScene(QObject *parent) : Scene(parent)
@@ -912,15 +912,9 @@ void BattleScene::processHp()
             {
                 m_player1->toDead();
 
-                // 显示另一玩家胜利的文本
-                QGraphicsTextItem* victoryText = new QGraphicsTextItem("Player 2 Wins!");
-                QFont font;
-                font.setPointSize(32);  // 设置字体大小
-                font.setBold(true);     // 设置粗体
-                victoryText->setFont(font);
-                victoryText->setDefaultTextColor(QColor("#72a5a2"));  // 设置文本颜色为#72a5a2
-                victoryText->setPos(400, 300);  // 设置文本的位置
-                addItem(victoryText);
+                QTimer::singleShot(5000, [this]() {
+                    emit gameOver("Player 2 Wins!");
+                });
             }
         }
     }
@@ -939,15 +933,9 @@ void BattleScene::processHp()
             {
                 m_player2->toDead();
 
-                // 显示另一玩家胜利的文本
-                QGraphicsTextItem* victoryText = new QGraphicsTextItem("Player 1 Wins!");
-                QFont font;
-                font.setPointSize(32);  // 设置字体大小
-                font.setBold(true);     // 设置粗体
-                victoryText->setFont(font);
-                victoryText->setDefaultTextColor(QColor("#72a5a2"));  // 设置文本颜色为#72a5a2
-                victoryText->setPos(400, 300);  // 设置文本的位置
-                addItem(victoryText);
+                QTimer::singleShot(5000, [this]() {
+                    emit gameOver("Player 1 Wins!");
+                });
             }
         }
     }

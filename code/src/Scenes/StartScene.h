@@ -17,11 +17,12 @@ private:
     QGraphicsPixmapItem *currentPixmapItem;
     QTimer *imageTimer;  // timer for image transition
     QTimer *fadeTimer;  // timer for image fade in
+
     QStringList imagePaths;  // image paths
     int currentImageIndex;
     qreal opacity;  // image opacity
 
-    QList<QGraphicsPixmapItem*> lastFourPixmapItems;  // store the last three images
+    QList<QGraphicsPixmapItem*> allPixmapItems;  // Array to store all images
 
 public:
     explicit StartScene(QObject *parent = nullptr);
@@ -37,7 +38,7 @@ private slots:
     void fadeOutButton();  // hide the start button
 
     //slots for fade-out functionality
-    void fadeOutLastFourImages();  // start fading out the last three images
+    void fadeOutLastFourImages();  // start fading out the last four images
     void updateFadeOutOpacity();  // update the opacity for fading out images
 };
 

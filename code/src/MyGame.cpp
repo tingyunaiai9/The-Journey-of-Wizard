@@ -7,7 +7,6 @@ MyGame::MyGame(QWidget *parent) : QMainWindow(parent)
 {
 #ifdef STARTSCENE
     startScene = new StartScene(this);
-    battleScene = nullptr; // important!!!
 
     view = new QGraphicsView(this);
     view->setScene(startScene);
@@ -54,4 +53,37 @@ void MyGame::startBattleScene()
 
     view->setScene(battleScene);
     battleScene->startLoop();
+
+    connect(static_cast<BattleScene*>(battleScene), &BattleScene::gameOver, this, &MyGame::startGameOverScene);// connect game over signal
+}
+
+void MyGame::startGameOverScene(const QString& winnerText)
+{
+    if (gameOverScene)
+    {
+        delete gameOverScene;
+    }
+    gameOverScene = new GameOverScene(winnerText, this);
+
+    view->setScene(gameOverScene);
+
+    connect(gameOverScene, &GameOverScene::returnToMainMenu, this, &MyGame::handleReturnToMainMenu);
+    connect(gameOverScene, &GameOverScene::exitGame, this, &MyGame::handleExitGame);
+}
+
+void MyGame::handleReturnToMainMenu() // back to main menu
+{
+    if (startScene)
+    {
+        delete startScene;
+    }
+    startScene = new StartScene(this);
+
+    view->setScene(startScene);
+    connect(startScene, &StartScene::imagesFadedOut, this, &MyGame::startBattleScene);
+}
+
+void MyGame::handleExitGame()
+{
+    close();  // exit game
 }
