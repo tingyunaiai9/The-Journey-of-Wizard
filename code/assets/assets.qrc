@@ -66,5 +66,8 @@
         <file>Scenes/StartScene/title.png</file>
         <file>Items/Maps/WoodPlatform/platform_burning.png</file>
         <file>Items/Maps/MetalPlatform/platform_shock.png</file>
+        <file>Scenes/GameOverScene/gameover.png</file>
+        <file>Scenes/GameOverScene/gameover_player1_win.png</file>
+        <file>Scenes/GameOverScene/gameover_player2_win.png</file>
     </qresource>
 </RCC>
