@@ -50,6 +50,30 @@ WoodenTwoHandedSword::WoodenTwoHandedSword(QGraphicsItem *parent, const QString 
 MetalTwoHandedSword::MetalTwoHandedSword(QGraphicsItem *parent, const QString &pixmapPath) :
     TwoHandedSword(parent, pixmapPath)
 {
+    initStateObjs();
+}
+
+MetalTwoHandedSword::~MetalTwoHandedSword()
+{
+    uninitStateObjs();
+}
+
+void MetalTwoHandedSword::beHit(QString element)
+{
+    IShockState* state_obj = nullptr;
+    state_obj = getStateObj();
+
+    state_obj->beHit(element);
+}
+
+void MetalTwoHandedSword::e_startShocking()
+{
+    if (m_shockingPicture == nullptr)
+    {
+        m_shockingPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Maps/MetalPlatform/platform_shock.png"));
+        m_shockingPicture->setParentItem(this);
+        m_shockingPicture->setPos(0, 32);
+    }
 }
 
 NormalWoodenTwoHandedSword::NormalWoodenTwoHandedSword(QGraphicsItem *parent) :

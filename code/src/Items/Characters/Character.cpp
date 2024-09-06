@@ -2,6 +2,8 @@
 #include "../MeleeWeapons/TwoHandedSword.h"
 #include "../../Scenes/BattleScene.h"
 
+#include "../IWood.h"
+#include "../IMetal.h"
 #include <QTransform>
 #include <QTimer>
 
@@ -539,6 +541,8 @@ void Character::h_startElectricShock()
         if (oldWeapon)
         {
             oldWeapon->unequip(); // unequip the weapon
+
+            oldWeapon->beHit("Electro");
 
             // add to spare weapons
             if (m_battleScene)

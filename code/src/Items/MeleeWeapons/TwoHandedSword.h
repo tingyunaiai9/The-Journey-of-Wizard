@@ -2,6 +2,8 @@
 #define QT_PROGRAMMING_2024_TWOHANDEDSWORD_H
 
 #include "MeleeWeapon.h"
+#include "../IWood.h"
+#include "../IMetal.h"
 
 class TwoHandedSword : public MeleeWeapon
 {
@@ -29,12 +31,16 @@ public:
     [[nodiscard]] virtual QString getMaterial() const override { return "Wooden"; }
 };
 
-class MetalTwoHandedSword : public TwoHandedSword
+class MetalTwoHandedSword : public TwoHandedSword, public CMetal
 {
 public:
     explicit MetalTwoHandedSword(QGraphicsItem *parent, const QString &pixmapPath);
+    ~MetalTwoHandedSword();
 
     [[nodiscard]] virtual QString getMaterial() const override { return "Metal"; }
+
+    virtual void beHit(QString element) override; // from weapon
+    virtual void e_startShocking() override; // from IMetal
 };
 
 class NormalWoodenTwoHandedSword : public WoodenTwoHandedSword

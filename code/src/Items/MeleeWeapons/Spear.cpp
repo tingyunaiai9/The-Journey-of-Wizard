@@ -50,6 +50,30 @@ WoodenSpear::WoodenSpear(QGraphicsItem *parent, const QString &pixmapPath) :
 MetalSpear::MetalSpear(QGraphicsItem *parent, const QString &pixmapPath) :
     Spear(parent, pixmapPath)
 {
+    initStateObjs();
+}
+
+MetalSpear::~MetalSpear()
+{
+    uninitStateObjs();
+}
+
+void MetalSpear::beHit(QString element)
+{
+    IShockState* state_obj = nullptr;
+    state_obj = getStateObj();
+
+    state_obj->beHit(element);
+}
+
+void MetalSpear::e_startShocking()
+{
+    if (m_shockingPicture == nullptr)
+    {
+        m_shockingPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Maps/MetalPlatform/platform_shock.png"));
+        m_shockingPicture->setParentItem(this);
+        m_shockingPicture->setPos(0, 32);
+    }
 }
 
 NormalWoodenSpear::NormalWoodenSpear(QGraphicsItem *parent) :

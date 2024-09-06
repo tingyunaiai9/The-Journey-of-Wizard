@@ -11,3 +11,4 @@
 - 飞行攻击范围（AreaRect）过大，每种武器待调小，调准
 - Hero攻击状态时，没有处理beHit，连续攻击是无敌的
 - 更新 readme 中的单手剑类图的父类IWood
+- 输出warning: qt.gui.imageio: libpng warning: iCCP: known incorrect sRGB profile

@@ -50,6 +50,30 @@ WoodenOneHandedSword::WoodenOneHandedSword(QGraphicsItem *parent, const QString 
 MetalOneHandedSword::MetalOneHandedSword(QGraphicsItem *parent, const QString &pixmapPath) :
     OneHandedSword(parent, pixmapPath)
 {
+    initStateObjs();
+}
+
+MetalOneHandedSword::~MetalOneHandedSword()
+{
+    uninitStateObjs();
+}
+
+void MetalOneHandedSword::beHit(QString element)
+{
+    IShockState* state_obj = nullptr;
+    state_obj = getStateObj();
+
+    state_obj->beHit(element);
+}
+
+void MetalOneHandedSword::e_startShocking()
+{
+    if (m_shockingPicture == nullptr)
+    {
+        m_shockingPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Maps/MetalPlatform/platform_shock.png"));
+        m_shockingPicture->setParentItem(this);
+        m_shockingPicture->setPos(0, 32);
+    }
 }
 
 NormalWoodenOneHandedSword::NormalWoodenOneHandedSword(QGraphicsItem *parent) :

@@ -33,7 +33,8 @@ public:
         // Its pixmapItem is automatically handled by children's paint()
     }
 
-    QGraphicsPixmapItem* getPixmapItem() const { return pixmapItem; }
+    QGraphicsPixmapItem* getPixmapItem() const { return pixmapItem;}
+    int type() const override { return QGraphicsItem::UserType + 1;}
 
 private:
     QGraphicsRectItem* m_sceneRect;

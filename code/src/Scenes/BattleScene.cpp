@@ -64,13 +64,14 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
     // init lifebar
     // TODO: change to a better style
     m_bar1 = new QProgressBar();
-    m_bar1->setTextVisible(false);
+    m_bar1->setTextVisible(true);
     m_bar1->setRange(0, 100);
     m_bar1->setStyleSheet(
         "QProgressBar {"
         "    background-color: transparent;"
         "    border: 2px solid white;"  // white border 2px
         "    border-radius: 5px;"        // border radius 5px
+        "    text-align: center;"
         "}"
         "QProgressBar::chunk {"
         "    background-color: red;"
@@ -78,15 +79,19 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
         );
 
     m_bar2 = new QProgressBar();
-    m_bar2->setTextVisible(false);
+    m_bar2->setTextVisible(true);
     m_bar2->setRange(0, 100);
     m_bar2->setInvertedAppearance(true);
     // m_bar2->setAttribute(Qt::WA_StaticContents, true);
     m_bar2->setStyleSheet(
+        "QProgressBar::text {"
+        "    color: white;"
+        "}"
         "QProgressBar {"
         "    background-color: transparent;"
         "    border: 2px solid white;"  // white border 2px
         "    border-radius: 5px;"        // border radius 5px
+        "    text-align: center;"
         "}"
         "QProgressBar::chunk {"
         "    background-color: red;"
@@ -1017,6 +1022,12 @@ void BattleScene::processAttackingElement()
         {
             attackMap(weapon, map);
         }
+    }
+
+    QList<QGraphicsItem *> itemsList = items();
+    qDebug() << "begin debug items";
+    for (auto item : itemsList) {
+        qDebug() << "Item type:" << item->type();
     }
 }
 

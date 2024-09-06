@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QString>
 #include <QTimer>
+#include <QGraphicsPixmapItem>
 
 enum METALSTATE
 {
@@ -26,7 +27,6 @@ protected:
 
 public:
     virtual QString getName() {return "";};
-
     virtual void beHit(QString element) {};
     virtual void timeOut() {};
 };
@@ -48,6 +48,7 @@ protected:
 
 public:
     void setState(METALSTATE stateType);
+
 public slots:
     virtual void onTimeOut() {};
 
@@ -75,4 +76,26 @@ public:
 
     virtual void timeOut() override;
 };
+
+class CMetal: public IMetal
+{
+    Q_OBJECT
+
+protected:
+    CMetalNormal* m_metalNormal = nullptr;
+    CMetalShocking* m_metalShocking = nullptr;
+
+    QGraphicsPixmapItem* m_shockingPicture = nullptr; // the picture be shocking
+
+public:
+    virtual void e_stopShocking() override;
+
+public slots:
+    void onTimeOut() override;
+
+public:
+    void initStateObjs();
+    void uninitStateObjs();
+};
+
 #endif //QT_PROGRAMMING_2024_IMETAL_H

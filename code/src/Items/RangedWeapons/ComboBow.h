@@ -2,6 +2,8 @@
 #define QT_PROGRAMMING_2024_COMBOBOW_H
 
 #include "Bow.h"
+#include "../IWood.h"
+#include "../IMetal.h"
 
 class ComboBow : public Bow
 {
@@ -23,12 +25,16 @@ public:
     [[nodiscard]] virtual QString getMaterial() const override { return "Wooden"; }
 };
 
-class MetalComboBow : public ComboBow
+class MetalComboBow : public ComboBow, public CMetal
 {
 public:
     explicit MetalComboBow(QGraphicsItem *parent = nullptr);
+    ~MetalComboBow();
 
     [[nodiscard]] virtual QString getMaterial() const override { return "Metal"; }
+
+    virtual void beHit(QString element) override; // from weapon
+    virtual void e_startShocking() override; // from IMetal
 };
 
 #endif //QT_PROGRAMMING_2024_COMBOBOW_H

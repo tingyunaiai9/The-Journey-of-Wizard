@@ -2,6 +2,8 @@
 #define QT_PROGRAMMING_2024_SPEAR_H
 
 #include "MeleeWeapon.h"
+#include "../IWood.h"
+#include "../IMetal.h"
 
 class Spear : public MeleeWeapon
 {
@@ -27,12 +29,16 @@ public:
     [[nodiscard]] virtual QString getMaterial() const override { return "Wooden"; }
 };
 
-class MetalSpear : public Spear
+class MetalSpear : public Spear, public CMetal
 {
 public:
     explicit MetalSpear(QGraphicsItem *parent, const QString &pixmapPath);
+    ~MetalSpear();
 
     [[nodiscard]] virtual QString getMaterial() const override { return "Metal"; }
+
+    virtual void beHit(QString element) override; // from weapon
+    virtual void e_startShocking() override; // from IMetal
 };
 
 class NormalWoodenSpear : public WoodenSpear

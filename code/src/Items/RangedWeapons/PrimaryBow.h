@@ -2,6 +2,8 @@
 #define QT_PROGRAMMING_2024_PRIMARYBOW_H
 
 #include "Bow.h"
+#include "../IWood.h"
+#include "../IMetal.h"
 
 class PrimaryBow : public Bow
 {
@@ -23,12 +25,16 @@ public:
     [[nodiscard]] virtual QString getMaterial() const override { return "Wooden"; }
 };
 
-class MetalPrimaryBow : public PrimaryBow
+class MetalPrimaryBow : public PrimaryBow, public CMetal
 {
 public:
     explicit MetalPrimaryBow(QGraphicsItem *parent = nullptr);
+    ~MetalPrimaryBow();
 
     [[nodiscard]] virtual QString getMaterial() const override { return "Metal"; }
+
+    virtual void beHit(QString element) override; // from weapon
+    virtual void e_startShocking() override; // from IMetal
 };
 
 #endif //QT_PROGRAMMING_2024_PRIMARYBOW_H

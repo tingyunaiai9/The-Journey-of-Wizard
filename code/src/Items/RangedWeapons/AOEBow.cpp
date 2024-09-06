@@ -13,4 +13,29 @@ WoodenAOEBow::WoodenAOEBow(QGraphicsItem *parent) :
 MetalAOEBow::MetalAOEBow(QGraphicsItem *parent) :
     AOEBow(parent, ":/Items/RangedWeapons/Bow/AOE_bow_metal.png")
 {
+    initStateObjs();
+}
+
+MetalAOEBow::~MetalAOEBow()
+{
+    uninitStateObjs();
+}
+
+void MetalAOEBow::beHit(QString element)
+{
+    IShockState* state_obj = nullptr;
+    state_obj = getStateObj();
+
+    state_obj->beHit(element);
+}
+
+void MetalAOEBow::e_startShocking()
+{
+    if (m_shockingPicture == nullptr)
+    {
+        m_shockingPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Maps/MetalPlatform/platform_shock.png"));
+        m_shockingPicture->setParentItem(this);
+        m_shockingPicture->setRotation(-90);
+        m_shockingPicture->setPos(32, 16);
+    }
 }
