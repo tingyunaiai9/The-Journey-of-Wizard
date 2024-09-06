@@ -20,7 +20,6 @@ MyGame::MyGame(QWidget *parent) : QMainWindow(parent)
     // Adjust the QMainWindow size to tightly wrap the QGraphicsView
     setFixedSize(view->sizeHint());
 
-    // connect(startScene, &StartScene::startGameClicked, this, &MyGame::startBattleScene);
     // start game when images are faded out
     connect(startScene, &StartScene::imagesFadedOut, this, &MyGame::startBattleScene);
 
@@ -75,12 +74,15 @@ void MyGame::handleReturnToMainMenu() // back to main menu
 {
     if (startScene)
     {
-        delete startScene;
+        startScene->resetStartScene();
     }
-    startScene = new StartScene(this);
+    else
+    {
+        startScene = new StartScene(this);
+        connect(startScene, &StartScene::imagesFadedOut, this, &MyGame::startBattleScene);
+    }
 
     view->setScene(startScene);
-    connect(startScene, &StartScene::imagesFadedOut, this, &MyGame::startBattleScene);
 }
 
 void MyGame::handleExitGame()

@@ -59,8 +59,8 @@ StartScene::StartScene(QObject *parent) : QGraphicsScene(parent), currentImageIn
     proxy->setPos(640 - startButton->width() / 2, 360 - startButton->height() / 2 + 100);
     proxy->setZValue(1);  // set z above the image
 
-    // connect the button click signal to the startGameClicked signal
-    connect(startButton, &QPushButton::clicked, this, &StartScene::startGameClicked);
+    connect(startButton, &QPushButton::clicked, this, &StartScene::fadeOutLastFourImages);
+    connect(startButton, &QPushButton::clicked, this, &StartScene::fadeOutButton);
 }
 
 void StartScene::startImageTransition()
@@ -130,8 +130,6 @@ void StartScene::updateImageOpacity()
 void StartScene::fadeInButton()
 {
     startButton->setVisible(true);
-    connect(startButton, &QPushButton::clicked, this, &StartScene::fadeOutLastFourImages);
-    connect(startButton, &QPushButton::clicked, this, &StartScene::fadeOutButton);
 }
 
 void StartScene::fadeOutButton()
@@ -157,6 +155,12 @@ void StartScene::fadeOutLastFourImages()
     }
     else
     {
+        if (fadeTimer)
+        {
+            fadeTimer->stop();
+            delete fadeTimer;
+            fadeTimer = nullptr;
+        }
         // Emit signal when all images have faded out
         emit imagesFadedOut();
     }
@@ -181,5 +185,32 @@ void StartScene::updateFadeOutOpacity()
 
         // Continue fading out the next image in reverse order
         fadeOutLastFourImages();
+    }
+}
+
+void StartScene::resetStartScene()
+{
+    if (imageTimer)
+    {
+        imageTimer->stop();
+        delete imageTimer;
+        imageTimer = nullptr;
+    }
+    if (fadeTimer)
+    {
+        fadeTimer->stop();
+        delete fadeTimer;
+        fadeTimer = nullptr;
+    }
+
+    for(auto item : allPixmapItems)
+    {
+        item->setOpacity(1.0);
+    }
+    currentImageIndex = allPixmapItems.size() - 1;
+
+    if (startButton)
+    {
+        startButton->setVisible(true);
     }
 }

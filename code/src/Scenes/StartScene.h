@@ -24,11 +24,7 @@ private:
 
     QList<QGraphicsPixmapItem*> allPixmapItems;  // Array to store all images
 
-public:
-    explicit StartScene(QObject *parent = nullptr);
-
 signals:
-    void startGameClicked();  // button click signal
     void imagesFadedOut();  // signal when images fade out is completed
 
 private slots:
@@ -40,6 +36,11 @@ private slots:
     //slots for fade-out functionality
     void fadeOutLastFourImages();  // start fading out the last four images
     void updateFadeOutOpacity();  // update the opacity for fading out images
+
+public:
+    explicit StartScene(QObject *parent = nullptr);
+
+    void resetStartScene();  // reset the start scene to complete scene
 };
 
 #endif //QT_PROGRAMMING_2024_STARTSCENE_H
