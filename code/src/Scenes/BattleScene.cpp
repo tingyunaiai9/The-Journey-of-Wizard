@@ -62,7 +62,6 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
     m_player2->setBattleScene(this);
 
     // init lifebar
-    // TODO: change to a better style
     m_bar1 = new QProgressBar();
     m_bar1->setTextVisible(true);
     m_bar1->setRange(0, 100);
@@ -72,6 +71,7 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
         "    border: 2px solid white;"  // white border 2px
         "    border-radius: 5px;"        // border radius 5px
         "    text-align: center;"
+        "    color: rgba(255, 255, 255, 200);" // Set text color
         "}"
         "QProgressBar::chunk {"
         "    background-color: red;"
@@ -84,14 +84,12 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
     m_bar2->setInvertedAppearance(true);
     // m_bar2->setAttribute(Qt::WA_StaticContents, true);
     m_bar2->setStyleSheet(
-        "QProgressBar::text {"
-        "    color: white;"
-        "}"
         "QProgressBar {"
         "    background-color: transparent;"
-        "    border: 2px solid white;"  // white border 2px
-        "    border-radius: 5px;"        // border radius 5px
+        "    border: 2px solid white;" // white border 2px
+        "    border-radius: 5px;" // border radius 5px
         "    text-align: center;"
+        "    color: rgba(255, 255, 255, 200);" // Set text color
         "}"
         "QProgressBar::chunk {"
         "    background-color: red;"

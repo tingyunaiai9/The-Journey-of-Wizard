@@ -69,5 +69,8 @@
         <file>Scenes/GameOverScene/gameover.png</file>
         <file>Scenes/GameOverScene/gameover_player1_win.png</file>
         <file>Scenes/GameOverScene/gameover_player2_win.png</file>
+        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_shock.png</file>
+        <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_shock.png</file>
+        <file>Items/MeleeWeapons/Spear/spear_shock.png</file>
     </qresource>
 </RCC>
