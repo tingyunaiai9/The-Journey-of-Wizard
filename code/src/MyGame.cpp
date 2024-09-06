@@ -38,6 +38,8 @@ MyGame::MyGame(QWidget *parent) : QMainWindow(parent)
     setFixedSize(view->sizeHint());
 
     battleScene->startLoop();
+
+    connect(static_cast<BattleScene*>(battleScene), &BattleScene::gameOver, this, &MyGame::startGameOverScene);
 #endif
 }
 
