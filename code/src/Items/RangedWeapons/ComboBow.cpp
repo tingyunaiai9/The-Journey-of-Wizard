@@ -33,9 +33,8 @@ void MetalComboBow::e_startShocking()
 {
     if (m_shockingPicture == nullptr)
     {
-        m_shockingPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Maps/MetalPlatform/platform_shock.png"));
+        m_shockingPicture = new QGraphicsPixmapItem(QPixmap(":/Items/RangedWeapons/Bow/bow_shock.png"));
         m_shockingPicture->setParentItem(this);
-        m_shockingPicture->setRotation(-90);
-        m_shockingPicture->setPos(32, 16);
+        m_shockingPicture->setPos(20, -12);
     }
 }
