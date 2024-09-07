@@ -9,6 +9,7 @@ class PvEBattleScene : public BattleScene
 
 public:
     explicit PvEBattleScene(QObject *parent);
+    void initBattleScene() override;
 };
 
 #endif //QT_PROGRAMMING_2024_PVEBATTLESCENE_H

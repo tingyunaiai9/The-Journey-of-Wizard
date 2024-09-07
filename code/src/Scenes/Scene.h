@@ -9,6 +9,7 @@ Q_OBJECT
 
 public:
     explicit Scene(QObject *parent);
+    virtual void initBattleScene() {}
 
     void startLoop();
 

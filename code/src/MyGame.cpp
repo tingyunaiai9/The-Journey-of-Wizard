@@ -32,6 +32,7 @@ MyGame::MyGame(QWidget *parent) : QMainWindow(parent)
 #else
     startScene = nullptr; // No StartScene in this case
     battleScene = new BattleScene(this);
+    battleScene->initBattleScene();
 
     view = new QGraphicsView(this);
     view->setScene(battleScene);
@@ -57,6 +58,7 @@ void MyGame::startPvPBattleScene()
         delete battleScene;
     }
     battleScene = new BattleScene(this);
+    battleScene->initBattleScene();
 
     view->setScene(battleScene);
     battleScene->startLoop();
@@ -71,6 +73,7 @@ void MyGame::startPvEBattleScene() // AI battle scene
         delete battleScene;
     }
     battleScene = new PvEBattleScene(this);
+    battleScene->initBattleScene();
 
     view->setScene(battleScene);
     battleScene->startLoop();

@@ -25,6 +25,7 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
 
     // init maps
     m_battlefield = new Battlefield();
+    m_battlefield->scaleToFitScene(this);
     m_maps.append(m_battlefield);
 
     WoodPlatform* plat1 = new WoodPlatform();
@@ -41,25 +42,10 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
     MetalPlatform* plat3 = new MetalPlatform();
     m_maps.append(plat3);
 
-    for (Map* map : m_maps) {
+    for (Map* map : m_maps)
+    {
         addItem(map);
-
     }
-
-    // init players
-    m_player1 = new CPlayer1();
-    m_player2 = new CPlayer2();
-
-    addItem(m_player1);
-    addItem(m_player2);
-
-    m_battlefield->scaleToFitScene(this);
-    m_player1->setPos(m_battlefield->getSpawnPos(0.2));
-    m_player2->setPos(m_battlefield->getSpawnPos(0.8));
-
-    // set battle scene for players
-    m_player1->setBattleScene(this);
-    m_player2->setBattleScene(this);
 
     // init lifebar
     m_bar1 = new QProgressBar();
@@ -82,7 +68,6 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
     m_bar2->setTextVisible(true);
     m_bar2->setRange(0, 100);
     m_bar2->setInvertedAppearance(true);
-    // m_bar2->setAttribute(Qt::WA_StaticContents, true);
     m_bar2->setStyleSheet(
         "QProgressBar {"
         "    background-color: transparent;"
@@ -122,6 +107,23 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
     connect(arrowDropTimer, &QTimer::timeout, this, &BattleScene::generateRandomArrow);
     arrowDropTimer->start(1000); // 1s
 #endif
+}
+
+void BattleScene::initBattleScene()
+{
+    // init players
+    m_player1 = new CPlayer1();
+    m_player2 = new CPlayer2();
+
+    addItem(m_player1);
+    addItem(m_player2);
+
+    m_player1->setPos(m_battlefield->getSpawnPos(0.2));
+    m_player2->setPos(m_battlefield->getSpawnPos(0.8));
+
+    // set battle scene for players
+    m_player1->setBattleScene(this);
+    m_player2->setBattleScene(this);
 }
 
 void BattleScene::processInput()
@@ -344,33 +346,39 @@ bool BattleScene::isOnMapGround(Item *item, Map *nearestMap)
 // pick
 void BattleScene::processPicking()
 {
-    if (m_player1->isPicking())
+    if (m_player1 != nullptr)
     {
-        auto mountable = findNearestUnmountedMountable(m_player1->pos(), 100.);
-        if (mountable != nullptr)
+        if (m_player1->isPicking())
         {
-            pickupMountable(m_player1, mountable);
-        }
+            auto mountable = findNearestUnmountedMountable(m_player1->pos(), 100.);
+            if (mountable != nullptr)
+            {
+                pickupMountable(m_player1, mountable);
+            }
 
-        auto weapon = findNearestUnequipWeapon(m_player1->pos(), 100.);
-        if (weapon != nullptr)
-        {
-            pickupWeapon(m_player1, weapon);
+            auto weapon = findNearestUnequipWeapon(m_player1->pos(), 100.);
+            if (weapon != nullptr)
+            {
+                pickupWeapon(m_player1, weapon);
+            }
         }
     }
 
-    if (m_player2->isPicking())
+    if (m_player2 != nullptr)
     {
-        auto mountable = findNearestUnmountedMountable(m_player2->pos(), 100.);
-        if (mountable != nullptr)
+        if (m_player2->isPicking())
         {
-            pickupMountable(m_player2, mountable);
-        }
+            auto mountable = findNearestUnmountedMountable(m_player2->pos(), 100.);
+            if (mountable != nullptr)
+            {
+                pickupMountable(m_player2, mountable);
+            }
 
-        auto weapon = findNearestUnequipWeapon(m_player2->pos(), 100.);
-        if (weapon != nullptr)
-        {
-            pickupWeapon(m_player2, weapon);
+            auto weapon = findNearestUnequipWeapon(m_player2->pos(), 100.);
+            if (weapon != nullptr)
+            {
+                pickupWeapon(m_player2, weapon);
+            }
         }
     }
 }
@@ -629,91 +637,97 @@ void BattleScene::removeFromSpareWeapons(Weapon *weapon)
 // attack
 void BattleScene::processAttacking()
 {
-    if (m_player1->isAttacking())
+    if (m_player1 != nullptr)
     {
-        Weapon* weapon = m_player1->getHoldingWeapon();
-        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
-
-        if (meleeWeapon)
+        if (m_player1->isAttacking())
         {
-            // calculate the attack rectangle according to the player's position
-            QRectF attackRange = meleeWeapon->getMeleeAttackRange(m_player1);
+            Weapon* weapon = m_player1->getHoldingWeapon();
+            auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
 
-            QPointF player2Pos = m_player2->pos();
-
-            // // 打印矩形的详细信息
-            // qDebug() << "Attack Range:" << attackRange;
-            // qDebug() << "Player2 Position:" << player2Pos;
-
-            // the rectangle contains the point?
-            if (attackRange.contains(player2Pos))
+            if (meleeWeapon)
             {
-                m_player2->beHit(meleeWeapon->getDamage(), meleeWeapon->getElement());
+                // calculate the attack rectangle according to the player's position
+                QRectF attackRange = meleeWeapon->getMeleeAttackRange(m_player1);
+
+                QPointF player2Pos = m_player2->pos();
+
+                // // 打印矩形的详细信息
+                // qDebug() << "Attack Range:" << attackRange;
+                // qDebug() << "Player2 Position:" << player2Pos;
+
+                // the rectangle contains the point?
+                if (attackRange.contains(player2Pos))
+                {
+                    m_player2->beHit(meleeWeapon->getDamage(), meleeWeapon->getElement());
+                }
+
+                // // 绘制攻击范围矩形
+                // QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);
+                // attackRangeRect->setPen(QPen(Qt::red));
+                // attackRangeRect->setBrush(Qt::NoBrush);
+                // addItem(attackRangeRect);
+
+                // // 绘制 Player2 的位置点
+                // QGraphicsEllipseItem* player2Point = new QGraphicsEllipseItem(player2Pos.x() - 2, player2Pos.y() - 2, 4, 4);
+                // player2Point->setPen(QPen(Qt::blue));
+                // player2Point->setBrush(Qt::blue);
+                // addItem(player2Point);
+
+                // // 在一段时间后自动移除这些绘制内容
+                // QTimer::singleShot(100, this, [this, attackRangeRect, player2Point]() {
+                //     removeItem(attackRangeRect);
+                //     removeItem(player2Point);
+                //     delete attackRangeRect;
+                //     delete player2Point;
+                // });
             }
-
-            // // 绘制攻击范围矩形
-            // QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);
-            // attackRangeRect->setPen(QPen(Qt::red));
-            // attackRangeRect->setBrush(Qt::NoBrush);
-            // addItem(attackRangeRect);
-
-            // // 绘制 Player2 的位置点
-            // QGraphicsEllipseItem* player2Point = new QGraphicsEllipseItem(player2Pos.x() - 2, player2Pos.y() - 2, 4, 4);
-            // player2Point->setPen(QPen(Qt::blue));
-            // player2Point->setBrush(Qt::blue);
-            // addItem(player2Point);
-
-            // // 在一段时间后自动移除这些绘制内容
-            // QTimer::singleShot(100, this, [this, attackRangeRect, player2Point]() {
-            //     removeItem(attackRangeRect);
-            //     removeItem(player2Point);
-            //     delete attackRangeRect;
-            //     delete player2Point;
-            // });
         }
     }
 
-    if (m_player2->isAttacking())
+    if (m_player2 != nullptr)
     {
-        Weapon* weapon = m_player2->getHoldingWeapon();
-        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
-
-        if (meleeWeapon)
+        if (m_player2->isAttacking())
         {
-            // calculate the attack rectangle according to the player's position
-            QRectF attackRange = meleeWeapon->getMeleeAttackRange(m_player2);
+            Weapon* weapon = m_player2->getHoldingWeapon();
+            auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
 
-            QPointF player1Pos = m_player1->pos();
-
-            // 打印矩形的详细信息
-            // qDebug() << "Attack Range:" << attackRange;
-            // qDebug() << "Player2 Position:" << player2Pos;
-
-            // the rectangle contains the point?
-            if (attackRange.contains(player1Pos))
+            if (meleeWeapon)
             {
-                m_player1->beHit(meleeWeapon->getDamage(), meleeWeapon->getElement());
+                // calculate the attack rectangle according to the player's position
+                QRectF attackRange = meleeWeapon->getMeleeAttackRange(m_player2);
+
+                QPointF player1Pos = m_player1->pos();
+
+                // 打印矩形的详细信息
+                // qDebug() << "Attack Range:" << attackRange;
+                // qDebug() << "Player2 Position:" << player2Pos;
+
+                // the rectangle contains the point?
+                if (attackRange.contains(player1Pos))
+                {
+                    m_player1->beHit(meleeWeapon->getDamage(), meleeWeapon->getElement());
+                }
+
+                // // 绘制攻击范围矩形
+                // QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);
+                // attackRangeRect->setPen(QPen(Qt::red));
+                // attackRangeRect->setBrush(Qt::NoBrush);
+                // addItem(attackRangeRect);
+
+                // // 绘制 Player2 的位置点
+                // QGraphicsEllipseItem* player2Point = new QGraphicsEllipseItem(player2Pos.x() - 2, player2Pos.y() - 2, 4, 4);
+                // player2Point->setPen(QPen(Qt::blue));
+                // player2Point->setBrush(Qt::blue);
+                // addItem(player2Point);
+
+                // // 在一段时间后自动移除这些绘制内容
+                // QTimer::singleShot(100, this, [this, attackRangeRect, player2Point]() {
+                //     removeItem(attackRangeRect);
+                //     removeItem(player2Point);
+                //     delete attackRangeRect;
+                //     delete player2Point;
+                // });
             }
-
-            // // 绘制攻击范围矩形
-            // QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);
-            // attackRangeRect->setPen(QPen(Qt::red));
-            // attackRangeRect->setBrush(Qt::NoBrush);
-            // addItem(attackRangeRect);
-
-            // // 绘制 Player2 的位置点
-            // QGraphicsEllipseItem* player2Point = new QGraphicsEllipseItem(player2Pos.x() - 2, player2Pos.y() - 2, 4, 4);
-            // player2Point->setPen(QPen(Qt::blue));
-            // player2Point->setBrush(Qt::blue);
-            // addItem(player2Point);
-
-            // // 在一段时间后自动移除这些绘制内容
-            // QTimer::singleShot(100, this, [this, attackRangeRect, player2Point]() {
-            //     removeItem(attackRangeRect);
-            //     removeItem(player2Point);
-            //     delete attackRangeRect;
-            //     delete player2Point;
-            // });
         }
     }
 }
@@ -800,8 +814,14 @@ void BattleScene::processPlayerShooting(Character * player)
 
 void BattleScene::processShooting()
 {
-    processPlayerShooting(m_player1);
-    processPlayerShooting(m_player2);
+    if (m_player1 != nullptr)
+    {
+        processPlayerShooting(m_player1);
+    }
+    if (m_player2 != nullptr)
+    {
+        processPlayerShooting(m_player2);
+    }
 
     QList<Weapon*> weaponsToRemove; // record weapons to remove
     // TODO: move the move part to processMovement
@@ -843,25 +863,33 @@ void BattleScene::processShooting()
 
 
         // attack player1 or player2
-        QPointF player1Pos = m_player1->pos();
-        QPointF player2Pos = m_player2->pos();
-        if (attackRange.contains(player1Pos))
+        if (m_player1 != nullptr)
         {
-            m_player1->beHit(weapon->getDamage(), weapon->getElement());
-            // remove after attack
-            if (weapon && weapon->scene() == this)
-            weaponsToRemove.append(weapon); // record the weapon to remove
-            continue;
-        }
-        else if (attackRange.contains(player2Pos))
-        {
-            m_player2->beHit(weapon->getDamage(), weapon->getElement());
-            // remove after attack
-            if (weapon && weapon->scene() == this)
-            weaponsToRemove.append(weapon); // record the weapon to remove
-            continue;
+            QPointF player1Pos = m_player1->pos();
+            if (attackRange.contains(player1Pos))
+            {
+                m_player1->beHit(weapon->getDamage(), weapon->getElement());
+                // remove after attack
+                if (weapon && weapon->scene() == this)
+                weaponsToRemove.append(weapon); // record the weapon to remove
+                continue;
+            }
         }
 
+        if (m_player2 != nullptr)
+        {
+            QPointF player2Pos = m_player2->pos();
+            if (attackRange.contains(player2Pos))
+            {
+                m_player2->beHit(weapon->getDamage(), weapon->getElement());
+                // remove after attack
+                if (weapon && weapon->scene() == this)
+                weaponsToRemove.append(weapon); // record the weapon to remove
+                continue;
+            }
+        }
+
+        // drop on grouns
         if (isOnGround(weapon))
         {
             // attack and disappear
@@ -902,11 +930,13 @@ void BattleScene::processShooting()
 // fps
 void BattleScene::processFps(qint64 deltaTime)
 {
-    if (m_player1 != nullptr) {
+    if (m_player1 != nullptr)
+    {
         m_player1->processFps(deltaTime);
     }
 
-    if (m_player2 != nullptr) {
+    if (m_player2 != nullptr)
+    {
         m_player2->processFps(deltaTime);
     }
 }
@@ -973,8 +1003,14 @@ void BattleScene::debugItem(bool bDebug)
         item->showAreaRect(this, bDebug);
     }
 
-    m_player1->showAreaRect(this, bDebug);
-    m_player2->showAreaRect(this, bDebug);
+    if (m_player1 != nullptr)
+    {
+        m_player1->showAreaRect(this, bDebug);
+    }
+    if (m_player2 != nullptr)
+    {
+        m_player2->showAreaRect(this, bDebug);
+    }
 
     if(!bDebug)
     {
@@ -996,28 +1032,34 @@ void BattleScene::debugItem(bool bDebug)
 // Attack Wood Platform
 void BattleScene::processAttackingElement()
 {
-    if (m_player1->isAttacking())
+    if (m_player1 != nullptr)
     {
-        Weapon* weapon = m_player1->getHoldingWeapon();
-        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
-        if (meleeWeapon)
+        if (m_player1->isAttacking())
         {
-            for (Map *map : m_maps)
+            Weapon* weapon = m_player1->getHoldingWeapon();
+            auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
+            if (meleeWeapon)
             {
-                attackMap(meleeWeapon, map);
+                for (Map *map : m_maps)
+                {
+                    attackMap(meleeWeapon, map);
+                }
             }
         }
     }
 
-    if (m_player2->isAttacking())
+    if (m_player2 != nullptr)
     {
-        Weapon* weapon = m_player2->getHoldingWeapon();
-        auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
-        if (meleeWeapon)
+        if (m_player2->isAttacking())
         {
-            for (Map *map : m_maps)
+            Weapon* weapon = m_player2->getHoldingWeapon();
+            auto meleeWeapon = dynamic_cast<MeleeWeapon *>(weapon);
+            if (meleeWeapon)
             {
-                attackMap(meleeWeapon, map);
+                for (Map *map : m_maps)
+                {
+                    attackMap(meleeWeapon, map);
+                }
             }
         }
     }
@@ -1105,8 +1147,14 @@ void BattleScene::processAttackingElement()
         }
 
         // player1 and player2
-        transHit(shockingItem, m_player1, "Electro");
-        transHit(shockingItem, m_player2, "Electro");
+        if (m_player1 != nullptr)
+        {
+            transHit(shockingItem, m_player1, "Electro");
+        }
+        if (m_player2 != nullptr)
+        {
+            transHit(shockingItem, m_player2, "Electro");
+        }
     }
 }
 
