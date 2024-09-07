@@ -82,3 +82,44 @@ void CWoodBurning::timeOut()
 {
     m_woodObj->e_stopBurning();
 }
+
+void CWood::initStateObjs()
+{
+    m_woodNormal = new CWoodNormal(this);
+    m_woodBurning = new CWoodBurning(this);
+
+    addState(FNORMAL, m_woodNormal);
+    addState(BURNING, m_woodBurning);
+
+    initState(FNORMAL);
+}
+
+void CWood::uninitStateObjs()
+{
+    if (m_woodNormal)
+    {
+        delete(m_woodNormal);
+    }
+
+    if (m_woodBurning)
+    {
+        delete(m_woodBurning);
+    }
+}
+
+void CWood::onTimeOut()
+{
+    IBurnState* state_obj = nullptr;
+    state_obj = getStateObj();
+
+    state_obj->timeOut();
+}
+
+void CWood::e_stopBurning()
+{
+    if (m_burningPicture)
+    {
+        delete m_burningPicture;
+        m_burningPicture = nullptr;
+    }
+}

@@ -18,6 +18,7 @@ public:
     void unequip() override;
 
     virtual QPointF getCenterPos() override;
+    virtual QRectF getAreaRect() override;
 };
 
 class NormalArrow : public Arrow

@@ -35,8 +35,6 @@ public:
     virtual void shoot(bool isFacingRight = true, QPointF velocity = {0, 0});
     virtual QRectF getShootAttackRange();
 
-public:
-    virtual void beHit(QString element) {};
 };
 
 

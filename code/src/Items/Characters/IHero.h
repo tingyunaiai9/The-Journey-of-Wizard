@@ -40,11 +40,11 @@ protected:
     qint64 m_elapsedTime = 0; // the time elapsed since the start of hitting
 
 public:
-    virtual QString getName() {return "";};
+    virtual QString getName() {return "";}
 
-    virtual bool isHolding() {return false;};
-    virtual bool isAttacking() {return false;};
-    virtual bool isHitting() {return false;};
+    virtual bool isHolding() {return false;}
+    virtual bool isAttacking() {return false;}
+    virtual bool isHitting() {return false;}
 
     virtual void setAttack() {};
     virtual void beHit(int damage, QString element) {};
@@ -121,9 +121,9 @@ public:
     virtual void h_startHitting() {};
     virtual void h_stopHitting() {};
 
-    virtual bool h_getElectroResistance() {return false;};
-    virtual bool h_getFlameResistance() {return false;};
-    virtual bool h_getIceResistance() {return false;};
+    virtual bool h_getElectroResistance() {return false;}
+    virtual bool h_getFlameResistance() {return false;}
+    virtual bool h_getIceResistance() {return false;}
 
     virtual void h_startFrozen() {};
     virtual void h_stopFrozen() {};

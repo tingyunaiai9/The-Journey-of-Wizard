@@ -16,9 +16,6 @@ public:
 
     virtual QPointF getSpawnPos(double widthRatio = 0.5);
 
-    virtual void beHit(QString element) {};
-
-public:
 };
 
 

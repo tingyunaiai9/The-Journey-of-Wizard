@@ -140,15 +140,29 @@ void BattleScene::processInput()
 void BattleScene::keyPressEvent(QKeyEvent *event)
 {
     bool ok;
-    QString text;
+    QString cheatCode;
     switch (event->key())
     {
         case Qt::Key_Return:
-            text = QInputDialog::getText(nullptr, "message dialog", "cheat code: ", QLineEdit::Normal, "", &ok);
-            if (ok && !text.isEmpty())
+            cheatCode = QInputDialog::getText(nullptr, "message dialog", "cheat code: ", QLineEdit::Normal, "", &ok);
+            if (ok && !cheatCode.isEmpty())
             {
                 // cheat code
-                generateItem(text);
+                QStringList cheatList = cheatCode.split(' ');
+                QString weaponCode;
+                qreal weaponX;
+                if (cheatList.size() > 1)
+                {
+                    weaponCode = cheatList.at(0);
+                    weaponX = static_cast<qreal>(cheatList.at(1).toInt());
+                }
+                else
+                {
+                    weaponCode = cheatList.at(0);
+                    int maxX = static_cast<int>(this->sceneRect().width());
+                    weaponX = static_cast<qreal>(rand() % maxX);
+                }
+                generateItem(weaponCode, weaponX);
             }
             break;
         case Qt::Key_BracketLeft:
@@ -509,13 +523,12 @@ void BattleScene::generateRandomArrow()
     }
 }
 
-void BattleScene::generateItem(QString itemCode)
+void BattleScene::generateItem(QString itemCode, qreal randomX)
 {
     Item *newItem = CItemFactory::NewItem(itemCode);
 
     if (newItem)
     {
-        qreal randomX = static_cast<qreal>(rand() % static_cast<int>(this->sceneRect().width()));
         newItem->setPos(randomX, 0);  // top: y=0
         addItem(newItem);
 
@@ -1022,11 +1035,90 @@ void BattleScene::processAttackingElement()
         }
     }
 
-    // QList<QGraphicsItem *> itemsList = items();
-    // qDebug() << "begin debug items";
-    // for (auto item : itemsList) {
-    //     qDebug() << "Item type:" << item->type();
-    // }
+    //
+    QList<QGraphicsItem *> itemsList = items();
+    QList<Item *> woodList;
+    QList<Item *> metalList;
+
+    for (auto item : itemsList) {
+        Item * baseItem = dynamic_cast<Item*>(item);
+        IWood* woodItem = dynamic_cast<IWood*>(item);
+        IMetal* metalItem = dynamic_cast<IMetal*>(item);
+        if (woodItem)
+        {
+            woodList.append(baseItem);
+        }
+        if (metalItem)
+        {
+            metalList.append(baseItem);
+        }
+    }
+
+    // qDebug() << "woodList:";
+    for (auto burningItem : woodList)
+    {
+        if (burningItem->isBurn() == false)
+        {
+            continue;
+        }
+
+        // qDebug() << burningItem->getName();
+        for (auto nextItem : woodList)
+        {
+            if (nextItem == burningItem)
+            {
+                continue;
+            }
+            if (burningItem->isBurn() == true)
+            {
+                continue;
+            }
+
+            transHit(burningItem, nextItem, "Flame");
+        }
+
+        // player1 and player2
+        transHit(burningItem, m_player1, "Flame");
+        transHit(burningItem, m_player2, "Flame");
+    }
+
+    // qDebug() << "metalList:";
+    for (auto shockingItem : metalList)
+    {
+        if (shockingItem->isShock() == false)
+        {
+            continue;
+        }
+
+        // qDebug() << shockingItem->getName();
+        for (auto nextItem : metalList)
+        {
+            if (nextItem == shockingItem)
+            {
+                continue;
+            }
+            if (shockingItem->isShock() == true)
+            {
+                continue;
+            }
+            transHit(shockingItem, nextItem, "Electro");
+        }
+
+        // player1 and player2
+        transHit(shockingItem, m_player1, "Electro");
+        transHit(shockingItem, m_player2, "Electro");
+    }
+}
+
+void BattleScene::transHit(Item* hitItem, Item* nextItem, QString element)
+{
+    qDebug() << hitItem->getName() << element << "-->" << nextItem->getName();
+    QRectF hitRect = hitItem->getAreaRect();
+    QRectF nextRect = nextItem->getAreaRect();
+    if (hitRect.intersects(nextRect))
+    {
+        nextItem->beHit(element);
+    }
 }
 
 void BattleScene::attackMap(Weapon* weapon, Map* map)

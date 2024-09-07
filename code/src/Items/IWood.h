@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QString>
 #include <QTimer>
+#include <QGraphicsPixmapItem>
 
 class Map;
 
@@ -28,7 +29,7 @@ protected:
     QTimer* m_timeout = nullptr;
 
 public:
-    virtual QString getName() {return "";};
+    virtual QString getName() {return "";}
 
     virtual void beHit(QString element) {};
     virtual void timeOut() {};
@@ -68,7 +69,7 @@ class CWoodNormal: public IBurnState
 public:
     explicit CWoodNormal(IWood* woodObj);
 
-    virtual QString getName() {return "WoodNormal";};
+    virtual QString getName() {return "WoodNormal";}
 
     virtual void beHit(QString element) override;
 };
@@ -78,7 +79,7 @@ class CWoodBurned: public IBurnState
 public:
     explicit CWoodBurned(IWood* woodObj);
 
-    virtual QString getName() {return "WoodBurned";};
+    virtual QString getName() {return "WoodBurned";}
 };
 
 class CWoodBurning: public IBurnState
@@ -86,9 +87,30 @@ class CWoodBurning: public IBurnState
 public:
     explicit CWoodBurning(IWood* woodObj);
 
-    virtual QString getName() {return "WoodBurning";};
+    virtual QString getName() {return "WoodBurning";}
 
     virtual void timeOut() override;
+};
+
+class CWood: public IWood
+{
+    Q_OBJECT
+
+protected:
+    CWoodNormal* m_woodNormal = nullptr;
+    CWoodBurning* m_woodBurning = nullptr;
+
+    QGraphicsPixmapItem* m_burningPicture = nullptr; // the picture be burning
+
+public:
+    virtual void e_stopBurning() override;
+
+public slots:
+    void onTimeOut() override;
+
+public:
+    void initStateObjs();
+    void uninitStateObjs();
 };
 
 #endif //QT_PROGRAMMING_2024_IWOOD_H

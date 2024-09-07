@@ -7,36 +7,13 @@ WoodPlatform::WoodPlatform(QGraphicsItem *parent) :
     Platform(parent, ":/Items/Maps/WoodPlatform/platform_wood.png")
 {
     setPos(360, 440);
-
-    m_woodNormal = new CWoodNormal(this);
-    m_woodBurned = new CWoodBurned(this);
-    m_woodBurning = new CWoodBurning(this);
-
-    addState(FNORMAL, m_woodNormal);
-    addState(BURNED, m_woodBurned);
-    addState(BURNING, m_woodBurning);
-
-    initState(FNORMAL);
+    initStateObjs();
 }
 
 WoodPlatform::~WoodPlatform()
 {
     clearStateMap();
-
-    if (m_woodNormal)
-    {
-        delete(m_woodNormal);
-    }
-
-    if (m_woodBurned)
-    {
-        delete(m_woodBurned);
-    }
-
-    if (m_woodBurning)
-    {
-        delete(m_woodBurning);
-    }
+    uninitStateObjs();
 }
 
 void WoodPlatform::beHit(QString element)
@@ -45,14 +22,6 @@ void WoodPlatform::beHit(QString element)
     state_obj = getStateObj();
 
     state_obj->beHit(element);
-}
-
-void WoodPlatform::onTimeOut()
-{
-    IBurnState* state_obj = nullptr;
-    state_obj = getStateObj();
-
-    state_obj->timeOut();
 }
 
 void WoodPlatform::e_startBurning()

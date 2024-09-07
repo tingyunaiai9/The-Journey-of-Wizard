@@ -51,7 +51,7 @@ protected slots:
     void generateRandomEquipment();
     void generateRandomWeapon();
     void generateRandomArrow();
-    void generateItem(QString itemCode);
+    void generateItem(QString itemCode, qreal randomX);
 
 signals:
     void gameOver(const QString& winnerText); // signal for game over to main window
@@ -100,6 +100,8 @@ protected:
     void removeFromShootingWeapons(Weapon* weapon);
 
     void attackMap(Weapon* weapon, Map* map);
+
+    void transHit(Item* hitItem, Item* nextItem, QString element);
 
 public:
     void debugItem(bool bDebug);

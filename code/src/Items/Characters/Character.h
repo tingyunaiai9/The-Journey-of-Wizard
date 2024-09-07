@@ -157,7 +157,7 @@ public:
     void processFps(qint64 deltaTime);
     void toDead();
 
-    virtual const QString getName() override {return "Character";};
+    virtual const QString getName() override {return "Character";}
     virtual QRectF getAreaRect() override;
     virtual void showAreaRect(Scene* scene, bool bDebug) override;
 

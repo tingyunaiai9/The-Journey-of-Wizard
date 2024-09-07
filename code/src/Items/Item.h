@@ -48,12 +48,19 @@ protected:
     QPointF m_acceleration;
 
 public:
-    virtual const QString getName() {return "base item";};
+    virtual const QString getName() {return "base item";}
+
     virtual QRectF getAreaRect();
     virtual void showAreaRect(Scene* scene, bool bDebug);
 
-    virtual QPointF getCenterPos() {return pos();};
+    virtual QPointF getCenterPos() {return pos();}
 
+    virtual void beHit(QString element) {};
+
+    virtual bool isBurn() {return false;}
+    virtual bool isShock() {return false;}
+
+public:
     [[nodiscard]] const QPointF &getVelocity() const;
     void setVelocity(const QPointF &velocity);
     [[nodiscard]] const QPointF &getAcceleration() const;

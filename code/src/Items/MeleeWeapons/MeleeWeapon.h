@@ -11,7 +11,7 @@ public:
     void shoot(bool isFacingRight = true, QPointF velocity = {1, 0}) override;
     QRectF getShootAttackRange() override;
 
-    virtual const QString getName() override {return "MeleeWeapon";};
+    virtual const QString getName() override {return "MeleeWeapon";}
 
     virtual QPointF getCenterPos() override;
     virtual QRectF getAreaRect() override;

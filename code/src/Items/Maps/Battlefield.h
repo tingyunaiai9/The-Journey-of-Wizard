@@ -11,7 +11,7 @@ public:
 
     qreal getFloorHeight() override;
 
-    virtual const QString getName() override {return "Battlefield";};
+    virtual const QString getName() override {return "Battlefield";}
     // virtual QRectF getAreaRect() override;
 };
 

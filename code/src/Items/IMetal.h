@@ -26,7 +26,7 @@ protected:
 	QTimer* m_timeout = nullptr;
 
 public:
-    virtual QString getName() {return "";};
+    virtual QString getName() {return "";}
     virtual void beHit(QString element) {};
     virtual void timeOut() {};
 };
@@ -62,7 +62,7 @@ class CMetalNormal: public IShockState
 public:
     explicit CMetalNormal(IMetal* metalObj);
 
-    virtual QString getName() {return "MetalNormal";};
+    virtual QString getName() {return "MetalNormal";}
 
     virtual void beHit(QString element) override;
 };
@@ -72,7 +72,7 @@ class CMetalShocking: public IShockState
 public:
     explicit CMetalShocking(IMetal* metalObj);
 
-    virtual QString getName() {return "MetalShocking";};
+    virtual QString getName() {return "MetalShocking";}
 
     virtual void timeOut() override;
 };

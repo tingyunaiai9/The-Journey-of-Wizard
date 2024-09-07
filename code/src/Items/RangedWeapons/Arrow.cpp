@@ -64,6 +64,23 @@ QPointF Arrow::getCenterPos()
     return centerPos;
 }
 
+QRectF Arrow::getAreaRect()
+{
+    QRectF itemRect = sceneBoundingRect();
+    qreal x = itemRect.x();
+    qreal y = itemRect.y();
+    qreal cx = itemRect.width();
+    qreal cy = itemRect.height();
+
+    // itemRect.setX(x + 32);
+    // itemRect.setWidth(cx - 32);
+
+    itemRect.setY(y + 144);
+    itemRect.setHeight(cy - 144 - 24);
+
+    return itemRect;
+}
+
 NormalArrow::NormalArrow(QGraphicsItem *parent) :
     Arrow(parent, ":/Items/RangedWeapons/Arrow/arrow_normal.png")
 {
