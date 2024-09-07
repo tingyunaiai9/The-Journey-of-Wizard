@@ -18,15 +18,23 @@ MetalComboBow::MetalComboBow(QGraphicsItem *parent) :
 
 MetalComboBow::~MetalComboBow()
 {
+    clearStateMap();
     uninitStateObjs();
+}
+
+bool MetalComboBow::isShock()
+{
+    return CMetal::isShock();
 }
 
 void MetalComboBow::beHit(QString element)
 {
-    IShockState* state_obj = nullptr;
-    state_obj = getStateObj();
+    CMetal::beHit(element);
+}
 
-    state_obj->beHit(element);
+void MetalComboBow::beTrans(QString element, Item* srcItem)
+{
+    CMetal::beTrans(element);
 }
 
 void MetalComboBow::e_startShocking()

@@ -41,8 +41,7 @@ protected:
     QTimer *weaponDropTimer; // time to drop weapon
     QTimer *arrowDropTimer; // time to drop arrow
 
-public slots:
-    void burnoutWoodPlatform(Map* map);
+
 
 protected slots:
     void update() override;
@@ -101,8 +100,9 @@ protected:
     void removeFromShootingWeapons(Weapon* weapon);
 
     void attackMap(Weapon* weapon, Map* map);
+    void burnoutWoodPlatform(Map* map);
 
-    void transHit(Item* hitItem, Item* nextItem, QString element);
+    void transHit(Item* srcItem, Item* nextItem, QString element);
 
 public:
     void debugItem(bool bDebug);

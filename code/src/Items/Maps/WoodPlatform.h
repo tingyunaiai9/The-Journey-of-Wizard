@@ -11,9 +11,12 @@ public:
     ~WoodPlatform();
 
     virtual const QString getName() {return "WoodPlatform";}
+
+    virtual bool isBurn() override;
+    virtual bool isOut() override;
     virtual void beHit(QString element) override;
+    virtual void beTrans(QString element, Item* srcItem) override;
     virtual void e_startBurning() override;
-    virtual void e_stopBurning() override;
 };
 
 

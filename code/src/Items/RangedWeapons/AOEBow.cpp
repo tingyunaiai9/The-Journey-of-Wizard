@@ -18,15 +18,23 @@ MetalAOEBow::MetalAOEBow(QGraphicsItem *parent) :
 
 MetalAOEBow::~MetalAOEBow()
 {
+    clearStateMap();
     uninitStateObjs();
+}
+
+bool MetalAOEBow::isShock()
+{
+    return CMetal::isShock();
 }
 
 void MetalAOEBow::beHit(QString element)
 {
-    IShockState* state_obj = nullptr;
-    state_obj = getStateObj();
+    CMetal::beHit(element);
+}
 
-    state_obj->beHit(element);
+void MetalAOEBow::beTrans(QString element, Item* srcItem)
+{
+    CMetal::beTrans(element);
 }
 
 void MetalAOEBow::e_startShocking()

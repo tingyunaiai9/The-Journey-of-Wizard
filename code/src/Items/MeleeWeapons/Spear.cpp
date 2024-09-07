@@ -55,15 +55,23 @@ MetalSpear::MetalSpear(QGraphicsItem *parent, const QString &pixmapPath) :
 
 MetalSpear::~MetalSpear()
 {
+    clearStateMap();
     uninitStateObjs();
+}
+
+bool MetalSpear::isShock()
+{
+    return CMetal::isShock();
 }
 
 void MetalSpear::beHit(QString element)
 {
-    IShockState* state_obj = nullptr;
-    state_obj = getStateObj();
+    CMetal::beHit(element);
+}
 
-    state_obj->beHit(element);
+void MetalSpear::beTrans(QString element, Item* srcItem)
+{
+    CMetal::beTrans(element);
 }
 
 void MetalSpear::e_startShocking()

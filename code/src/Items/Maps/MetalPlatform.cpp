@@ -14,12 +14,19 @@ MetalPlatform::~MetalPlatform()
     uninitStateObjs();
 }
 
+bool MetalPlatform::isShock()
+{
+    return CMetal::isShock();
+}
+
 void MetalPlatform::beHit(QString element)
 {
-    IShockState* state_obj = nullptr;
-    state_obj = getStateObj();
+    CMetal::beHit(element);
+}
 
-    state_obj->beHit(element);
+void MetalPlatform::beTrans(QString element, Item* srcItem)
+{
+    CMetal::beTrans(element);
 }
 
 void MetalPlatform::e_startShocking()

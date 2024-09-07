@@ -2,7 +2,7 @@
 #include "Scenes/BattleScene.h"
 #include "Scenes/PvEBattleScene.h"
 
-#define STARTSCENE // open this to use StartScene
+// #define STARTSCENE // open this to use StartScene
 
 MyGame::MyGame(QWidget *parent) : QMainWindow(parent)
 {

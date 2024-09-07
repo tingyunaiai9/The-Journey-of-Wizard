@@ -55,15 +55,23 @@ MetalOneHandedSword::MetalOneHandedSword(QGraphicsItem *parent, const QString &p
 
 MetalOneHandedSword::~MetalOneHandedSword()
 {
+    clearStateMap();
     uninitStateObjs();
+}
+
+bool MetalOneHandedSword::isShock()
+{
+    return CMetal::isShock();
 }
 
 void MetalOneHandedSword::beHit(QString element)
 {
-    IShockState* state_obj = nullptr;
-    state_obj = getStateObj();
+    CMetal::beHit(element);
+}
 
-    state_obj->beHit(element);
+void MetalOneHandedSword::beTrans(QString element, Item* srcItem)
+{
+    CMetal::beTrans(element);
 }
 
 void MetalOneHandedSword::e_startShocking()

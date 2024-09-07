@@ -33,7 +33,11 @@ public:
 
     [[nodiscard]] virtual QString getMaterial() const override { return "Metal"; }
 
-    virtual void beHit(QString element) override; // from weapon
+    virtual const QString getName() {return "MetalComboBow";}
+
+    virtual bool isShock() override;
+    virtual void beHit(QString element) override;
+    virtual void beTrans(QString element, Item* srcItem) override;
     virtual void e_startShocking() override; // from IMetal
 };
 

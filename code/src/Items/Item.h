@@ -56,9 +56,11 @@ public:
     virtual QPointF getCenterPos() {return pos();}
 
     virtual void beHit(QString element) {};
+    virtual void beTrans(QString element, Item* srcItem) {};
 
     virtual bool isBurn() {return false;}
     virtual bool isShock() {return false;}
+    virtual bool isOut() {return false;}
 
 public:
     [[nodiscard]] const QPointF &getVelocity() const;

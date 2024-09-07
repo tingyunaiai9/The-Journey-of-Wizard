@@ -11,7 +11,10 @@ public:
     ~MetalPlatform();
 
     virtual const QString getName() {return "MetalPlatform";}
-    virtual void beHit(QString element) override; // from map
+
+    virtual bool isShock() override;
+    virtual void beHit(QString element) override;
+    virtual void beTrans(QString element, Item* srcItem) override;
     virtual void e_startShocking() override; // from IMetal
 };
 

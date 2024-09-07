@@ -15,8 +15,8 @@
 #include <QColor>
 
 
-#define DROPEQUIPMENT
-#define DROPARROW
+// #define DROPEQUIPMENT
+// #define DROPARROW
 
 BattleScene::BattleScene(QObject *parent) : Scene(parent)
 {
@@ -29,13 +29,13 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
     m_maps.append(m_battlefield);
 
     WoodPlatform* plat1 = new WoodPlatform();
-    connect(plat1, &IWood::burnOut, this, &BattleScene::burnoutWoodPlatform);
+    // connect(plat1, &IWood::burnOut, this, &BattleScene::burnoutWoodPlatform);
     m_maps.append(plat1);
 
     WoodPlatform* plat2 = new WoodPlatform();
-    connect(plat2, &IWood::burnOut, this, &BattleScene::burnoutWoodPlatform);
+    // connect(plat2, &IWood::burnOut, this, &BattleScene::burnoutWoodPlatform);
     m_maps.append(plat2);
-    plat2->setPos(plat1->pos().x() + 128, 440);  // 设置右侧木平台的位置
+    plat2->setPos(plat1->pos().x() + 127, 440);  // 设置右侧木平台的位置
 
     m_maps.append(new RockPlatform());
 
@@ -1088,7 +1088,18 @@ void BattleScene::processAttackingElement()
         IMetal* metalItem = dynamic_cast<IMetal*>(item);
         if (woodItem)
         {
-            woodList.append(baseItem);
+            if (baseItem->isOut())
+            {
+                Map* outMap = dynamic_cast<Map*>(baseItem);
+                if (outMap)
+                {
+                    burnoutWoodPlatform(outMap);
+                }
+            }
+            else
+            {
+                woodList.append(baseItem);
+            }
         }
         if (metalItem)
         {
@@ -1111,7 +1122,7 @@ void BattleScene::processAttackingElement()
             {
                 continue;
             }
-            if (burningItem->isBurn() == true)
+            if (nextItem->isBurn() == true)
             {
                 continue;
             }
@@ -1139,7 +1150,7 @@ void BattleScene::processAttackingElement()
             {
                 continue;
             }
-            if (shockingItem->isShock() == true)
+            if (nextItem->isShock() == true)
             {
                 continue;
             }
@@ -1158,14 +1169,14 @@ void BattleScene::processAttackingElement()
     }
 }
 
-void BattleScene::transHit(Item* hitItem, Item* nextItem, QString element)
+void BattleScene::transHit(Item* srcItem, Item* nextItem, QString element)
 {
-    qDebug() << hitItem->getName() << element << "-->" << nextItem->getName();
-    QRectF hitRect = hitItem->getAreaRect();
+    QRectF hitRect = srcItem->getAreaRect();
     QRectF nextRect = nextItem->getAreaRect();
     if (hitRect.intersects(nextRect))
     {
-        nextItem->beHit(element);
+        qDebug() << srcItem->getName() << "-" << element << "->" << nextItem->getName();
+        nextItem->beTrans(element, srcItem);
     }
 }
 

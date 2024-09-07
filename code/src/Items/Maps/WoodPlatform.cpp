@@ -1,8 +1,5 @@
 #include "WoodPlatform.h"
 
-
-#include "./Map.h"
-
 WoodPlatform::WoodPlatform(QGraphicsItem *parent) :
     Platform(parent, ":/Items/Maps/WoodPlatform/platform_wood.png")
 {
@@ -16,12 +13,24 @@ WoodPlatform::~WoodPlatform()
     uninitStateObjs();
 }
 
+bool WoodPlatform::isBurn()
+{
+    return CWood::isBurn();
+}
+
+bool WoodPlatform::isOut()
+{
+    return CWood::isOut();
+}
+
 void WoodPlatform::beHit(QString element)
 {
-    IBurnState* state_obj = nullptr;
-    state_obj = getStateObj();
+    CWood::beHit(element);
+}
 
-    state_obj->beHit(element);
+void WoodPlatform::beTrans(QString element, Item* srcItem)
+{
+    CWood::beTrans(element);
 }
 
 void WoodPlatform::e_startBurning()
@@ -32,15 +41,4 @@ void WoodPlatform::e_startBurning()
         m_burningPicture->setParentItem(this);
         m_burningPicture->setPos(0, -14);
     }
-}
-
-void WoodPlatform::e_stopBurning()
-{
-    if (m_burningPicture)
-    {
-        delete m_burningPicture;
-        m_burningPicture = nullptr;
-    }
-
-    emit burnOut(dynamic_cast<Map*>(this));
 }

@@ -3,14 +3,20 @@
 skinparam shadowing true
 
 [*] --> FNORMAL
-FNORMAL --> BURNED
+
+FNORMAL --> BURNED : beFlameTrans
 FNORMAL --> BURNING : beFlameHit
-BURNED --> FNORMAL
-BURNED --> BURNING
-BURNING --> [*] : timeout 10s
+BURNED --> BURNING : timeout 2s
+BURNING --> BURNOUT : timeout 10s
+BURNOUT --> [*]
+
 
 [*] --> ENORMAL
+
+ENORMAL --> SHOCKED : beElectroTrans
 ENORMAL --> SHOCKING : beElectroHit
-SHOCKING --> ENORMAL : timeout 2s
+SHOCKED --> SHOCKING : timeout 500ms
+SHOCKING --> SHOCKOUT : timeout 2s
+SHOCKOUT --> ENORMAL : timeout 2500ms
 
 @enduml

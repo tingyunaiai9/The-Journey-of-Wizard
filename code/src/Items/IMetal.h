@@ -10,7 +10,9 @@
 enum METALSTATE
 {
     ENORMAL,
-    SHOCKING
+    SHOCKED,
+    SHOCKING,
+    SHOCKOUT
 };
 
 class IMetal;
@@ -27,7 +29,10 @@ protected:
 
 public:
     virtual QString getName() {return "";}
+
+    virtual bool isShock() {return false;}
     virtual void beHit(QString element) {};
+    virtual void beTrans(QString element) {};
     virtual void timeOut() {};
 };
 
@@ -65,6 +70,17 @@ public:
     virtual QString getName() {return "MetalNormal";}
 
     virtual void beHit(QString element) override;
+    virtual void beTrans(QString element) override;
+};
+
+class CMetalShocked: public IShockState
+{
+public:
+    explicit CMetalShocked(IMetal* metalObj);
+
+    virtual QString getName() {return "MetalShocked";}
+
+    virtual void timeOut() override;
 };
 
 class CMetalShocking: public IShockState
@@ -74,6 +90,16 @@ public:
 
     virtual QString getName() {return "MetalShocking";}
 
+    virtual bool isShock() override {return true;}
+    virtual void timeOut() override;
+};
+
+class CMetalShockout: public IShockState
+{
+public:
+    explicit CMetalShockout(IMetal* metalObj);
+
+    virtual QString getName() {return "MetalShockout";}
     virtual void timeOut() override;
 };
 
@@ -83,12 +109,11 @@ class CMetal: public IMetal
 
 protected:
     CMetalNormal* m_metalNormal = nullptr;
+    CMetalShocked* m_metalShocked = nullptr;
     CMetalShocking* m_metalShocking = nullptr;
+    CMetalShockout* m_metalShockout = nullptr;
 
     QGraphicsPixmapItem* m_shockingPicture = nullptr; // the picture be shocking
-
-public:
-    virtual void e_stopShocking() override;
 
 public slots:
     void onTimeOut() override;
@@ -96,6 +121,14 @@ public slots:
 public:
     void initStateObjs();
     void uninitStateObjs();
+
+public:
+    bool isShock();
+
+    void beHit(QString element);
+    void beTrans(QString element);
+
+    virtual void e_stopShocking() override;
 };
 
 #endif //QT_PROGRAMMING_2024_IMETAL_H

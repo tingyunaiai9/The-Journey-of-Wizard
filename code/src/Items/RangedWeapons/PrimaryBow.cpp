@@ -18,15 +18,23 @@ MetalPrimaryBow::MetalPrimaryBow(QGraphicsItem *parent) :
 
 MetalPrimaryBow::~MetalPrimaryBow()
 {
+    clearStateMap();
     uninitStateObjs();
+}
+
+bool MetalPrimaryBow::isShock()
+{
+    return CMetal::isShock();
 }
 
 void MetalPrimaryBow::beHit(QString element)
 {
-    IShockState* state_obj = nullptr;
-    state_obj = getStateObj();
+    CMetal::beHit(element);
+}
 
-    state_obj->beHit(element);
+void MetalPrimaryBow::beTrans(QString element, Item* srcItem)
+{
+    CMetal::beTrans(element);
 }
 
 void MetalPrimaryBow::e_startShocking()

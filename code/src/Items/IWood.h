@@ -13,7 +13,8 @@ enum WOODSTATE
 {
     FNORMAL,
     BURNED,
-    BURNING
+    BURNING,
+    BURNOUT
 };
 
 class IWood;
@@ -31,7 +32,10 @@ protected:
 public:
     virtual QString getName() {return "";}
 
+    virtual bool isBurn() {return false;}
+    virtual bool isOut() {return false;}
     virtual void beHit(QString element) {};
+    virtual void beTrans(QString element) {};
     virtual void timeOut() {};
 };
 
@@ -72,6 +76,7 @@ public:
     virtual QString getName() {return "WoodNormal";}
 
     virtual void beHit(QString element) override;
+    virtual void beTrans(QString element) override;
 };
 
 class CWoodBurned: public IBurnState
@@ -80,6 +85,8 @@ public:
     explicit CWoodBurned(IWood* woodObj);
 
     virtual QString getName() {return "WoodBurned";}
+
+    virtual void timeOut() override;
 };
 
 class CWoodBurning: public IBurnState
@@ -89,7 +96,18 @@ public:
 
     virtual QString getName() {return "WoodBurning";}
 
+    virtual bool isBurn() override {return true;}
     virtual void timeOut() override;
+};
+
+class CWoodBurnout: public IBurnState
+{
+public:
+    explicit CWoodBurnout(IWood* woodObj);
+
+    virtual QString getName() {return "WoodBurnout";}
+
+    virtual bool isOut() override {return true;}
 };
 
 class CWood: public IWood
@@ -98,12 +116,11 @@ class CWood: public IWood
 
 protected:
     CWoodNormal* m_woodNormal = nullptr;
+    CWoodBurned* m_woodBurned = nullptr;
     CWoodBurning* m_woodBurning = nullptr;
+    CWoodBurnout* m_woodBurnout = nullptr;
 
     QGraphicsPixmapItem* m_burningPicture = nullptr; // the picture be burning
-
-public:
-    virtual void e_stopBurning() override;
 
 public slots:
     void onTimeOut() override;
@@ -111,6 +128,15 @@ public slots:
 public:
     void initStateObjs();
     void uninitStateObjs();
+
+public:
+    bool isBurn();
+    bool isOut();
+
+    void beHit(QString element);
+    void beTrans(QString element);
+
+    virtual void e_stopBurning() override;
 };
 
 #endif //QT_PROGRAMMING_2024_IWOOD_H

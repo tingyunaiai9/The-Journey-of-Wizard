@@ -59,7 +59,7 @@ QRectF MeleeWeapon::getAreaRect()
     // itemRect.setWidth(cx - 32);
 
     itemRect.setY(y + 40);
-    itemRect.setHeight(cy - 40 * 2);
+    itemRect.setHeight(cy - 40 -20);
 
     return itemRect;
 }
