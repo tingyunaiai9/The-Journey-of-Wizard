@@ -67,7 +67,7 @@ public:
     virtual void processMove(QPointF opponentPos);
     virtual void processPick();
     virtual void processAttack();
-    virtual void changeState(int opponentHp);
+    virtual void changeState(int opponentHp, QPointF opponentPos);
 };
 
 class CFindWeapon: public IAIState
@@ -80,7 +80,7 @@ public:
     void processMove(QPointF opponentPos) override;
     void processPick() override;
 
-    void changeState(int opponentHp) override;
+    void changeState(int opponentHp, QPointF opponentPos) override;
 };
 
 class CFindArrow: public IAIState
@@ -89,6 +89,11 @@ public:
     explicit CFindArrow(CAIPlayer* AIPlayerObj) : IAIState(AIPlayerObj) {}
 
     QString getName() override {return "FindArrow";}
+
+    void processMove(QPointF opponentPos) override;
+    void processPick() override;
+
+    void changeState(int opponentHp, QPointF opponentPos) override;
 };
 
 class CMeleeFindOpponent: public IAIState
@@ -99,6 +104,8 @@ public:
     QString getName() override {return "MeleeFindOpponent";}
 
     void processMove(QPointF opponentPos) override;
+
+    void changeState(int opponentHp, QPointF opponentPos) override;
 };
 
 class CBowFindOpponent: public IAIState
@@ -109,6 +116,8 @@ public:
     QString getName() override {return "BowFindOpponent";}
 
     void processMove(QPointF opponentPos) override;
+
+    void changeState(int opponentHp, QPointF opponentPos) override;
 };
 
 class CMeleeAttack: public IAIState
@@ -117,6 +126,10 @@ public:
     explicit CMeleeAttack(CAIPlayer* AIPlayerObj) : IAIState(AIPlayerObj) {}
 
     QString getName() override {return "MeleeAttack";}
+
+    void processAttack() override;
+
+    void changeState(int opponentHp, QPointF opponentPos) override;
 };
 
 class CBowAttack: public IAIState
@@ -125,6 +138,10 @@ public:
     explicit CBowAttack(CAIPlayer* AIPlayerObj) : IAIState(AIPlayerObj) {}
 
     QString getName() override {return "BowAttack";}
+
+    void processAttack() override;
+
+    void changeState(int opponentHp, QPointF opponentPos) override;
 };
 
 class CRunAway: public IAIState

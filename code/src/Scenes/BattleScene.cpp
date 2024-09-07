@@ -15,8 +15,8 @@
 #include <QColor>
 
 
-// #define DROPEQUIPMENT
-// #define DROPARROW
+#define DROPEQUIPMENT
+#define DROPARROW
 
 BattleScene::BattleScene(QObject *parent) : Scene(parent)
 {
