@@ -17,12 +17,21 @@ public:
     }
 };
 
-class WoodenPrimaryBow : public PrimaryBow
+class WoodenPrimaryBow : public PrimaryBow, public CWood
 {
 public:
     explicit WoodenPrimaryBow(QGraphicsItem *parent = nullptr);
+    ~WoodenPrimaryBow();
 
     [[nodiscard]] virtual QString getMaterial() const override { return "Wooden"; }
+
+    virtual const QString getName() {return "WoodenPrimaryBow";}
+
+    virtual bool isBurn() override;
+    virtual bool isOut() override;
+    virtual void beHit(QString element) override;
+    virtual void beTrans(QString element, Item* srcItem) override;
+    virtual void e_startBurning() override;
 };
 
 class MetalPrimaryBow : public PrimaryBow, public CMetal

@@ -8,6 +8,43 @@ AOEBow::AOEBow(QGraphicsItem *parent, const QString &pixmapPath) :
 WoodenAOEBow::WoodenAOEBow(QGraphicsItem *parent) :
     AOEBow(parent, ":/Items/RangedWeapons/Bow/AOE_bow_wooden.png")
 {
+    initStateObjs();
+}
+
+WoodenAOEBow::~WoodenAOEBow()
+{
+    clearStateMap();
+    uninitStateObjs();
+}
+
+bool WoodenAOEBow::isBurn()
+{
+    return CWood::isBurn();
+}
+
+bool WoodenAOEBow::isOut()
+{
+    return CWood::isOut();
+}
+
+void WoodenAOEBow::beHit(QString element)
+{
+    CWood::beHit(element);
+}
+
+void WoodenAOEBow::beTrans(QString element, Item* srcItem)
+{
+    CWood::beTrans(element);
+}
+
+void WoodenAOEBow::e_startBurning()
+{
+    if (m_burningPicture == nullptr)
+    {
+        m_burningPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Maps/WoodPlatform/platform_burning.png"));
+        m_burningPicture->setParentItem(pixmapItem);
+        m_burningPicture->setPos(0, 0);
+    }
 }
 
 MetalAOEBow::MetalAOEBow(QGraphicsItem *parent) :

@@ -8,6 +8,43 @@ PrimaryBow::PrimaryBow(QGraphicsItem *parent, const QString &pixmapPath) :
 WoodenPrimaryBow::WoodenPrimaryBow(QGraphicsItem *parent) :
     PrimaryBow(parent, ":/Items/RangedWeapons/Bow/primary_bow_wooden.png")
 {
+    initStateObjs();
+}
+
+WoodenPrimaryBow::~WoodenPrimaryBow()
+{
+    clearStateMap();
+    uninitStateObjs();
+}
+
+bool WoodenPrimaryBow::isBurn()
+{
+    return CWood::isBurn();
+}
+
+bool WoodenPrimaryBow::isOut()
+{
+    return CWood::isOut();
+}
+
+void WoodenPrimaryBow::beHit(QString element)
+{
+    CWood::beHit(element);
+}
+
+void WoodenPrimaryBow::beTrans(QString element, Item* srcItem)
+{
+    CWood::beTrans(element);
+}
+
+void WoodenPrimaryBow::e_startBurning()
+{
+    if (m_burningPicture == nullptr)
+    {
+        m_burningPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Maps/WoodPlatform/platform_burning.png"));
+        m_burningPicture->setParentItem(pixmapItem);
+        m_burningPicture->setPos(0, 0);
+    }
 }
 
 MetalPrimaryBow::MetalPrimaryBow(QGraphicsItem *parent) :

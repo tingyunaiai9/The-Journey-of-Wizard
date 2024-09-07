@@ -8,6 +8,43 @@ ComboBow::ComboBow(QGraphicsItem *parent, const QString &pixmapPath) :
 WoodenComboBow::WoodenComboBow(QGraphicsItem *parent) :
     ComboBow(parent, ":/Items/RangedWeapons/Bow/combo_bow_wooden.png")
 {
+    initStateObjs();
+}
+
+WoodenComboBow::~WoodenComboBow()
+{
+    clearStateMap();
+    uninitStateObjs();
+}
+
+bool WoodenComboBow::isBurn()
+{
+    return CWood::isBurn();
+}
+
+bool WoodenComboBow::isOut()
+{
+    return CWood::isOut();
+}
+
+void WoodenComboBow::beHit(QString element)
+{
+    CWood::beHit(element);
+}
+
+void WoodenComboBow::beTrans(QString element, Item* srcItem)
+{
+    CWood::beTrans(element);
+}
+
+void WoodenComboBow::e_startBurning()
+{
+    if (m_burningPicture == nullptr)
+    {
+        m_burningPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Maps/WoodPlatform/platform_burning.png"));
+        m_burningPicture->setParentItem(pixmapItem);
+        m_burningPicture->setPos(0, 0);
+    }
 }
 
 MetalComboBow::MetalComboBow(QGraphicsItem *parent) :

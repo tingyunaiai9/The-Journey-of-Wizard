@@ -45,6 +45,43 @@ void Spear::stopAttack() {
 WoodenSpear::WoodenSpear(QGraphicsItem *parent, const QString &pixmapPath) :
     Spear(parent, pixmapPath)
 {
+    initStateObjs();
+}
+
+WoodenSpear::~WoodenSpear()
+{
+    clearStateMap();
+    uninitStateObjs();
+}
+
+bool WoodenSpear::isBurn()
+{
+    return CWood::isBurn();
+}
+
+bool WoodenSpear::isOut()
+{
+    return CWood::isOut();
+}
+
+void WoodenSpear::beHit(QString element)
+{
+    CWood::beHit(element);
+}
+
+void WoodenSpear::beTrans(QString element, Item* srcItem)
+{
+    CWood::beTrans(element);
+}
+
+void WoodenSpear::e_startBurning()
+{
+    if (m_burningPicture == nullptr)
+    {
+        m_burningPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Maps/WoodPlatform/platform_burning.png"));
+        m_burningPicture->setParentItem(pixmapItem);
+        m_burningPicture->setPos(0, 0);
+    }
 }
 
 MetalSpear::MetalSpear(QGraphicsItem *parent, const QString &pixmapPath) :

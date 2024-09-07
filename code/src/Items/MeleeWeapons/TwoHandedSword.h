@@ -23,12 +23,21 @@ public:
     [[nodiscard]] int getDelayTime() const {return 500;} // attack delay 500ms
 };
 
-class WoodenTwoHandedSword : public TwoHandedSword
+class WoodenTwoHandedSword : public TwoHandedSword, public CWood
 {
 public:
     explicit WoodenTwoHandedSword(QGraphicsItem *parent, const QString &pixmapPath);
+    ~WoodenTwoHandedSword();
 
     [[nodiscard]] virtual QString getMaterial() const override { return "Wooden"; }
+
+    virtual const QString getName() {return "WoodenTwoHandedSword";}
+
+    virtual bool isBurn() override;
+    virtual bool isOut() override;
+    virtual void beHit(QString element) override;
+    virtual void beTrans(QString element, Item* srcItem) override;
+    virtual void e_startBurning() override;
 };
 
 class MetalTwoHandedSword : public TwoHandedSword, public CMetal

@@ -21,12 +21,21 @@ public:
     [[nodiscard]] virtual int getDamage() const override { return 5; }
 };
 
-class WoodenOneHandedSword : public OneHandedSword
+class WoodenOneHandedSword : public OneHandedSword, public CWood
 {
 public:
     explicit WoodenOneHandedSword(QGraphicsItem *parent, const QString &pixmapPath);
+    ~WoodenOneHandedSword();
 
     [[nodiscard]] virtual QString getMaterial() const override { return "Wooden"; }
+
+    virtual const QString getName() {return "WoodenOneHandedSword";}
+
+    virtual bool isBurn() override;
+    virtual bool isOut() override;
+    virtual void beHit(QString element) override;
+    virtual void beTrans(QString element, Item* srcItem) override;
+    virtual void e_startBurning() override;
 };
 
 class MetalOneHandedSword : public OneHandedSword, public CMetal

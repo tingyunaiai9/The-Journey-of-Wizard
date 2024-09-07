@@ -21,12 +21,21 @@ public:
     [[nodiscard]] virtual int getDamage() const override { return 5; }
 };
 
-class WoodenSpear : public Spear
+class WoodenSpear : public Spear, public CWood
 {
 public:
     explicit WoodenSpear(QGraphicsItem *parent, const QString &pixmapPath);
+    ~WoodenSpear();
 
     [[nodiscard]] virtual QString getMaterial() const override { return "Wooden"; }
+
+    virtual const QString getName() {return "WoodenSpear";}
+
+    virtual bool isBurn() override;
+    virtual bool isOut() override;
+    virtual void beHit(QString element) override;
+    virtual void beTrans(QString element, Item* srcItem) override;
+    virtual void e_startBurning() override;
 };
 
 class MetalSpear : public Spear, public CMetal

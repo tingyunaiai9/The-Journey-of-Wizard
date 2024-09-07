@@ -45,6 +45,43 @@ void TwoHandedSword::stopAttack() {
 WoodenTwoHandedSword::WoodenTwoHandedSword(QGraphicsItem *parent, const QString &pixmapPath) :
     TwoHandedSword(parent, pixmapPath)
 {
+    initStateObjs();
+}
+
+WoodenTwoHandedSword::~WoodenTwoHandedSword()
+{
+    clearStateMap();
+    uninitStateObjs();
+}
+
+bool WoodenTwoHandedSword::isBurn()
+{
+    return CWood::isBurn();
+}
+
+bool WoodenTwoHandedSword::isOut()
+{
+    return CWood::isOut();
+}
+
+void WoodenTwoHandedSword::beHit(QString element)
+{
+    CWood::beHit(element);
+}
+
+void WoodenTwoHandedSword::beTrans(QString element, Item* srcItem)
+{
+    CWood::beTrans(element);
+}
+
+void WoodenTwoHandedSword::e_startBurning()
+{
+    if (m_burningPicture == nullptr)
+    {
+        m_burningPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Maps/WoodPlatform/platform_burning.png"));
+        m_burningPicture->setParentItem(pixmapItem);
+        m_burningPicture->setPos(0, 0);
+    }
 }
 
 MetalTwoHandedSword::MetalTwoHandedSword(QGraphicsItem *parent, const QString &pixmapPath) :

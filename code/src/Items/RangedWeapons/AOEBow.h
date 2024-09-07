@@ -17,12 +17,21 @@ public:
     }
 };
 
-class WoodenAOEBow : public AOEBow
+class WoodenAOEBow : public AOEBow, public CWood
 {
 public:
     explicit WoodenAOEBow(QGraphicsItem *parent = nullptr);
+    ~WoodenAOEBow();
 
     [[nodiscard]] virtual QString getMaterial() const override { return "Wooden"; }
+
+    virtual const QString getName() {return "WoodenAOEBow";}
+
+    virtual bool isBurn() override;
+    virtual bool isOut() override;
+    virtual void beHit(QString element) override;
+    virtual void beTrans(QString element, Item* srcItem) override;
+    virtual void e_startBurning() override;
 };
 
 class MetalAOEBow : public AOEBow, public CMetal

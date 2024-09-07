@@ -17,12 +17,21 @@ public:
     }
 };
 
-class WoodenComboBow : public ComboBow
+class WoodenComboBow : public ComboBow, public CWood
 {
 public:
     explicit WoodenComboBow(QGraphicsItem *parent = nullptr);
+    ~WoodenComboBow();
 
     [[nodiscard]] virtual QString getMaterial() const override { return "Wooden"; }
+
+    virtual const QString getName() {return "WoodenComboBow";}
+
+    virtual bool isBurn() override;
+    virtual bool isOut() override;
+    virtual void beHit(QString element) override;
+    virtual void beTrans(QString element, Item* srcItem) override;
+    virtual void e_startBurning() override;
 };
 
 class MetalComboBow : public ComboBow, public CMetal
