@@ -113,6 +113,17 @@ void MyGame::handleReturnToMainMenu() // back to main menu
     }
 
     view->setScene(startScene);
+
+    if (battleScene)
+    {
+        delete battleScene;
+        battleScene = nullptr;
+    }
+    if (gameOverScene)
+    {
+        delete gameOverScene;
+        gameOverScene = nullptr;
+    }
 }
 
 void MyGame::handleExitGame()

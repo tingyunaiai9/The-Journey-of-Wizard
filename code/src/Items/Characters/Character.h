@@ -164,6 +164,8 @@ public:
     // bool isFacingRight() const; // direction of the character
     void turnLeft();
     void turnRight();
+
+    BattleScene* getBattleScene() const {return m_battleScene;}
 };
 
 

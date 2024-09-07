@@ -35,6 +35,8 @@ public:
 
     // movement
     void clearMoveKeyPress();
+    void moveTo(QPointF targetPos);
+    void moveRandomly();
 
     // pick
     void clearPickKeyPress();
@@ -150,6 +152,8 @@ public:
     explicit CRunAway(CAIPlayer* AIPlayerObj) : IAIState(AIPlayerObj) {}
 
     QString getName() override {return "RunAway";}
+
+    void processMove(QPointF opponentPos) override;
 };
 
 #endif //QT_PROGRAMMING_2024_CAIPLAYER_H

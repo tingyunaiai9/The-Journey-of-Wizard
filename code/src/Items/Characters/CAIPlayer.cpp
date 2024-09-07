@@ -1,4 +1,5 @@
 #include "CAIPlayer.h"
+#include "../../Scenes/BattleScene.h"
 
 #include <QDebug>
 
@@ -33,6 +34,51 @@ void CAIPlayer::clearMoveKeyPress()
     setLeftDown(false);
     setRightDown(false);
     setJumpDown(false);
+}
+
+void CAIPlayer::moveTo(QPointF targetPos)
+{
+    clearMoveKeyPress();
+
+    if (targetPos.x() < pos().x() - 10)
+    {
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier);
+        key_press(&keyEvent);
+    }
+    else if (targetPos.x() > pos().x() + 10)
+    {
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier);
+        key_press(&keyEvent);
+    }
+
+    if (targetPos.y() < pos().y() - 50)
+    {
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
+        key_press(&keyEvent);
+    }
+}
+
+void CAIPlayer::moveRandomly()
+{
+    int randomNumber = rand() % 100;
+
+    if (randomNumber == 99)
+    {
+        clearMoveKeyPress();
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier);
+        key_press(&keyEvent);
+    }
+    else if (randomNumber == 88)
+    {
+        clearMoveKeyPress();
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier);
+        key_press(&keyEvent);
+    }
+    else if (randomNumber == 66)
+    {
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
+        key_press(&keyEvent);
+    }
 }
 
 void CAIPlayer::clearPickKeyPress()
@@ -115,25 +161,16 @@ void IAIState::changeState(int opponentHp, QPointF opponentPos)
     }
 }
 
-void CFindWeapon::processMove(QPointF opponentPos) // random move
+void CFindWeapon::processMove(QPointF opponentPos) // find nearest weapon
 {
-    int randomNumber = rand() % 100;
-    if (randomNumber == 99)
+    auto weapon = m_AIPlayerObj->getBattleScene()->findNearestUnequipWeapon(m_AIPlayerObj->pos());
+    if (weapon != nullptr)
     {
-        m_AIPlayerObj->clearMoveKeyPress();
-        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier);
-        m_AIPlayerObj->key_press(&keyEvent);
+        m_AIPlayerObj->moveTo(weapon->pos());
     }
-    else if (randomNumber == 88)
+    else
     {
-        m_AIPlayerObj->clearMoveKeyPress();
-        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier);
-        m_AIPlayerObj->key_press(&keyEvent);
-    }
-    else if (randomNumber == 66)
-    {
-        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
-        m_AIPlayerObj->key_press(&keyEvent);
+        m_AIPlayerObj->moveRandomly();
     }
 }
 
@@ -176,23 +213,14 @@ void CFindWeapon::changeState(int opponentHp, QPointF opponentPos)
 
 void CFindArrow::processMove(QPointF opponentPos) // random move
 {
-    int randomNumber = rand() % 100;
-    if (randomNumber == 99)
+    auto weapon = m_AIPlayerObj->getBattleScene()->findNearestUnequipWeapon(m_AIPlayerObj->pos());
+    if (weapon != nullptr)
     {
-        m_AIPlayerObj->clearMoveKeyPress();
-        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier);
-        m_AIPlayerObj->key_press(&keyEvent);
+        m_AIPlayerObj->moveTo(weapon->pos());
     }
-    else if (randomNumber == 88)
+    else
     {
-        m_AIPlayerObj->clearMoveKeyPress();
-        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier);
-        m_AIPlayerObj->key_press(&keyEvent);
-    }
-    else if (randomNumber == 66)
-    {
-        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
-        m_AIPlayerObj->key_press(&keyEvent);
+        m_AIPlayerObj->moveRandomly();
     }
 }
 
@@ -215,29 +243,17 @@ void CFindArrow::changeState(int opponentHp, QPointF opponentPos)
         m_AIPlayerObj->setAIState(BOW_FIND_OPPONENT);
     }
 
+    if (m_AIPlayerObj->getHoldingWeapon() == m_AIPlayerObj->getMeleeWeapon())
+    {
+        m_AIPlayerObj->setAIState(MELEE_FIND_OPPONENT);
+    }
+
     IAIState::changeState(opponentHp, opponentPos);
 }
 
 void CMeleeFindOpponent::processMove(QPointF opponentPos)
 {
-    m_AIPlayerObj->clearMoveKeyPress();
-
-    if (opponentPos.x() < m_AIPlayerObj->pos().x() - 70) // left
-    {
-        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier);
-        m_AIPlayerObj->key_press(&keyEvent);
-    }
-    else if (opponentPos.x() > m_AIPlayerObj->pos().x() + 70) // right
-    {
-        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier);
-        m_AIPlayerObj->key_press(&keyEvent);
-    }
-
-    if (opponentPos.y() < m_AIPlayerObj->pos().y() - 100) // up
-    {
-        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
-        m_AIPlayerObj->key_press(&keyEvent);
-    }
+   m_AIPlayerObj->moveTo(opponentPos);
 }
 
 void CMeleeFindOpponent::changeState(int opponentHp, QPointF opponentPos)
@@ -248,29 +264,17 @@ void CMeleeFindOpponent::changeState(int opponentHp, QPointF opponentPos)
         m_AIPlayerObj->setAIState(MELEE_ATTACK);
     }
 
+    if (m_AIPlayerObj->getHoldingWeapon() == m_AIPlayerObj->getBow())
+    {
+        m_AIPlayerObj->setAIState(FIND_ARROW);
+    }
+
     IAIState::changeState(opponentHp, opponentPos);
 }
 
 void CBowFindOpponent::processMove(QPointF opponentPos)
 {
-    m_AIPlayerObj->clearMoveKeyPress();
-
-    if (opponentPos.x() < m_AIPlayerObj->pos().x() - 200) // left
-    {
-        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier);
-        m_AIPlayerObj->key_press(&keyEvent);
-    }
-    else if (opponentPos.x() > m_AIPlayerObj->pos().x() + 200) // right
-    {
-        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier);
-        m_AIPlayerObj->key_press(&keyEvent);
-    }
-
-    if (opponentPos.y() < m_AIPlayerObj->pos().y() - 100) // up
-    {
-        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Up, Qt::NoModifier);
-        m_AIPlayerObj->key_press(&keyEvent);
-    }
+    m_AIPlayerObj->moveTo(opponentPos);
 }
 
 void CBowFindOpponent::changeState(int opponentHp, QPointF opponentPos)
@@ -303,6 +307,11 @@ void CMeleeAttack::changeState(int opponentHp, QPointF opponentPos)
         m_AIPlayerObj->setAIState(MELEE_FIND_OPPONENT);
     }
 
+    if (m_AIPlayerObj->getHoldingWeapon() == m_AIPlayerObj->getBow())
+    {
+        m_AIPlayerObj->setAIState(FIND_ARROW);
+    }
+
     IAIState::changeState(opponentHp, opponentPos);
 }
 
@@ -331,4 +340,9 @@ void CBowAttack::changeState(int opponentHp, QPointF opponentPos)
     }
 
     IAIState::changeState(opponentHp, opponentPos);
+}
+
+void CRunAway::processMove(QPointF opponentPos) // random move
+{
+    m_AIPlayerObj->moveRandomly();
 }

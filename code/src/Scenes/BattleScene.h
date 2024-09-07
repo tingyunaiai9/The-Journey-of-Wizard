@@ -78,12 +78,13 @@ protected:
 
     void keyReleaseEvent(QKeyEvent *event) override;
 
-protected:
+public:
+    Weapon *findNearestUnequipWeapon(const QPointF &pos, qreal distance_threshold = std::numeric_limits<qreal>::max());
 
+protected:
     Mountable *findNearestUnmountedMountable(const QPointF &pos, qreal distance_threshold = std::numeric_limits<qreal>::max());
     Mountable * pickupMountable(Character *player, Mountable *mountable);
 
-    Weapon *findNearestUnequipWeapon(const QPointF &pos, qreal distance_threshold = std::numeric_limits<qreal>::max());
     Weapon *pickupWeapon(Character *player, Weapon *weapon);
 
     Map *findNearestMap(const QPointF &pos);
