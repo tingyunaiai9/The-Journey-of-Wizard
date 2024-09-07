@@ -1,0 +1,28 @@
+@startuml
+
+skinparam shadowing true
+
+[*] --> FIND_WEAPON
+
+FIND_WEAPON --> MELEE_FIND_OPPONENT : find melee weapon
+FIND_WEAPON --> FIND_ARROW : find bow
+
+FIND_ARROW --> BOW_FIND_OPPONENT : arrow >= 6
+
+MELEE_FIND_OPPONENT --> MELEE_ATTACK : in attack range
+BOW_FIND_OPPONENT --> BOW_ATTACK : in attack range
+
+BOW_ATTACK --> FIND_ARROW : arrow = 0
+
+MELEE_ATTACK --> MELEE_FIND_OPPONENT : out of attack range
+BOW_ATTACK --> BOW_FIND_OPPONENT : out of attack range
+
+FIND_ARROW --> FIND_WEAPON : lose weapon
+MELEE_FIND_OPPONENT --> FIND_WEAPON : lose weapon
+BOW_FIND_OPPONENT --> FIND_WEAPON : lose weapon
+MELEE_ATTACK --> FIND_WEAPON : lose weapon
+BOW_ATTACK --> FIND_WEAPON : lose weapon
+
+FIND_WEAPON --> RUN_AWAY : hp < 20% and hp < opponent hp
+
+@enduml

@@ -31,7 +31,7 @@ void IMetal::initState(METALSTATE stateType)
 
 void IMetal::setState(METALSTATE stateType)
 {
-    IShockState* state_obj = NULL;
+    IShockState* state_obj = nullptr;
     state_obj = getStateObj();
     QString name_1 = state_obj->getName();
 

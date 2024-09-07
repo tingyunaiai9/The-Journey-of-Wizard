@@ -30,7 +30,7 @@ void IHero::initState(HEROSTATE stateType)
 
 void IHero::setState(HEROSTATE stateType)
 {
-    IState* state_obj = NULL;
+    IState* state_obj = nullptr;
     state_obj = getStateObj();
     QString name_1 = state_obj->getName();
 

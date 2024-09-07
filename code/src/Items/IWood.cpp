@@ -31,7 +31,7 @@ void IWood::initState(WOODSTATE stateType)
 
 void IWood::setState(WOODSTATE stateType)
 {
-    IBurnState* state_obj = NULL;
+    IBurnState* state_obj = nullptr;
     state_obj = getStateObj();
     QString name_1 = state_obj->getName();
 
