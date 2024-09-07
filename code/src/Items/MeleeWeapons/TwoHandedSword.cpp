@@ -79,8 +79,8 @@ void MetalTwoHandedSword::e_startShocking()
     if (m_shockingPicture == nullptr)
     {
         m_shockingPicture = new QGraphicsPixmapItem(QPixmap(":/Items/MeleeWeapons/TwoHandedSword/two_handed_sword_shock.png"));
-        m_shockingPicture->setParentItem(this);
-        m_shockingPicture->setPos(0, 15);
+        m_shockingPicture->setParentItem(pixmapItem);
+        m_shockingPicture->setPos(0, 0);
     }
 }
 
