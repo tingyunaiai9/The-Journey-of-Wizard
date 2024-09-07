@@ -34,4 +34,5 @@ void PvEBattleScene::update()
 
 void PvEBattleScene::processAI()
 {
+    static_cast<CAIPlayer*>(m_player2)->processAI(m_player1);
 }
