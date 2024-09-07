@@ -60,6 +60,8 @@ add_executable(qt_programming_2024 src/main.cpp
         src/Items/Characters/IHero.h
         src/Items/Characters/Link.cpp
         src/Items/Characters/Link.h
+        src/Items/Characters/CAIPlayer.cpp
+        src/Items/Characters/CAIPlayer.h
 
         src/Items/Armors/Armor.cpp
         src/Items/Armors/Armor.h

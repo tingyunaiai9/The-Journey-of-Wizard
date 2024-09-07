@@ -1,5 +1,6 @@
 #include "PvEBattleScene.h"
 #include "../Items/Characters/Link.h"
+#include "../Items/Characters/CAIPlayer.h"
 
 #include <QDebug>
 
@@ -11,7 +12,7 @@ void PvEBattleScene::initBattleScene()
 {
     // init players
     m_player1 = new CPlayer1();
-    m_player2 = new CPlayer2();
+    m_player2 = new CAIPlayer(); // AI player
 
     addItem(m_player1);
     addItem(m_player2);
@@ -22,4 +23,15 @@ void PvEBattleScene::initBattleScene()
     // set battle scene for players
     m_player1->setBattleScene(this);
     m_player2->setBattleScene(this);
+}
+
+void PvEBattleScene::update()
+{
+    processAI();
+
+    BattleScene::update();
+}
+
+void PvEBattleScene::processAI()
+{
 }
