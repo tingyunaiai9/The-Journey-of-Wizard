@@ -23,8 +23,8 @@ protected:
     QVector<Map*> m_maps;
     Map* m_battlefield;
 
-    Character *m_player1;
-    Character *m_player2;
+    Character *m_player1 = nullptr;
+    Character *m_player2 = nullptr;
 
     QProgressBar * m_bar1;
     QProgressBar * m_bar2;

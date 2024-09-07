@@ -1,5 +1,6 @@
 #include "MyGame.h"
 #include "Scenes/BattleScene.h"
+#include "Scenes/PvEBattleScene.h"
 
 #define STARTSCENE // open this to use StartScene
 
@@ -63,13 +64,13 @@ void MyGame::startPvPBattleScene()
     connect(static_cast<BattleScene*>(battleScene), &BattleScene::gameOver, this, &MyGame::startGameOverScene);// connect game over signal
 }
 
-void MyGame::startPvEBattleScene()
+void MyGame::startPvEBattleScene() // AI battle scene
 {
     if (battleScene)
     {
         delete battleScene;
     }
-    battleScene = new BattleScene(this);
+    battleScene = new PvEBattleScene(this);
 
     view->setScene(battleScene);
     battleScene->startLoop();
