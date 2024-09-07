@@ -9,7 +9,13 @@
 
 enum AISTATE
 {
-    FIND_WEAPON
+    FIND_WEAPON,
+    FIND_ARROW,
+    MELEE_FIND_OPPONENT,
+    BOW_FIND_OPPONENT,
+    MELEE_ATTACK,
+    BOW_ATTACK,
+    RUN_AWAY
 };
 
 class IAIState;
@@ -22,6 +28,8 @@ private:
 
 public:
     explicit CAIPlayer(QGraphicsItem *parent = nullptr);
+
+    void setAIState(AISTATE AIStateType);
 
     void processAI(Character* opponent);
 
@@ -40,8 +48,6 @@ private:
     void addAIState(AISTATE AIStateType, IAIState* AIStateObj);
     void clearAIStateMap();
 
-    void setAIState(AISTATE AIStateType);
-
     IAIState* getAIStateObj();
 };
 
@@ -58,7 +64,6 @@ public:
 
     void processAI(Character* opponent);
 
-private:
     virtual void processMove(QPointF opponentPos);
     virtual void processPick();
     virtual void processAttack();
@@ -71,6 +76,63 @@ public:
     explicit CFindWeapon(CAIPlayer* AIPlayerObj) : IAIState(AIPlayerObj) {}
 
     QString getName() override {return "FindWeapon";}
+
+    void processMove(QPointF opponentPos) override;
+    void processPick() override;
+
+    void changeState(int opponentHp) override;
+};
+
+class CFindArrow: public IAIState
+{
+public:
+    explicit CFindArrow(CAIPlayer* AIPlayerObj) : IAIState(AIPlayerObj) {}
+
+    QString getName() override {return "FindArrow";}
+};
+
+class CMeleeFindOpponent: public IAIState
+{
+public:
+    explicit CMeleeFindOpponent(CAIPlayer* AIPlayerObj) : IAIState(AIPlayerObj) {}
+
+    QString getName() override {return "MeleeFindOpponent";}
+
+    void processMove(QPointF opponentPos) override;
+};
+
+class CBowFindOpponent: public IAIState
+{
+public:
+    explicit CBowFindOpponent(CAIPlayer* AIPlayerObj) : IAIState(AIPlayerObj) {}
+
+    QString getName() override {return "BowFindOpponent";}
+
+    void processMove(QPointF opponentPos) override;
+};
+
+class CMeleeAttack: public IAIState
+{
+public:
+    explicit CMeleeAttack(CAIPlayer* AIPlayerObj) : IAIState(AIPlayerObj) {}
+
+    QString getName() override {return "MeleeAttack";}
+};
+
+class CBowAttack: public IAIState
+{
+public:
+    explicit CBowAttack(CAIPlayer* AIPlayerObj) : IAIState(AIPlayerObj) {}
+
+    QString getName() override {return "BowAttack";}
+};
+
+class CRunAway: public IAIState
+{
+public:
+    explicit CRunAway(CAIPlayer* AIPlayerObj) : IAIState(AIPlayerObj) {}
+
+    QString getName() override {return "RunAway";}
 };
 
 #endif //QT_PROGRAMMING_2024_CAIPLAYER_H
