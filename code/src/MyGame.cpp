@@ -1,7 +1,7 @@
 #include "MyGame.h"
 #include "Scenes/BattleScene.h"
 
-// #define STARTSCENE // open this to use StartScene
+#define STARTSCENE // open this to use StartScene
 
 MyGame::MyGame(QWidget *parent) : QMainWindow(parent)
 {
@@ -20,8 +20,13 @@ MyGame::MyGame(QWidget *parent) : QMainWindow(parent)
     // Adjust the QMainWindow size to tightly wrap the QGraphicsView
     setFixedSize(view->sizeHint());
 
-    // start game when images are faded out
-    connect(startScene, &StartScene::imagesFadedOut, this, &MyGame::startBattleScene);
+     // Connect the button click to start the battle scene after a delay
+    connect(startScene->getPvPStartButton(), &QPushButton::clicked, this, [this]() {
+        QTimer::singleShot(2000, this, &MyGame::startPvPBattleScene);
+    });
+    connect(startScene->getPvEStartButton(), &QPushButton::clicked, this, [this]() {
+        QTimer::singleShot(2000, this, &MyGame::startPvEBattleScene);
+    });
 
 #else
     startScene = nullptr; // No StartScene in this case
@@ -43,9 +48,23 @@ MyGame::MyGame(QWidget *parent) : QMainWindow(parent)
 #endif
 }
 
-void MyGame::startBattleScene()
+void MyGame::startPvPBattleScene()
 {
     // change to battle scene
+    if (battleScene)
+    {
+        delete battleScene;
+    }
+    battleScene = new BattleScene(this);
+
+    view->setScene(battleScene);
+    battleScene->startLoop();
+
+    connect(static_cast<BattleScene*>(battleScene), &BattleScene::gameOver, this, &MyGame::startGameOverScene);// connect game over signal
+}
+
+void MyGame::startPvEBattleScene()
+{
     if (battleScene)
     {
         delete battleScene;
@@ -81,7 +100,12 @@ void MyGame::handleReturnToMainMenu() // back to main menu
     else
     {
         startScene = new StartScene(this);
-        connect(startScene, &StartScene::imagesFadedOut, this, &MyGame::startBattleScene);
+        connect(startScene->getPvPStartButton(), &QPushButton::clicked, this, [this]() {
+            QTimer::singleShot(2000, this, &MyGame::startPvPBattleScene);
+        });
+        connect(startScene->getPvEStartButton(), &QPushButton::clicked, this, [this]() {
+            QTimer::singleShot(2000, this, &MyGame::startPvEBattleScene);
+        });
     }
 
     view->setScene(startScene);
@@ -89,5 +113,21 @@ void MyGame::handleReturnToMainMenu() // back to main menu
 
 void MyGame::handleExitGame()
 {
+    if (startScene)
+    {
+        delete startScene;
+        startScene = nullptr;
+    }
+    if (battleScene)
+    {
+        delete battleScene;
+        battleScene = nullptr;
+    }
+    if (gameOverScene)
+    {
+        delete gameOverScene;
+        gameOverScene = nullptr;
+    }
+
     close();  // exit game
 }

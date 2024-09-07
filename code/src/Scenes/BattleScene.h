@@ -19,7 +19,7 @@ class BattleScene : public Scene
 {
 Q_OBJECT
 
-private:
+protected:
     QVector<Map*> m_maps;
     Map* m_battlefield;
 
@@ -47,7 +47,7 @@ public slots:
 protected slots:
     void update() override;
 
-private slots:
+protected slots:
     void generateRandomEquipment();
     void generateRandomWeapon();
     void generateRandomArrow();
@@ -78,7 +78,7 @@ protected:
 
     void keyReleaseEvent(QKeyEvent *event) override;
 
-private:
+protected:
 
     Mountable *findNearestUnmountedMountable(const QPointF &pos, qreal distance_threshold = std::numeric_limits<qreal>::max());
     Mountable * pickupMountable(Character *player, Mountable *mountable);

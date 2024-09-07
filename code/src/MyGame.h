@@ -16,7 +16,9 @@ public:
     explicit MyGame(QWidget *parent = nullptr);
 
 private slots:
-    void startBattleScene(); // start battle scene
+    void startPvPBattleScene(); // start PvP battle scene
+    void startPvEBattleScene(); // start PvE battle scene
+
     void startGameOverScene(const QString& winnerText); // Start game over scene
     void handleReturnToMainMenu(); // Handle "Return to Main Menu"
     void handleExitGame(); // Handle "Exit Game"

@@ -15,7 +15,7 @@
 #include <QColor>
 
 
-// #define DROPEQUIPMENT
+#define DROPEQUIPMENT
 #define DROPARROW
 
 BattleScene::BattleScene(QObject *parent) : Scene(parent)
@@ -1022,11 +1022,11 @@ void BattleScene::processAttackingElement()
         }
     }
 
-    QList<QGraphicsItem *> itemsList = items();
-    qDebug() << "begin debug items";
-    for (auto item : itemsList) {
-        qDebug() << "Item type:" << item->type();
-    }
+    // QList<QGraphicsItem *> itemsList = items();
+    // qDebug() << "begin debug items";
+    // for (auto item : itemsList) {
+    //     qDebug() << "Item type:" << item->type();
+    // }
 }
 
 void BattleScene::attackMap(Weapon* weapon, Map* map)

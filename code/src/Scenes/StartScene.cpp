@@ -44,23 +44,41 @@ StartScene::StartScene(QObject *parent) : QGraphicsScene(parent), currentImageIn
     imageTimer->start(800);  // every 800 milliseconds switch to the next image
 
     // button
-    startButton = new QPushButton("Start Game");
-    startButton->setFixedSize(200, 50);
-    startButton->setStyleSheet("QPushButton {"
+    PvPStartButton = new QPushButton("PvP");
+    PvPStartButton->setFixedSize(200, 50);
+    PvPStartButton->setStyleSheet("QPushButton {"
                             "background-color: rgba(255, 255, 255, 10);"  // alpha: opacity 0-255
                             "border: 2px solid rgba(114, 165, 162, 100);"
                             "border-radius: 10px;"
                             "color: #72a5a2;"
                             "font-size: 30px;"
                             "}");
-    startButton->setVisible(false);  // hide the button
+    PvPStartButton->setVisible(false);  // hide the button
 
-    QGraphicsProxyWidget *proxy = this->addWidget(startButton);
-    proxy->setPos(640 - startButton->width() / 2, 360 - startButton->height() / 2 + 100);
+    QGraphicsProxyWidget *proxy = this->addWidget(PvPStartButton);
+    proxy->setPos(640 - PvPStartButton->width() / 2, 360 - PvPStartButton->height() / 2 + 50);
     proxy->setZValue(1);  // set z above the image
 
-    connect(startButton, &QPushButton::clicked, this, &StartScene::fadeOutLastFourImages);
-    connect(startButton, &QPushButton::clicked, this, &StartScene::fadeOutButton);
+    connect(PvPStartButton, &QPushButton::clicked, this, &StartScene::fadeOutLastFourImages);
+    connect(PvPStartButton, &QPushButton::clicked, this, &StartScene::fadeOutButton);
+
+    PvEStartButton = new QPushButton("PvE");
+    PvEStartButton->setFixedSize(200, 50);
+    PvEStartButton->setStyleSheet("QPushButton {"
+                            "background-color: rgba(255, 255, 255, 10);"  // alpha: opacity 0-255
+                            "border: 2px solid rgba(114, 165, 162, 100);"
+                            "border-radius: 10px;"
+                            "color: #72a5a2;"
+                            "font-size: 30px;"
+                            "}");
+    PvEStartButton->setVisible(false);  // hide the button
+
+    proxy = this->addWidget(PvEStartButton);
+    proxy->setPos(640 - PvEStartButton->width() / 2, 360 - PvEStartButton->height() / 2 + 150);
+    proxy->setZValue(1);  // set z above the image
+
+    connect(PvEStartButton, &QPushButton::clicked, this, &StartScene::fadeOutLastFourImages);
+    connect(PvEStartButton, &QPushButton::clicked, this, &StartScene::fadeOutButton);
 }
 
 void StartScene::startImageTransition()
@@ -129,12 +147,14 @@ void StartScene::updateImageOpacity()
 // show button
 void StartScene::fadeInButton()
 {
-    startButton->setVisible(true);
+    PvPStartButton->setVisible(true);
+    PvEStartButton->setVisible(true);
 }
 
 void StartScene::fadeOutButton()
 {
-    startButton->setVisible(false);
+    PvPStartButton->setVisible(false);
+    PvEStartButton->setVisible(false);
 }
 
 void StartScene::fadeOutLastFourImages()
@@ -209,8 +229,23 @@ void StartScene::resetStartScene()
     }
     currentImageIndex = allPixmapItems.size() - 1;
 
-    if (startButton)
+    if (PvPStartButton)
     {
-        startButton->setVisible(true);
+        PvPStartButton->setVisible(true);
     }
+
+    if (PvEStartButton)
+    {
+        PvEStartButton->setVisible(true);
+    }
+}
+
+QPushButton* StartScene::getPvPStartButton() const
+{
+    return PvPStartButton;
+}
+
+QPushButton* StartScene::getPvEStartButton() const
+{
+    return PvEStartButton;
 }

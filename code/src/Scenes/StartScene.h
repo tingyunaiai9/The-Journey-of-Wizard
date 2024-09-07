@@ -13,7 +13,9 @@ class StartScene : public QGraphicsScene
     Q_OBJECT
 
 private:
-    QPushButton *startButton;  // the start button
+    QPushButton *PvPStartButton;  // PvP start button
+    QPushButton *PvEStartButton;  // PvE start button
+
     QGraphicsPixmapItem *currentPixmapItem;
     QTimer *imageTimer;  // timer for image transition
     QTimer *fadeTimer;  // timer for image fade in
@@ -41,6 +43,9 @@ public:
     explicit StartScene(QObject *parent = nullptr);
 
     void resetStartScene();  // reset the start scene to complete scene
+
+    QPushButton* getPvPStartButton() const;  // get PvP start button
+    QPushButton* getPvEStartButton() const;  // get PvE start button
 };
 
 #endif //QT_PROGRAMMING_2024_STARTSCENE_H
