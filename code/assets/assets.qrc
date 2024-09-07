@@ -73,5 +73,9 @@
         <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_shock.png</file>
         <file>Items/MeleeWeapons/Spear/spear_shock.png</file>
         <file>Items/RangedWeapons/Bow/bow_shock.png</file>
+        <file>Items/MeleeWeapons/OneHandedSword/one_handed_sword_burning.png</file>
+        <file>Items/MeleeWeapons/TwoHandedSword/two_handed_sword_burning.png</file>
+        <file>Items/MeleeWeapons/Spear/spear_burning.png</file>
+        <file>Items/RangedWeapons/Bow/bow_burning.png</file>
     </qresource>
 </RCC>

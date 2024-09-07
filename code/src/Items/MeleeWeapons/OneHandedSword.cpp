@@ -78,7 +78,7 @@ void WoodenOneHandedSword::e_startBurning()
 {
     if (m_burningPicture == nullptr)
     {
-        m_burningPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Maps/WoodPlatform/platform_burning.png"));
+        m_burningPicture = new QGraphicsPixmapItem(QPixmap(":/Items/MeleeWeapons/OneHandedSword/one_handed_sword_burning.png"));
         m_burningPicture->setParentItem(pixmapItem);
         m_burningPicture->setPos(0, 0);
     }

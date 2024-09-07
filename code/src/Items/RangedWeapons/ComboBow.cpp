@@ -41,7 +41,7 @@ void WoodenComboBow::e_startBurning()
 {
     if (m_burningPicture == nullptr)
     {
-        m_burningPicture = new QGraphicsPixmapItem(QPixmap(":/Items/Maps/WoodPlatform/platform_burning.png"));
+        m_burningPicture = new QGraphicsPixmapItem(QPixmap(":/Items/RangedWeapons/Bow/bow_burning.png"));
         m_burningPicture->setParentItem(pixmapItem);
         m_burningPicture->setPos(0, 0);
     }
