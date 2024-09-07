@@ -56,7 +56,7 @@ void Item::showAreaRect(Scene* scene, bool bDebug)
         m_posPoint->setBrush(Qt::red);
         m_scene->addItem(m_posPoint);
 
-        qDebug() << getName() << itemRect;
+        // qDebug() << getName() << itemRect;
     }
 
     if ((!bDebug) && (m_sceneRect))
