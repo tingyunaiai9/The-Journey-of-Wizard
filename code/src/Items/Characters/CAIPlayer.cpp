@@ -1,5 +1,6 @@
 #include "CAIPlayer.h"
 #include "../../Scenes/BattleScene.h"
+#include "../RangedWeapons/Bow.h"
 
 #include <QDebug>
 
@@ -216,7 +217,15 @@ void CFindArrow::processMove(QPointF opponentPos) // random move
     auto weapon = m_AIPlayerObj->getBattleScene()->findNearestUnequipWeapon(m_AIPlayerObj->pos());
     if (weapon != nullptr)
     {
-        m_AIPlayerObj->moveTo(weapon->pos());
+        auto bow = static_cast<Bow*>(weapon);
+        if (bow)
+        {
+            m_AIPlayerObj->moveRandomly(); // avoid pick up the two bow continuously
+        }
+        else
+        {
+            m_AIPlayerObj->moveTo(weapon->pos());
+        }
     }
     else
     {
