@@ -4,7 +4,8 @@
 #include <QGraphicsScene>
 #include <QTimer>
 
-class Scene : public QGraphicsScene {
+class Scene : public QGraphicsScene
+{
 Q_OBJECT
 
 public:

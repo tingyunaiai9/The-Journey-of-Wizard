@@ -3,14 +3,14 @@
 skinparam shadowing true
 
 class IState {
-    # IHero* m_HeroObj
-    # int m_elapsedTime
-    + {abstract} QString getName()
-    + {abstract} bool isAttacking()
-    + {abstract} bool isHitting()
-    + {abstract} void setAttack()
-    + {abstract} void beHit(int damage, QString element)
-    + {abstract} void processFps(qint64 deltaTime)
+    ' # IHero* m_HeroObj
+    ' # int m_elapsedTime
+    ' + {abstract} QString getName()
+    ' + {abstract} bool isAttacking()
+    ' + {abstract} bool isHitting()
+    ' + {abstract} void setAttack()
+    ' + {abstract} void beHit(int damage, QString element)
+    ' + {abstract} void processFps(qint64 deltaTime)
 }
 
 QObject <|-- IState

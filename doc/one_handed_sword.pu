@@ -6,8 +6,10 @@ class MeleeWeapon {
 }
 
 MeleeWeapon <|-- TwoHandedSword
-MeleeWeapon <|-- OneHandedSword
 MeleeWeapon <|-- Spear
+MeleeWeapon <|-- OneHandedSword
+
+CWood <|-- WoodenOneHandedSword
 
 OneHandedSword <|-- WoodenOneHandedSword
 OneHandedSword <|-- MetalOneHandedSword
@@ -16,10 +18,5 @@ WoodenOneHandedSword <|-- NormalWoodenOneHandedSword
 WoodenOneHandedSword <|-- FlameWoodenOneHandedSword
 WoodenOneHandedSword <|-- IceWoodenOneHandedSword
 WoodenOneHandedSword <|-- ElectroWoodenOneHandedSword
-
-' MetalOneHandedSword <|-- NormalMetalOneHandedSword
-' MetalOneHandedSword <|-- FlameMetalOneHandedSword
-' MetalOneHandedSword <|-- IceMetalOneHandedSword
-' MetalOneHandedSword <|-- ElectroMetalOneHandedSword
 
 @enduml

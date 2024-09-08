@@ -1,0 +1,13 @@
+@startuml
+
+skinparam shadowing true
+
+QGraphicsScene <|-- StartScene
+
+QGraphicsScene <|-- Scene
+Scene <|-- BattleScene
+BattleScene <|-- PvEBattleScene
+
+QGraphicsScene <|-- GameOverScene
+
+@enduml

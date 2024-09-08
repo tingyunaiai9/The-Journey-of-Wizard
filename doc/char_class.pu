@@ -17,6 +17,7 @@ Character o-- Armor
 Character <|-down- Link
 Link <|-- CPlayer1
 Link <|-- CPlayer2
+CPlayer2 <|-- CAIPlayer
 
 Character o-- MeleeWeapon
 Character o-- Bow

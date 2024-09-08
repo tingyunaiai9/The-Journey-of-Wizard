@@ -151,7 +151,7 @@
 
     双击 bin 目录下的 qt_programming_2024.exe 即可
 
-注：如遇窗口显示不全的情况，将电脑显示设置中的**缩放**改为100%即可
+注：如遇窗口显示不全的情况，将电脑显示设置中的**缩放**改为100%，再重启程序即可
 
 ## 3 操作介绍
 
@@ -198,13 +198,15 @@
 
 ## 4 设计思路
 
-1. 充分使用面向对象编程的思想，对不同模块进行抽象与封装
+1. 充分使用面向对象编程的思想，对不同模块进行抽象与封装。充分利用继承性与多态性，处理各子类的共性与差异。
 
 2. 利用状态模式(State Pattern)实现玩家不同元素与行为之间的状态切换
 
 3. 利用状态模式实现木质物品和金属物品的状态切换
 
-4. 利用信号-槽机制实现了部分控制
+4. 利用信号-槽机制实现了页面切换等控制
+
+5. 利用状态模式控制对战AI的行为模式
 
 ## 5 模块之间逻辑关系
 
@@ -212,9 +214,15 @@
 
 `MyGame` 继承自 `QMainWindow`，是游戏主页面
 
-`Scene` 继承自 `QGraphicsScene`，是游戏战斗主页面。在其子类 `BattleScene` 中，处理场景内各 `Item` 的交互
+`Scene` 继承自 `QGraphicsScene`，是游戏战斗主页面。
+在其子类 `BattleScene` 中，处理场景内各 `Item` 的交互。
+`PvEBattleScene` 为 `BattleScene` 子类，将场景中的玩家2替换为AI玩家。
 
 `StartScene` 继承自 `QGraphicsScene`，是游戏开始菜单页面。
+
+`GameOverScene` 继承自 `QGraphicsScene`，是游戏结束页面。
+
+![](doc/pic/51_scene_class.png)
 
 
 ### 5.2 `Item`
@@ -224,47 +232,62 @@
 
 游戏场景中各物品均为 `Item` 的子类，如下图所示
 
-![](doc/pic/5_item_class.png)
+![](doc/pic/52_item_class.png)
 
 而某一元素某一材质的物品又为其大类的子类，下图以单手剑类为例（省略金属质子类）
 
-![](doc/pic/5_one_handed_sword.png)
+![](doc/pic/52_one_handed_sword.png)
 
 `CItemFactory` 为 `Item` 工厂，处理各种物品的生成
 
 
 ### 5.3 玩家状态机与 `Character`
 
-`IState` 及其13个子类为玩家状态类，继承自 `QObject`，处理玩家的元素与行为状态。
+`IState` 及其13个子类（下图中12个+1死亡状态）为玩家状态类，继承自 `QObject`，处理玩家的元素与行为状态。
 
 `IHero` 提供控制玩家状态与动画的接口
 
 设计如下图所示：
 
-![](doc/pic/5_hero_state_class.png)
+![](doc/pic/53_hero_state_class.png)
 
 状态切换如下图所示：
 
-![](doc/pic/5_hero_state.png)
+![](doc/pic/53_hero_state.png)
 
 
 `Character` 为玩家类，处理玩家的相关操作，与其他类的关系如下图所示
 
-![](doc/pic/5_character_class.png)
+![](doc/pic/53_character_class.png)
 
 
 ### 5.4 物品状态机
 
 `IWood` 和 `IMetal` 提供控制木质与金属质物品状态与动画的接口
 
+状态切换如下图所示：
+
+![](doc/pic/54_item_state.png)
+
 
 ### 5.5 对战AI状态机
 
+`CAIPlayer` 为对战AI类，结合 `IAIState` 及其子类，对AI进行行为模式的控制
+
+状态切换如下图所示：
+
+![](doc/pic/55_AI_state.png)
 
 
 ## 6 程序运行流程
 
-程序初始进入 `StartScene` 界面，正式开始游戏进入 `BattleScene` 界面
+程序初始进入 `StartScene` 界面
+
+![](doc/pic/6_start_scene.png)
+
+
+选择 `PvP` 进入 `BattleScene` 界面，
+选择  `PvE` 进入 `PvEBattleScene` 界面
 
 在 `BattleScene` 中，程序主要依靠 90FPS 的 `BattleScene::update()` 推动运行，
 
@@ -277,6 +300,10 @@
 5. 攻击，火焰/雷击传导
 6. Fps
 7. 生命值进度条显示更新、判断
+
+`PvEBattleScene::update()` 中，除了处理以上流程，额外增加
+
+0. AI行动
 
 ## 7 功能需求完成情况
 
@@ -302,19 +329,21 @@
 
 ![](doc/pic/73_life.png)
 
-- [x] 受到伤害会减少生命值。一方生命值 $\leq 0$ 时，进入死亡状态
+- [x] 受到伤害会减少生命值。一方生命值 $\leq 0$ 时，进入死亡状态；5秒后跳转到游戏结算界面
 
 ![](doc/pic/73_dead.png)
+
+![](doc/pic/73_game_over.png)
 
 ### 7.4 需求点4：物品掉落
 
 - [x] 物品从空中随机出现，按照重力规律下落
 
-  注：物品未被拾取，一段时间后会消失
+  注：物品未被拾取，10秒后会消失
 
 ![](doc/pic/74_drop.png)
 
-- [x] 玩家可捡起附近物品
+- [x] 玩家可捡起附近物品。武器装备，消耗品生效
 
 ![](doc/pic/74_pick.png)
 
@@ -336,7 +365,11 @@
 - [x] 近战武器有多种类型：单手剑、双手剑、矛(光剑)
 - [x] 近战武器有两种材质：木质、金属质（见1.2.3）
 
-![](doc/pic/75_melee_attack.jpg)
+![](doc/pic/75_melee_attack_1.jpg)
+
+![](doc/pic/75_melee_attack_2.jpg)
+
+![](doc/pic/75_melee_attack_3.jpg)
 
 - [x] 可投掷近战武器，受重力作用，接触人或平台触发攻击并消失
 
@@ -373,6 +406,9 @@
 
 - [x] 木质物品着火后10秒燃尽消失
 - [x] 着火效果能够有一定延时地传播
+
+![](doc/pic/77_flame_trans.jpg)
+
 - [x] 显示燃烧效果
 
 ![](doc/pic/77_flame_melee_attack_player.jpg)
