@@ -118,6 +118,9 @@ public:
     void setSwitchDown(bool switchDown);
     void switchWeapon();
 
+    void removeWeapon(Weapon* weapon);
+    void deleteWeapon(Weapon* weapon);
+
     // shoot
     void setShootDown(bool shootDown);
     [[nodiscard]] bool isShooting();
@@ -145,6 +148,7 @@ public:
     void processInput();
 
     void beHit(int damage, QString element);
+    void beTrans(QString element, Item* srcItem) override;
 
     virtual void h_reduceHp(int damage) override;
     int getHp() const;

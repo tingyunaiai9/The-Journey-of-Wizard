@@ -46,7 +46,7 @@ MyGame::MyGame(QWidget *parent) : QMainWindow(parent)
 
     battleScene->startLoop();
 
-    connect(static_cast<BattleScene*>(battleScene), &BattleScene::gameOver, this, &MyGame::startGameOverScene);
+    connect(dynamic_cast<BattleScene*>(battleScene), &BattleScene::gameOver, this, &MyGame::startGameOverScene);
 #endif
 }
 
@@ -63,7 +63,7 @@ void MyGame::startPvPBattleScene()
     view->setScene(battleScene);
     battleScene->startLoop();
 
-    connect(static_cast<BattleScene*>(battleScene), &BattleScene::gameOver, this, &MyGame::startGameOverScene);// connect game over signal
+    connect(dynamic_cast<BattleScene*>(battleScene), &BattleScene::gameOver, this, &MyGame::startGameOverScene);// connect game over signal
 }
 
 void MyGame::startPvEBattleScene() // AI battle scene
@@ -78,7 +78,7 @@ void MyGame::startPvEBattleScene() // AI battle scene
     view->setScene(battleScene);
     battleScene->startLoop();
 
-    connect(static_cast<BattleScene*>(battleScene), &BattleScene::gameOver, this, &MyGame::startGameOverScene);// connect game over signal
+    connect(dynamic_cast<BattleScene*>(battleScene), &BattleScene::gameOver, this, &MyGame::startGameOverScene);// connect game over signal
 }
 
 void MyGame::startGameOverScene(const QString& winnerText)

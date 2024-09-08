@@ -191,6 +191,8 @@
 
 `按键Return`：打开作弊码输入框
 
+`按键BracketLeft/Right`：开关显示Item包裹框和中心点
+
 `关闭开场动画`：在 `MyGame.cpp` 中注释掉 `#define STARTSCENE`
 
 `关闭物品掉落`：在 `BattleScene.cpp` 中注释掉 `#define DROPEQUIPMENT`

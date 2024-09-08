@@ -1,4 +1,5 @@
 #include "IHero.h"
+#include "../Item.h"
 
 #include <QDebug>
 
@@ -190,6 +191,16 @@ void CNormalHold::setAttack()
 {
     IHold::setAttack();
     m_HeroObj->setState(HEROSTATE::NORMAL_ATTACKING);
+}
+
+void CNormalHold::beTrans(QString element, Item* srcItem)
+{
+    if (element == "Flame")
+    {
+        m_HeroObj->h_startBurning();
+        m_HeroObj->setState(HEROSTATE::FLAME_HOLD);
+        m_HeroObj->setBurningElapsedTime(7000);
+    }
 }
 
 CFlameHold::CFlameHold(IHero* heroObj):

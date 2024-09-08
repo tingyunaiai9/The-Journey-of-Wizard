@@ -15,8 +15,8 @@
 #include <QColor>
 
 
-// #define DROPEQUIPMENT
-// #define DROPARROW
+#define DROPEQUIPMENT
+#define DROPARROW
 
 BattleScene::BattleScene(QObject *parent) : Scene(parent)
 {
@@ -1082,7 +1082,8 @@ void BattleScene::processAttackingElement()
     QList<Item *> woodList;
     QList<Item *> metalList;
 
-    for (auto item : itemsList) {
+    for (auto item : itemsList)
+    {
         Item * baseItem = dynamic_cast<Item*>(item);
         IWood* woodItem = dynamic_cast<IWood*>(item);
         IMetal* metalItem = dynamic_cast<IMetal*>(item);
@@ -1094,6 +1095,26 @@ void BattleScene::processAttackingElement()
                 if (outMap)
                 {
                     burnoutWoodPlatform(outMap);
+                    continue;
+                }
+
+                Weapon* outWeapon = dynamic_cast<Weapon*>(baseItem);
+                if (outWeapon)
+                {
+                    if (outWeapon->isEquipped())
+                    {
+                        qDebug() << "remove equipped weapon:" << outWeapon->getName();
+                        m_player1->removeWeapon(outWeapon);
+                        m_player2->removeWeapon(outWeapon);
+                    }
+                    else
+                    {
+                        qDebug() << "remove idle weapon:" << outWeapon->getName();
+                        removeFromSpareWeapons(outWeapon);
+                        removeItem(outWeapon);  // remove from scene
+                        delete outWeapon;
+                    }
+                    continue;
                 }
             }
             else

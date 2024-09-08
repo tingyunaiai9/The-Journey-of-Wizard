@@ -24,6 +24,7 @@ enum HEROSTATE
 };
 
 class IHero;
+class Item;
 
 class IState: public QObject
 {
@@ -48,6 +49,7 @@ public:
 
     virtual void setAttack() {};
     virtual void beHit(int damage, QString element) {};
+    virtual void beTrans(QString element, Item* srcItem) {};
 
     virtual void key_press(QKeyEvent *event);
     virtual void key_release(QKeyEvent *event);
@@ -141,6 +143,8 @@ public:
 
     virtual void h_keyPress(QKeyEvent *event) {};
     virtual void h_keyRelease(QKeyEvent *event) {};
+
+    void setBurningElapsedTime(qint64 t) {m_burningElapsedTime = t;}
 };
 
 
@@ -152,6 +156,7 @@ public:
     virtual QString getName() override;
 
     void setAttack() override;
+    virtual void beTrans(QString element, Item* srcItem) override;
 };
 
 class CFlameHold : public IHold

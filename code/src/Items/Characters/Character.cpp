@@ -821,6 +821,48 @@ Weapon *Character::abandonWeapon()
     return oldWeapon;
 }
 
+void Character::removeWeapon(Weapon* weapon)
+{
+    if (m_meleeWeapon)
+    {
+        MeleeWeapon* myWeapon = dynamic_cast<MeleeWeapon*>(weapon);
+        if (myWeapon == m_meleeWeapon)
+        {
+            m_meleeWeapon = nullptr;
+            setHoldingWeapon(m_bow);
+            deleteWeapon(weapon);
+        }
+    }
+
+    if (m_bow)
+    {
+        Bow* myWeapon = dynamic_cast<Bow*>(weapon);
+        if (myWeapon == m_bow)
+        {
+            m_bow = nullptr;
+            setHoldingWeapon(m_meleeWeapon);
+            deleteWeapon(weapon);
+        }
+    }
+}
+
+void Character::deleteWeapon(Weapon* weapon)
+{
+    if (weapon)
+    {
+        weapon->setPos(pos());
+        weapon->setParentItem(parentItem());
+        weapon->setScale(4);
+
+        weapon->unequip();
+        if (m_battleScene)
+        {
+            m_battleScene->removeItem(weapon);
+            delete weapon;
+        }
+    }
+}
+
 // hit
 void Character::h_reduceHp(int damage)
 {
@@ -838,6 +880,14 @@ void Character::beHit(int damage, QString element)
     state_obj = getStateObj();
 
     state_obj->beHit(damage, element);
+}
+
+void Character::beTrans(QString element, Item* srcItem)
+{
+    IState* state_obj = nullptr;
+    state_obj = getStateObj();
+
+    state_obj->beTrans(element, srcItem);
 }
 
 // battle scene

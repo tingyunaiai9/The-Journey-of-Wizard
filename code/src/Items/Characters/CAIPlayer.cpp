@@ -217,7 +217,7 @@ void CFindArrow::processMove(QPointF opponentPos) // random move
     auto weapon = m_AIPlayerObj->getBattleScene()->findNearestUnequipWeapon(m_AIPlayerObj->pos());
     if (weapon != nullptr)
     {
-        auto bow = static_cast<Bow*>(weapon);
+        auto bow = dynamic_cast<Bow*>(weapon);
         if (bow)
         {
             m_AIPlayerObj->moveRandomly(); // avoid pick up the two bow continuously
