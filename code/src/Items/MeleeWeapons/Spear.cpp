@@ -5,38 +5,46 @@ Spear::Spear(QGraphicsItem *parent, const QString &pixmapPath) :
 {
 }
 
-void Spear::equipToParent() {
+void Spear::equipToParent()
+{
     MeleeWeapon::equipToParent();
     setScale(1);
     setPos(-16, 0);
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setPos(0, 0);
     }
 }
 
-void Spear::unequip() {
+void Spear::unequip()
+{
     MeleeWeapon::unequip();
     setScale(4);
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setPos(0, 15);
     }
 }
 
-void Spear::startAttack() {
+void Spear::startAttack()
+{
     MeleeWeapon::startAttack();
 
     //rotate
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setRotation(45);
         pixmapItem->setPos(25, -5);
     }
 }
 
-void Spear::stopAttack() {
+void Spear::stopAttack()
+{
     MeleeWeapon::stopAttack();
 
     //rotate back
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setRotation(0);
         pixmapItem->setPos(0, 0);
     }

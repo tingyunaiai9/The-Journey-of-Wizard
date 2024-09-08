@@ -1,5 +1,4 @@
 #include "Item.h"
-#include "./Maps/Map.h"
 
 #include <QDebug>
 
@@ -8,7 +7,8 @@ const QPointF Item::GRAVITY = (QPointF(0, 0.004));
 Item::Item(QGraphicsItem *parent, const QString &pixmapPath) :
     QGraphicsItem(parent)
 {
-    if (pixmapPath != "") {
+    if (pixmapPath != "")
+    {
         pixmapItem = new QGraphicsPixmapItem(QPixmap(pixmapPath), this);
     }
 
@@ -70,19 +70,23 @@ void Item::showAreaRect(Scene* scene, bool bDebug)
     }
 }
 
-const QPointF &Item::getVelocity() const {
+const QPointF &Item::getVelocity() const
+{
     return m_velocity;
 }
 
-void Item::setVelocity(const QPointF &velocity) {
+void Item::setVelocity(const QPointF &velocity)
+{
     m_velocity = velocity;
 }
 
-const QPointF &Item::getAcceleration() const {
+const QPointF &Item::getAcceleration() const
+{
     return m_acceleration;
 }
 
-void Item::setAcceleration(const QPointF &acceleration) {
+void Item::setAcceleration(const QPointF &acceleration)
+{
     m_acceleration = acceleration;
 }
 

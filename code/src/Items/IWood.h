@@ -73,7 +73,7 @@ class CWoodNormal: public IBurnState
 public:
     explicit CWoodNormal(IWood* woodObj);
 
-    virtual QString getName() {return "WoodNormal";}
+    virtual QString getName() override {return "WoodNormal";}
 
     virtual void beHit(QString element) override;
     virtual void beTrans(QString element) override;
@@ -84,7 +84,7 @@ class CWoodBurned: public IBurnState
 public:
     explicit CWoodBurned(IWood* woodObj);
 
-    virtual QString getName() {return "WoodBurned";}
+    virtual QString getName() override {return "WoodBurned";}
 
     virtual void timeOut() override;
 };
@@ -94,7 +94,7 @@ class CWoodBurning: public IBurnState
 public:
     explicit CWoodBurning(IWood* woodObj);
 
-    virtual QString getName() {return "WoodBurning";}
+    virtual QString getName() override {return "WoodBurning";}
 
     virtual bool isBurn() override {return true;}
     virtual void timeOut() override;
@@ -105,7 +105,7 @@ class CWoodBurnout: public IBurnState
 public:
     explicit CWoodBurnout(IWood* woodObj);
 
-    virtual QString getName() {return "WoodBurnout";}
+    virtual QString getName() override {return "WoodBurnout";}
 
     virtual bool isOut() override {return true;}
 };

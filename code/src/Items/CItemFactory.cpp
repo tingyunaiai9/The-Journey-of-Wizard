@@ -23,8 +23,6 @@
 #include "./RangedWeapons/AOEBow.h"
 #include "./RangedWeapons/Arrow.h"
 
-
-
 Item* CItemFactory::NewItem(const QString& category, const QString& type, const QString& element, const QString& material)
 {
     if (category == "Equipment")

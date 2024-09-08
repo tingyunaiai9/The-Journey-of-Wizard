@@ -25,7 +25,7 @@ public:
 
     [[nodiscard]] virtual QString getMaterial() const override { return "Wooden"; }
 
-    virtual const QString getName() {return "WoodenPrimaryBow";}
+    virtual const QString getName() override {return "WoodenPrimaryBow";}
 
     virtual bool isBurn() override;
     virtual bool isOut() override;
@@ -42,7 +42,7 @@ public:
 
     [[nodiscard]] virtual QString getMaterial() const override { return "Metal"; }
 
-    virtual const QString getName() {return "MetalPrimaryBow";}
+    virtual const QString getName() override {return "MetalPrimaryBow";}
 
     virtual bool isShock() override;
     virtual void beHit(QString element) override;

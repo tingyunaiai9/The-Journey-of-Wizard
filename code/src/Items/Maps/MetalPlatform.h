@@ -10,7 +10,7 @@ public:
     explicit MetalPlatform(QGraphicsItem *parent= nullptr);
     ~MetalPlatform();
 
-    virtual const QString getName() {return "MetalPlatform";}
+    virtual const QString getName() override {return "MetalPlatform";}
 
     virtual bool isShock() override;
     virtual void beHit(QString element) override;

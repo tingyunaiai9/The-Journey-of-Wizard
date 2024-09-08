@@ -11,12 +11,3 @@ qreal Battlefield::getFloorHeight()
     qreal floorHeight = (sceneRect.top() + sceneRect.bottom()) * 0.666;
     return floorHeight;
 }
-
-// QRectF Battlefield::getAreaRect()
-// {
-//     QRectF itemRect = sceneBoundingRect();
-//     qreal y = getFloorHeight();
-//     itemRect.setY(y);
-
-//     return itemRect;
-// }

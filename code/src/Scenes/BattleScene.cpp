@@ -35,7 +35,7 @@ BattleScene::BattleScene(QObject *parent) : Scene(parent)
     WoodPlatform* plat2 = new WoodPlatform();
     // connect(plat2, &IWood::burnOut, this, &BattleScene::burnoutWoodPlatform);
     m_maps.append(plat2);
-    plat2->setPos(plat1->pos().x() + 127, 440);  // 设置右侧木平台的位置
+    plat2->setPos(plat1->pos().x() + 127, 440);  // set the pos of right wooden plarform
 
     m_maps.append(new RockPlatform());
 
@@ -177,7 +177,7 @@ void BattleScene::keyPressEvent(QKeyEvent *event)
             break;
     }
 
-    //
+    // player
     if (m_player1 != nullptr)
     {
         m_player1->key_press(event);
@@ -191,7 +191,7 @@ void BattleScene::keyPressEvent(QKeyEvent *event)
 
 void BattleScene::keyReleaseEvent(QKeyEvent *event)
 {
-    //
+    // player
     if (m_player1 != nullptr)
     {
         m_player1->key_release(event);
@@ -224,12 +224,10 @@ void BattleScene::update()
 
 
 // move
-void BattleScene::processMovement() {
-
+void BattleScene::processMovement()
+{
     if (m_player1 != nullptr)
     {
-        // m_player1->setPos(m_player1->pos() +
-        //                   m_player1->getVelocity() * (double) deltaTime);
         // avoid drop out of the scene
         m_player1->move(deltaTime);
 
@@ -269,8 +267,8 @@ void BattleScene::processMovement() {
 
     for(auto equipment : m_spareEquipments)
     {
-        // equipment->setPos(equipment->pos() + equipment->getVelocity() * (double) deltaTime);
         equipment->move(deltaTime);
+
         Map *nearestMap = findNearestMap(equipment->getCenterPos());
         if (isOnMapGround(equipment, nearestMap))
         {
@@ -286,10 +284,9 @@ void BattleScene::processMovement() {
 
     for(auto weapon : m_spareWeapons)
     {
-        // equipment->setPos(equipment->pos() + equipment->getVelocity() * (double) deltaTime);
         weapon->move(deltaTime);
-        Map *nearestMap = findNearestMap(weapon->getCenterPos());
 
+        Map *nearestMap = findNearestMap(weapon->getCenterPos());
         if (isOnMapGround(weapon, nearestMap))
         {
             weapon->setAcceleration(QPointF(weapon->getAcceleration().x(), 0));
@@ -383,7 +380,8 @@ void BattleScene::processPicking()
     }
 }
 
-Mountable *BattleScene::findNearestUnmountedMountable(const QPointF &pos, qreal distance_threshold) {
+Mountable *BattleScene::findNearestUnmountedMountable(const QPointF &pos, qreal distance_threshold)
+{
     Mountable *nearest = nullptr;
     qreal minDistance = distance_threshold;
 
@@ -400,7 +398,8 @@ Mountable *BattleScene::findNearestUnmountedMountable(const QPointF &pos, qreal 
     return nearest;
 }
 
-Mountable* BattleScene::pickupMountable(Character* player, Mountable* mountable) {
+Mountable* BattleScene::pickupMountable(Character* player, Mountable* mountable)
+{
     Mountable* previousMountable = nullptr;
 
     if (auto armor = dynamic_cast<Armor*>(mountable))
@@ -651,35 +650,11 @@ void BattleScene::processAttacking()
 
                 QPointF player2Pos = m_player2->pos();
 
-                // // 打印矩形的详细信息
-                // qDebug() << "Attack Range:" << attackRange;
-                // qDebug() << "Player2 Position:" << player2Pos;
-
                 // the rectangle contains the point?
                 if (attackRange.contains(player2Pos))
                 {
                     m_player2->beHit(meleeWeapon->getDamage(), meleeWeapon->getElement());
                 }
-
-                // // 绘制攻击范围矩形
-                // QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);
-                // attackRangeRect->setPen(QPen(Qt::red));
-                // attackRangeRect->setBrush(Qt::NoBrush);
-                // addItem(attackRangeRect);
-
-                // // 绘制 Player2 的位置点
-                // QGraphicsEllipseItem* player2Point = new QGraphicsEllipseItem(player2Pos.x() - 2, player2Pos.y() - 2, 4, 4);
-                // player2Point->setPen(QPen(Qt::blue));
-                // player2Point->setBrush(Qt::blue);
-                // addItem(player2Point);
-
-                // // 在一段时间后自动移除这些绘制内容
-                // QTimer::singleShot(100, this, [this, attackRangeRect, player2Point]() {
-                //     removeItem(attackRangeRect);
-                //     removeItem(player2Point);
-                //     delete attackRangeRect;
-                //     delete player2Point;
-                // });
             }
         }
     }
@@ -698,35 +673,11 @@ void BattleScene::processAttacking()
 
                 QPointF player1Pos = m_player1->pos();
 
-                // 打印矩形的详细信息
-                // qDebug() << "Attack Range:" << attackRange;
-                // qDebug() << "Player2 Position:" << player2Pos;
-
                 // the rectangle contains the point?
                 if (attackRange.contains(player1Pos))
                 {
                     m_player1->beHit(meleeWeapon->getDamage(), meleeWeapon->getElement());
                 }
-
-                // // 绘制攻击范围矩形
-                // QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);
-                // attackRangeRect->setPen(QPen(Qt::red));
-                // attackRangeRect->setBrush(Qt::NoBrush);
-                // addItem(attackRangeRect);
-
-                // // 绘制 Player2 的位置点
-                // QGraphicsEllipseItem* player2Point = new QGraphicsEllipseItem(player2Pos.x() - 2, player2Pos.y() - 2, 4, 4);
-                // player2Point->setPen(QPen(Qt::blue));
-                // player2Point->setBrush(Qt::blue);
-                // addItem(player2Point);
-
-                // // 在一段时间后自动移除这些绘制内容
-                // QTimer::singleShot(100, this, [this, attackRangeRect, player2Point]() {
-                //     removeItem(attackRangeRect);
-                //     removeItem(player2Point);
-                //     delete attackRangeRect;
-                //     delete player2Point;
-                // });
             }
         }
     }
@@ -824,7 +775,7 @@ void BattleScene::processShooting()
     }
 
     QList<Weapon*> weaponsToRemove; // record weapons to remove
-    // TODO: move the move part to processMovement
+
     for (auto weapon : m_shootingWeapons)
     {
         if (weapon == nullptr)
@@ -839,28 +790,6 @@ void BattleScene::processShooting()
         // detect if attack the player
         QRectF attackRange; // only attack forward
         attackRange = weapon->getShootAttackRange();
-
-        // // 绘制攻击范围矩形
-        // QGraphicsRectItem* attackRangeRect = new QGraphicsRectItem(attackRange);
-        // attackRangeRect->setPen(QPen(Qt::red));
-        // attackRangeRect->setBrush(Qt::NoBrush);
-        // addItem(attackRangeRect);
-
-        // // 绘制 Player2 的位置点
-        // QPointF player2Pos = m_player2->pos();
-        // QGraphicsEllipseItem *player2PositionMarker = new QGraphicsEllipseItem(player2Pos.x() - 5, player2Pos.y() - 5, 10, 10);
-        // player2PositionMarker->setPen(QPen(Qt::blue));
-        // player2PositionMarker->setBrush(Qt::blue);
-        // addItem(player2PositionMarker);
-
-        // // 可选：在短时间后自动移除这些标记
-        // QTimer::singleShot(100, this, [this, attackRangeRect, player2PositionMarker]() {
-        //     removeItem(attackRangeRect);
-        //     removeItem(player2PositionMarker);
-        //     delete attackRangeRect;
-        //     delete player2PositionMarker;
-        // });
-
 
         // attack player1 or player2
         if (m_player1 != nullptr)
@@ -900,18 +829,6 @@ void BattleScene::processShooting()
         {
             weapon->setAcceleration(QPointF(weapon->getAcceleration().x(), Item::GRAVITY.y()));
         }
-
-        // // 调试：绘制射击武器的位置
-        // QGraphicsEllipseItem *weaponPositionMarker = new QGraphicsEllipseItem(weapon->pos().x() - 5, weapon->pos().y() - 5, 10, 10);
-        // weaponPositionMarker->setPen(QPen(Qt::green));
-        // weaponPositionMarker->setBrush(Qt::green);
-        // addItem(weaponPositionMarker);
-
-        // // 可选：在短时间后自动移除这些标记
-        // QTimer::singleShot(100, this, [this, weaponPositionMarker]() {
-        //     removeItem(weaponPositionMarker);
-        //     delete weaponPositionMarker;
-        // });
     }
 
     // remove weapons
@@ -1014,13 +931,15 @@ void BattleScene::debugItem(bool bDebug)
 
     if(!bDebug)
     {
-        while (!m_spareWeapons.isEmpty()) {
+        while (!m_spareWeapons.isEmpty())
+        {
             auto item = m_spareWeapons.first();
             removeFromSpareWeapons(item);
             removeItem(item);  // remove from scene
             delete item;
         }
-        while (!m_spareEquipments.isEmpty()) {
+        while (!m_spareEquipments.isEmpty())
+        {
             auto item = m_spareEquipments.first();
             removeFromSpareEquipments(item);
             removeItem(item);  // remove from scene
@@ -1077,7 +996,7 @@ void BattleScene::processAttackingElement()
         }
     }
 
-    //
+    // get list
     QList<QGraphicsItem *> itemsList = items();
     QList<Item *> woodList;
     QList<Item *> metalList;
@@ -1103,13 +1022,13 @@ void BattleScene::processAttackingElement()
                 {
                     if (outWeapon->isEquipped())
                     {
-                        qDebug() << "remove equipped weapon:" << outWeapon->getName();
+                        // qDebug() << "remove equipped weapon:" << outWeapon->getName();
                         m_player1->removeWeapon(outWeapon);
                         m_player2->removeWeapon(outWeapon);
                     }
                     else
                     {
-                        qDebug() << "remove idle weapon:" << outWeapon->getName();
+                        // qDebug() << "remove idle weapon:" << outWeapon->getName();
                         removeFromSpareWeapons(outWeapon);
                         removeItem(outWeapon);  // remove from scene
                         delete outWeapon;
@@ -1196,7 +1115,7 @@ void BattleScene::transHit(Item* srcItem, Item* nextItem, QString element)
     QRectF nextRect = nextItem->getAreaRect();
     if (hitRect.intersects(nextRect))
     {
-        qDebug() << srcItem->getName() << "-" << element << "->" << nextItem->getName();
+        // qDebug() << srcItem->getName() << "-" << element << "->" << nextItem->getName();
         nextItem->beTrans(element, srcItem);
     }
 }

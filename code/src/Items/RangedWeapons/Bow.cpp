@@ -11,7 +11,8 @@ void Bow::equipToParent()
     setScale(1);
     setPos(-16, 0);
     setRotation(0);
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setPos(0, 0);
     }
 }
@@ -21,7 +22,8 @@ void Bow::unequip()
     RangedWeapon::unequip();
     setScale(4);
     setRotation(80);
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setPos(20, -12);
     }
 }
@@ -31,7 +33,8 @@ void Bow::startAttack()
     RangedWeapon::startAttack();
 
     //rotate
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setRotation(5);
         pixmapItem->setPos(3, -2);
     }
@@ -42,7 +45,8 @@ void Bow::stopAttack()
     RangedWeapon::stopAttack();
 
     //rotate back
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setRotation(0);
         pixmapItem->setPos(0, 0);
     }

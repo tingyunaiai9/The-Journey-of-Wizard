@@ -2,8 +2,6 @@
 #include "../MeleeWeapons/TwoHandedSword.h"
 #include "../../Scenes/BattleScene.h"
 
-#include "../IWood.h"
-#include "../IMetal.h"
 #include <QTransform>
 #include <QTimer>
 
@@ -44,27 +42,33 @@ Character::Character(QGraphicsItem *parent, const QString &pixmapPath) :
     initState(NORMAL_HOLD);
 }
 
-bool Character::isLeftDown() const {
+bool Character::isLeftDown() const
+{
     return m_leftDown;
 }
 
-void Character::setLeftDown(bool leftDown) {
+void Character::setLeftDown(bool leftDown)
+{
     m_leftDown = leftDown;
 }
 
-bool Character::isRightDown() const {
+bool Character::isRightDown() const
+{
     return m_rightDown;
 }
 
-void Character::setRightDown(bool rightDown) {
+void Character::setRightDown(bool rightDown)
+{
     m_rightDown = rightDown;
 }
 
-bool Character::isJumpDown() const {
+bool Character::isJumpDown() const
+{
     return m_jumpDown;
 }
 
-void Character::setJumpDown(bool jumpDown) {
+void Character::setJumpDown(bool jumpDown)
+{
     m_jumpDown = jumpDown;
 }
 
@@ -79,22 +83,25 @@ void Character::setOnGround(bool isOnGround)
     m_onGround = isOnGround;
 }
 
-bool Character::isPickDown() const {
+bool Character::isPickDown() const
+{
     return m_pickDown;
 }
 
-void Character::setPickDown(bool pickDown) {
+void Character::setPickDown(bool pickDown)
+{
     m_pickDown = pickDown;
 }
 
-bool Character::isPicking() const {
+bool Character::isPicking() const
+{
     return m_picking;
 }
 
-void Character::processInput() {
+void Character::processInput()
+{
     // y: maintain jump speed
     auto velocity = QPointF(0, getVelocity().y());
-    // auto acceleration = QPointF(0, 0);
     const auto moveSpeed = 0.3;
     const auto jumpSpeed = -1.25;
 
@@ -112,7 +119,6 @@ void Character::processInput() {
         velocity.setY(jumpSpeed);
     }
     setVelocity(velocity);
-    // setAcceleration(acceleration);
 
     if (!m_lastPickDown && m_pickDown) // first time pickDown
     {
@@ -136,7 +142,7 @@ void Character::processInput() {
             {
                 setAttack(); // change state to attack
             }
-            else // 双手剑按下攻击按键后间隔一段时间才开始攻击
+            else // two handed sword delay attack 0.5s
             {
                 QTimer::singleShot(twoHandedSword->getDelayTime(), this, &Character::setAttack);
             }
@@ -184,9 +190,11 @@ void Character::processInput() {
 
 }
 
-Armor *Character::pickupArmor(Armor *newArmor) {
+Armor *Character::pickupArmor(Armor *newArmor)
+{
     auto oldArmor = armor;
-    if (oldArmor != nullptr) {
+    if (oldArmor != nullptr)
+    {
         oldArmor->unmount();
         oldArmor->setPos(newArmor->pos());
         oldArmor->setParentItem(parentItem());
@@ -197,9 +205,11 @@ Armor *Character::pickupArmor(Armor *newArmor) {
     return oldArmor;
 }
 
-HeadEquipment *Character::pickupHeadEquipment(HeadEquipment *newHeadEquipment) {
+HeadEquipment *Character::pickupHeadEquipment(HeadEquipment *newHeadEquipment)
+{
     auto oldHeadEquipment = headEquipment;
-    if (oldHeadEquipment != nullptr) {
+    if (oldHeadEquipment != nullptr)
+    {
         oldHeadEquipment->unmount();
         oldHeadEquipment->setPos(newHeadEquipment->pos());
         oldHeadEquipment->setParentItem(parentItem());
@@ -210,9 +220,11 @@ HeadEquipment *Character::pickupHeadEquipment(HeadEquipment *newHeadEquipment) {
     return oldHeadEquipment;
 }
 
-LegEquipment *Character::pickupLegEquipment(LegEquipment *newLegEquipment) {
+LegEquipment *Character::pickupLegEquipment(LegEquipment *newLegEquipment)
+{
     auto oldLegEquipment = legEquipment;
-    if (oldLegEquipment != nullptr) {
+    if (oldLegEquipment != nullptr)
+    {
         oldLegEquipment->unmount();
         oldLegEquipment->setPos(newLegEquipment->pos());
         oldLegEquipment->setParentItem(parentItem());
@@ -254,7 +266,8 @@ RangedWeapon *Character::pickupRangedWeapon(RangedWeapon *newRangedWeapon)
     {
         auto oldBow = m_bow;
 
-        if (oldBow != nullptr) {
+        if (oldBow != nullptr)
+        {
             oldBow->unequip();
             oldBow->setPos(newBow->pos());
             oldBow->setParentItem(parentItem());
@@ -453,7 +466,8 @@ void Character::h_stopAttack()
 
 void Character::h_startHitting()
 {
-    if (headEquipment != nullptr) {
+    if (headEquipment != nullptr)
+    {
         headEquipment->startHitting();
     }
 
@@ -467,7 +481,8 @@ void Character::h_startHitting()
 
 void Character::h_stopHitting()
 {
-    if (headEquipment != nullptr) {
+    if (headEquipment != nullptr)
+    {
         headEquipment->stopHitting();
     }
 
@@ -830,7 +845,11 @@ void Character::removeWeapon(Weapon* weapon)
         {
             m_meleeWeapon = nullptr;
             setHoldingWeapon(m_bow);
-            deleteWeapon(weapon);
+            if (weapon)
+            {
+                deleteWeapon(weapon);
+                return;
+            }
         }
     }
 
@@ -841,7 +860,11 @@ void Character::removeWeapon(Weapon* weapon)
         {
             m_bow = nullptr;
             setHoldingWeapon(m_meleeWeapon);
-            deleteWeapon(weapon);
+            if (weapon)
+            {
+                deleteWeapon(weapon);
+                return;
+            }
         }
     }
 }
@@ -915,12 +938,6 @@ QRectF Character::getAreaRect()
 
     return itemRect;
 }
-
-// direction
-// bool Character::isFacingRight() const
-// {
-//     return transform().m11() > 0;
-// }
 
 void Character::toDead()
 {

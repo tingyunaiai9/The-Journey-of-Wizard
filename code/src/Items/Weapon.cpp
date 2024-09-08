@@ -6,27 +6,33 @@ Weapon::Weapon(QGraphicsItem *parent, const QString &pixmapPath) :
 {
 }
 
-void Weapon::unequip() {
+void Weapon::unequip()
+{
     equipped = false;
 }
 
-bool Weapon::isEquipped() const {
+bool Weapon::isEquipped() const
+{
     return equipped;
 }
 
-void Weapon::equipToParent() {
+void Weapon::equipToParent()
+{
     equipped = true;
 }
 
-void Weapon::startAttack() {
+void Weapon::startAttack()
+{
     m_isAttacking = true;
 }
 
-void Weapon::stopAttack() {
+void Weapon::stopAttack()
+{
     m_isAttacking = false;
 }
 
-bool Weapon::isAttacking() const {
+bool Weapon::isAttacking() const
+{
     return m_isAttacking;
 }
 

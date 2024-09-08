@@ -5,33 +5,39 @@ HeadEquipment::HeadEquipment(QGraphicsItem *parent, const QString &pixmapPath) :
 {
 }
 
-void HeadEquipment::mountToParent() {
+void HeadEquipment::mountToParent()
+{
     Mountable::mountToParent();
     setScale(1);
     setPos(-16, 0);
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setPos(0, 0);
     }
 }
 
-void HeadEquipment::unmount() {
+void HeadEquipment::unmount()
+{
     Mountable::unmount();
     setScale(4);
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setPos(0, 20);
     }
 }
 
 void HeadEquipment::startHitting()
 {
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setRotation(-1);
     }
 }
 
 void HeadEquipment::stopHitting()
 {
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setRotation(0);
     }
 }

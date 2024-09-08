@@ -57,7 +57,7 @@ signals:
 
 public:
     explicit BattleScene(QObject *parent);
-    virtual void initBattleScene();
+    virtual void initBattleScene() override;
 
     void processInput();
     void processMovement();

@@ -4,7 +4,8 @@
 
 #define STARTSCENE // open this to use StartScene
 
-MyGame::MyGame(QWidget *parent) : QMainWindow(parent)
+MyGame::MyGame(QWidget *parent) :
+    QMainWindow(parent)
 {
 #ifdef STARTSCENE
     startScene = new StartScene(this);

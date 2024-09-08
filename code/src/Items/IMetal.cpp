@@ -18,7 +18,7 @@ IShockState::~IShockState()
     }
 }
 
-//
+// IMetal
 IShockState* IMetal::getStateObj()
 {
     return m_StateMap[m_State];
@@ -40,7 +40,7 @@ void IMetal::setState(METALSTATE stateType)
     state_obj = getStateObj();
     QString name_2 = state_obj->getName();
 
-    qDebug() << name_1 << " --> " << name_2;
+    // qDebug() << name_1 << " --> " << name_2;
 }
 
 void IMetal::addState(METALSTATE stateType, IShockState* stateObj)

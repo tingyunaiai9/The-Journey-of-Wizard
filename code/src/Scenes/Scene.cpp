@@ -1,16 +1,21 @@
 #include <QDateTime>
 #include "Scene.h"
 
-Scene::Scene(QObject *parent) : QGraphicsScene(parent), timer(new QTimer(this)) {
+Scene::Scene(QObject *parent) :
+    QGraphicsScene(parent), timer(new QTimer(this))
+{
     connect(timer, &QTimer::timeout, this, &Scene::update);
 }
 
 void Scene::update()
 {
     auto currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
-    if (lastTime == -1) { // first frame
+    if (lastTime == -1) // first frame
+    {
         deltaTime = 0;
-    } else {
+    }
+    else
+    {
         deltaTime = currentTime - lastTime;
         // qDebug() << "deltaTime: " << deltaTime;
     }

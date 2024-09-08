@@ -10,7 +10,7 @@ public:
     explicit WoodPlatform(QGraphicsItem *parent= nullptr);
     ~WoodPlatform();
 
-    virtual const QString getName() {return "WoodPlatform";}
+    virtual const QString getName() override {return "WoodPlatform";}
 
     virtual bool isBurn() override;
     virtual bool isOut() override;

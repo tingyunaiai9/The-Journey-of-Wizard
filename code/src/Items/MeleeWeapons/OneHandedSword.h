@@ -29,7 +29,7 @@ public:
 
     [[nodiscard]] virtual QString getMaterial() const override { return "Wooden"; }
 
-    virtual const QString getName() {return "WoodenOneHandedSword";}
+    virtual const QString getName() override {return "WoodenOneHandedSword";}
 
     virtual bool isBurn() override;
     virtual bool isOut() override;

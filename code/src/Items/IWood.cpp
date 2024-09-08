@@ -18,7 +18,7 @@ IBurnState::~IBurnState()
     }
 }
 
-//
+// IWood
 IBurnState* IWood::getStateObj()
 {
     return m_StateMap[m_State];
@@ -40,7 +40,7 @@ void IWood::setState(WOODSTATE stateType)
     state_obj = getStateObj();
     QString name_2 = state_obj->getName();
 
-    qDebug() << name_1 << " --> " << name_2;
+    // qDebug() << name_1 << " --> " << name_2;
 }
 
 void IWood::addState(WOODSTATE stateType, IBurnState* stateObj)

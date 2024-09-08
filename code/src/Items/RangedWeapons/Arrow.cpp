@@ -42,7 +42,8 @@ void Arrow::equipToParent()
     RangedWeapon::equipToParent();
     setScale(1);
     setPos(-16, 0);
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setPos(0, 0);
     }
 }
@@ -51,7 +52,8 @@ void Arrow::unequip()
 {
     RangedWeapon::unequip();
     setScale(4);
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setPos(-23, 33);
     }
     setVisible(true); // show the arrow

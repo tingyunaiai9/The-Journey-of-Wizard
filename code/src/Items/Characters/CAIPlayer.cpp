@@ -125,7 +125,7 @@ void CAIPlayer::setAIState(AISTATE AIStateType)
     ai_state_obj = getAIStateObj();
     QString name_2 = ai_state_obj->getName();
 
-    qDebug() << name_1 << " --> " << name_2;
+    // qDebug() << name_1 << " --> " << name_2;
 }
 
 IAIState::IAIState(CAIPlayer *AIPlayerObj) :

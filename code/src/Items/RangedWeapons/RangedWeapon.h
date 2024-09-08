@@ -1,7 +1,6 @@
 #ifndef QT_PROGRAMMING_2024_RANGEDWEAPON_H
 #define QT_PROGRAMMING_2024_RANGEDWEAPON_H
 
-#include "../Item.h"
 #include "../Weapon.h"
 
 class RangedWeapon : public Weapon

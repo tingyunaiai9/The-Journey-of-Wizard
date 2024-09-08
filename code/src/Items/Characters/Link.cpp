@@ -1,14 +1,8 @@
 #include "Link.h"
+
 #include "../HeadEquipments/BlackHat.h"
-
 #include "../Armors/BlackWizardRobe.h"
-
 #include "../LegEquipments/BlackShoes.h"
-
-#include "../MeleeWeapons/OneHandedSword.h"
-#include "../MeleeWeapons/TwoHandedSword.h"
-#include "../MeleeWeapons/Spear.h"
-#include "../RangedWeapons/PrimaryBow.h"
 
 #include <QKeyEvent>
 
@@ -16,30 +10,12 @@ Link::Link(QGraphicsItem *parent, const QString &pixmapPath) :
     Character(parent, pixmapPath)
 {
     headEquipment = new BlackHat(this);
-    // headEquipment = new FlamebreakerHat(this);
-    // headEquipment = new IcebreakerHat(this);
-    // headEquipment = new ElectrobreakerHat(this);
-
     legEquipment = new BlackShoes(this);
-    // legEquipment = new FlamebreakerShoes(this);
-    // legEquipment = new IcebreakerShoes(this);
-    // legEquipment = new ElectrobreakerShoes(this);
-
     armor = new BlackWizardRobe(this);
-    // armor = new FlamebreakerArmor(this);
-    // armor = new IcebreakerArmor(this);
-    // armor = new ElectrobreakerArmor(this);
-
-    // m_meleeWeapon = new ElectroMetalSpear(this);
-    // setHoldingWeapon(m_meleeWeapon);
-    // m_bow = new WoodenPrimaryBow(this);
-    // setHoldingWeapon(m_bow);
 
     headEquipment->mountToParent();
     legEquipment->mountToParent();
     armor->mountToParent();
-
-    // m_holdingWeapon->equipToParent();
 }
 
 CPlayer1::CPlayer1(QGraphicsItem *parent) :
@@ -55,7 +31,8 @@ CPlayer2::CPlayer2(QGraphicsItem *parent) :
 
 void CPlayer1::h_keyPress(QKeyEvent *event)
 {
-    switch (event->key()) {
+    switch (event->key())
+    {
         case Qt::Key_A:
             setLeftDown(true);
             break;
@@ -84,7 +61,8 @@ void CPlayer1::h_keyPress(QKeyEvent *event)
 
 void CPlayer1::h_keyRelease(QKeyEvent *event)
 {
-    switch (event->key()) {
+    switch (event->key())
+    {
         case Qt::Key_A:
             setLeftDown(false);
             break;
@@ -112,7 +90,9 @@ void CPlayer1::h_keyRelease(QKeyEvent *event)
 }
 
 void CPlayer2::h_keyPress(QKeyEvent *event)
-{    switch (event->key()) {
+{
+    switch (event->key())
+    {
         case Qt::Key_Left:
             setLeftDown(true);
             break;
@@ -141,7 +121,8 @@ void CPlayer2::h_keyPress(QKeyEvent *event)
 
 void CPlayer2::h_keyRelease(QKeyEvent *event)
 {
-    switch (event->key()) {
+    switch (event->key())
+    {
         case Qt::Key_Left:
             setLeftDown(false);
             break;

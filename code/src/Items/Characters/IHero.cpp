@@ -8,12 +8,6 @@ IState::IState(IHero* heroObj)
     m_HeroObj = heroObj;
 }
 
-//
-IState* IHero::getStateObj()
-{
-    return m_StateMap[m_State];
-}
-
 void IState::key_press(QKeyEvent *event)
 {
     return m_HeroObj->h_keyPress(event);
@@ -22,6 +16,12 @@ void IState::key_press(QKeyEvent *event)
 void IState::key_release(QKeyEvent *event)
 {
     return m_HeroObj->h_keyRelease(event);
+}
+
+// IHero
+IState* IHero::getStateObj()
+{
+    return m_StateMap[m_State];
 }
 
 void IHero::initState(HEROSTATE stateType)
@@ -40,7 +40,7 @@ void IHero::setState(HEROSTATE stateType)
     state_obj = getStateObj();
     QString name_2 = state_obj->getName();
 
-    qDebug() << name_1 << " --> " << name_2;
+    // qDebug() << name_1 << " --> " << name_2;
 }
 
 void IHero::addState(HEROSTATE stateType, IState* stateObj)
@@ -225,13 +225,6 @@ void CFlameHold::beHit(int damage, QString element) // flame be hit change to fl
     m_HeroObj->h_reduceHp(damage);
     m_elapsedTime = 0;
 
-    // TODO: 是否需要再次重新计时？
-    // if ((element == "Flame") && (m_HeroObj->h_getFlameResistance() == false))
-    // {
-    //     m_HeroObj->h_startBurning(); // change to burning
-    //     m_HeroObj->setState(HEROSTATE::FLAME_HITTING);
-    // }
-
     // ice hit, change to normal hitting
     if ((element == "Ice") && (m_HeroObj->h_getIceResistance() == false))
     {
@@ -317,12 +310,6 @@ void CElectroHold::beHit(int damage, QString element) // electro be hit change t
     m_HeroObj->h_reduceHp(damage);
     m_elapsedTime = 0;
 
-    // TODO: 是否需要再次重新计时？
-    // if ((element == "Electro") && (m_HeroObj->h_getElectroResistance() == false))
-    // {
-    //     m_HeroObj->h_startElectricShock(); // change to electric shock
-    //     m_HeroObj->setState(HEROSTATE::ELECTRO_HITTING);
-    // }
     m_HeroObj->setState(HEROSTATE::ELECTRO_HITTING);
 }
 

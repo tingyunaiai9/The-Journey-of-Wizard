@@ -5,38 +5,46 @@ TwoHandedSword::TwoHandedSword(QGraphicsItem *parent, const QString &pixmapPath)
 {
 }
 
-void TwoHandedSword::equipToParent() {
+void TwoHandedSword::equipToParent()
+{
     MeleeWeapon::equipToParent();
     setScale(1);
     setPos(-16, 0);
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setPos(0, 0);
     }
 }
 
-void TwoHandedSword::unequip() {
+void TwoHandedSword::unequip()
+{
     MeleeWeapon::unequip();
     setScale(4);
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setPos(0, 15);
     }
 }
 
-void TwoHandedSword::startAttack() {
+void TwoHandedSword::startAttack()
+{
     MeleeWeapon::startAttack();
 
     //rotate
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setRotation(45);
         pixmapItem->setPos(25, -5);
     }
 }
 
-void TwoHandedSword::stopAttack() {
+void TwoHandedSword::stopAttack()
+{
     MeleeWeapon::stopAttack();
 
     //rotate back
-    if (pixmapItem != nullptr) {
+    if (pixmapItem != nullptr)
+    {
         pixmapItem->setRotation(0);
         pixmapItem->setPos(0, 0);
     }

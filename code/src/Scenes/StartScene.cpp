@@ -3,7 +3,8 @@
 #include <QPixmap>
 #include <QGraphicsPixmapItem>
 
-StartScene::StartScene(QObject *parent) : QGraphicsScene(parent), currentImageIndex(0), opacity(0.0)
+StartScene::StartScene(QObject *parent) :
+    QGraphicsScene(parent), currentImageIndex(0), opacity(0.0)
 {
     setSceneRect(0, 0, 1280, 720); // important
 
